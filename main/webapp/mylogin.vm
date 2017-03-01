@@ -1,0 +1,33 @@
+<html>
+	<head>
+		<title>
+			$msg.get("login.form.title",[$msg.get("app.name")]) 
+		</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" language="Javascript">
+
+function myfunc () {
+
+var frm = document.getElementById("mylogin");
+frm.submit();
+}
+window.onload = myfunc;
+</script>
+</head>
+<body>
+#set($url = $request.attributes.CURRENT_URL)
+#set($singleValue = $httpUtil.getParameter($url, "foo", false))                       
+#set($multipleValues = $httpUtil.getParameterMap($httpUtil.getQueryString($url)).foo)
+
+#set($current_url = $request.get("attributes").CURRENT_COMPLETE_URL)
+#set($userName = $httpUtil.getParameter($current_url, "userName"))
+#set($jsessionId = $httpUtil.getParameter($current_url, "sessionID"))
+
+<form id="mylogin" name="loginForm" method="POST" action="$link.setRelative('reportLogin.do')">
+<input type="hidden" name="username" id="j_username" value="dmportal" >
+<input type="hidden" name="password" id="j_password" value="dmportal1" >
+<input name="login" type="submit" value="" class="button">
+</form>
+
+</body>
+</html>

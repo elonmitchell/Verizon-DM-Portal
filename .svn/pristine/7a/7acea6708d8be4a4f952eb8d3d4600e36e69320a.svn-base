@@ -1,0 +1,344 @@
+<!--
+  Copyright (c) 2004-2007 by Alcatel-Lucent and Motive, Inc. All rights reserved.
+ 
+  CONFIDENTIAL. All rights reserved. This computer program is
+  protected under Copyright. Recipient is to retain the program in
+  confidence, and is not permitted to copy, use, distribute, modify or
+  translate the program without authorization
+-->
+#parse("/roles.vm")
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+#set( $pageTitle = "manage.form.title" )
+#parse( "pageHeader.vm" )
+<!-- <script src="$link.getContextPath()/js/prototype.js" type="text/javascript" language="Javascript"></script> -->
+<script src="$link.getContextPath()/js/scriptaculous.js?load=effects" language="javascript" type="text/javascript"></script>    
+<script src="$link.getContextPath()/js/objectList.js" language="javascript" type="text/javascript"></script>
+<script type="text/javascript" language="Javascript">
+var oReportGroupsContainer = null;
+var oReportGroupSelect = null;
+var oReportGroupSelectContainer = null;
+var oDeleteButton = null;
+var oListForm = null;
+var objListRML = null;
+
+var persistedSelectedIndex = 0;
+var oErrorStringDiv = null;
+var groupLoadFailer = false;
+var errorLoadingListMsg = "$msg.get("manage.reportList.loadingerror")";
+function handleResize() {
+    setTableHeight( 213, "mainContentArea" );
+    setContentWidth(22, 700);
+}
+
+function init() {
+    onItemSelectButtonArray = new Array("deleteReport");
+    oReportGroupsContainer = document.getElementById("mainContentArea");
+    oReportGroupSelect = document.getElementById("selectGroup");
+    oReportGroupSelectContainer = document.getElementById("reportGroupSelectContainerDiv");
+    oDeleteButton = document.getElementById("deleteReport");
+    oImportButton = document.getElementById("importReport" );
+    oManageButton = document.getElementById("manageGroups" );
+    oErrorStringDiv = document.getElementById("importError");
+    if ( oErrorStringDiv.innerHTML != "")
+        handleImportError( oErrorStringDiv.innerHTML );
+    objListRML = new ObjectList("objectListFormRML");
+    objListRML.setEnableOnItemSelectionButtons(onItemSelectButtonArray);
+    handleGroupLoadError(document.getElementById("reportGroupSelectContainerDiv").innerHTML);
+    initPersistedSelectIndex();
+    handleSelectGroup();
+    _setCopyrightYear();
+    
+}
+
+function toggleWelcomeDivVisability( theDivId, imageElement) { // defunct
+    theDivObject = findObject( theDivId );
+    if ( theDivObject != null ) {
+        if ( theDivObject.style.display == "none") {
+            theDivObject.style.display = "block";
+            imageElement.src="$link.getContextPath()/images/triangle.gif";
+        }
+        else {
+            theDivObject.style.display = "none";
+            imageElement.src="$link.getContextPath()/images/triangle_down.gif";
+        }
+    }
+}
+
+function toggleInfoDivVisability( theDivId, imageElement) { // defunct
+    theDivObject = findObject( theDivId );
+    if ( theDivObject != null ) {
+        if ( theDivObject.style.display == "none") {
+            theDivObject.style.display = "block";
+            imageElement.src="$link.getContextPath()/images/infoBoxArrowDown.gif";
+        }
+        else {
+            theDivObject.style.display = "none";
+            imageElement.src="$link.getContextPath()/images/infoBoxArrowUp.gif";
+        }
+    }
+}
+
+function redirectWelcomePage( theButtonID, pageURL ) { // defunct
+    if (!isPanelButtonDisabled(theButtonID)) {
+        window.location = "$link.getContextPath()/" + pageURL;
+    }
+}
+
+function displayDialogInWelcomePage( theButtonID, dialogURL ) { // defunct
+    if (!isPanelButtonDisabled(theButtonID)) {
+        showDialog( "$link.getContextPath()/" + dialogURL );
+    }
+}
+
+function  handleImportButton( theButton ) {
+  if ( isButtonEnabled( theButton )) {
+    showFbPopup("import-report-popup", "$link.getContextPath()/manage/importReportPopup.do");
+  }
+}
+function  handleImportButtonOLD( theButton ) {
+  if ( isButtonEnabled( theButton )) {
+    showDialog( "$link.getContextPath()/manage/importReportDialog.do" );
+  }
+}
+function  handleAssignRolesButton( theButton,reportId ) {
+  if ( isButtonEnabled( theButton )) {
+    showFbPopup("assign-roles-popup", "$link.getContextPath()/manage/assignRolesToReportPopup.do?reportId="+reportId);
+  }
+}
+function  handleAssignRolesButtonOLD( theButton,reportId ) {
+  if ( isButtonEnabled( theButton )) {
+    showDialog( "$link.getContextPath()/manage/assignRolesToReportDialog.do?reportId="+reportId);
+  }
+}
+
+function  handleManageGroupsButton( theButton ) {
+  if ( isButtonEnabled( theButton )) {
+    showFbPopup("manage-groups-popup", "$link.getContextPath()/manage/groupManagerPopup.vm");
+  }
+}
+function  handleManageGroupsButtonOLD( theButton ) {
+  if ( isButtonEnabled( theButton )) {
+    showDialog( "groupManagerDialog.vm" );
+  }
+}
+
+function initPersistedSelectIndex(){ // good
+    persistedSelectedIndex = "$!persistedSelectedIndex";
+    //if $var = "" Math.round = 0
+    persistedSelectedIndex = Math.round(persistedSelectedIndex);//to number
+}
+
+function updateSelectGroup(){
+
+    if(persistedSelectedIndex != oReportGroupSelect.selectedIndex){
+        persistedSelectedIndex = oReportGroupSelect.selectedIndex;
+    }
+    handleSelectGroup();
+}
+
+function handleSelectGroup() {
+
+    if ( !groupLoadFailer ) {
+    
+        if ( oReportGroupSelect.disabled ) 
+            disableButton( oImportButton );
+        else
+            enableButton( oImportButton );
+                        
+        if( persistedSelectedIndex == 0) {
+            persistedSelectedIndex = oReportGroupSelect.selectedIndex;
+        }
+        else{
+            oReportGroupSelect.selectedIndex = persistedSelectedIndex; 
+        }
+                            
+        var groupID = oReportGroupSelect.options[oReportGroupSelect.selectedIndex].value;
+        var reqParameters = "operation=getReportsInGroup&groupId=" + groupID+"&persistedSelectedIndex=" +persistedSelectedIndex;
+        successHandler = function(res) {
+            if (isResponseLoginPage(res.responseText)) {
+              location.reload();
+              return;
+            }
+            oReportGroupsContainer.innerHTML = res.responseText;
+            if ( res.responseText.indexOf( "reportListLoadFailure" ) != 0 ) {
+                //showCriticalDialog("$msg.get("manage.error.reportListLoadError")");
+            }
+            oListForm = document.getElementById("objectListFormRML");
+            objListRML.handleObjectSelection(false);
+        }               
+        failureHandler = function(res) {
+            alert("Unable to load report list!!!!!");
+        }
+        new Ajax.Request(globals_contextPath + "/manage/reportManagerAjax.do", {asynchronous:true, parameters:reqParameters, onSuccess:successHandler, onFailure:failureHandler});
+    }
+}
+
+function updateReportGroupSelect() {
+
+    var reqParameters = "operation=getReportGroups";
+    successHandler = function(res) {
+        if (isResponseLoginPage(res.responseText)) {
+          location.reload();
+          return;
+        }
+        oReportGroupSelectContainer.innerHTML = res.responseText;
+        oReportGroupSelect = document.getElementById("selectGroup");
+        handleGroupLoadError(res.responseText);
+        if ( !groupLoadFailer )
+            handleSelectGroup();
+    }               
+    failureHandler = function(res) {
+        alert("Unable to load report list.");
+    }
+    new Ajax.Request(globals_contextPath + "/manage/reportManagerAjax.do", {asynchronous:true, parameters:reqParameters, onSuccess:successHandler, onFailure:failureHandler});
+}
+
+
+function handleDeleteReports( theButton) {
+    if ( isButtonEnabled( theButton )) {
+        var titleStr;
+        if ( objListRML.isMultipleObjectChecked() ) {
+            msgText = "$msg.get("manage.reportList.delete.form.text.multiple")";
+            titleStr = "Delete Reports";
+        } else {
+            msgText = "$msg.get("manage.reportList.delete.form.text.single")";
+            titleStr = "Delete Report";
+        }
+        showQuestionPopup(msgText, titleStr, doDeleteReports);
+    }
+}
+function handleDeleteReportsOLD( theButton) {
+    if ( isButtonEnabled( theButton )) {
+        var titleStr;
+        if ( objListRML.isMultipleObjectChecked() ) {
+            msgText = "$msg.get("manage.reportList.delete.form.text.multiple")";
+        } else {
+            msgText = "$msg.get("manage.reportList.delete.form.text.single")";
+        }
+        showQuestionDialog(msgText, doDeleteReports);
+    }
+}
+
+
+function doDeleteReports() {
+    var ids = "";
+    
+    if (!isButtonEnabled(oDeleteButton)) {
+        return;
+    }
+    
+    var oIDArray = new Array();
+    for (var i=0; i<oListForm.elements.length; i++) {
+        var elem = oListForm.elements[i];
+        if (elem.type && elem.type == "checkbox" && elem.checked && elem.value != "") {
+            oIDArray.push(elem);
+        }
+    }
+
+    var len = oIDArray.length;
+    for (var j=0; j<len; j++) {
+        ids += (len > 1 && j > 0) ? ","+oIDArray[j].value : oIDArray[j].value;
+    }
+    parameters= "operation=deleteReports&ids=" + ids;
+    if ( ids != "") {
+        successHandler = function(res) {
+            if (isResponseLoginPage(res.responseText)) {
+              location.reload();
+              return;
+            }
+            handleSelectGroup();
+        }               
+        failureHandler = function(res) {
+            alert(res.responseText);
+        }
+        new Ajax.Request(globals_contextPath + "/manage/deleteReportAjax.do", {asynchronous:true, parameters:parameters, onSuccess:successHandler, onFailure:failureHandler});
+    }
+    disableButton( oDeleteButton );
+    $j.fancybox.close();
+}
+
+function handleGroupLoadError(responseText) {
+    if ( responseText.indexOf( "reportGroupLoadFailure" ) != -1 ) {
+        groupLoadFailer = true;
+        disableButton( oImportButton );
+        disableButton( oManageButton );
+        showCriticalDialog("$msg.get("manage.error.reportGroupLoadError")");
+        document.getElementById("emptyReportListMsg").innerText = errorLoadingListMsg;
+    }
+}
+
+function handleImportError( errMsg ) {
+    //showCriticalDialog(errMsg);
+    showCriticalPopup(errMsg, "Import Error");
+}
+
+function _setCopyrightYear() {
+	document.getElementById("spanYear").innerHTML=new Date().getFullYear();
+}
+</script> 
+</head>
+<body onload="init();">
+  #set( $activeTab = "manage" )
+  #parse( "preContent.vm" )
+  <div class="filterDiv" id="reportGroupSelectContainerDiv">
+    #parse( "/manage/reportGroupSelect.vm" )
+  </div>
+  <div class="dataListDiv" id="mainContentArea">
+    <table cellpadding="0" cellspacing="0" border="0" width="100%">
+      <tr>
+        <th class="checkBox_Column" align="center" width="28">
+          <input name="select_all" id="selectAllObjects" type="checkbox" onclick="objListRML.selectItems(this);">
+        </th>					
+        <th align="left" nowrap>$msg.get("manage.reportList.header.name")</th>
+        <th align="left" nowrap>$msg.get("manage.reportList.header.description")</th>
+        <th width="1%" nowrap >$msg.get("manage.reportList.header.reportXML")</th>							
+        <th width="20" nowrap>&nbsp;</th>
+      </tr>
+      <tr class="" align="center">
+        <td colspan="12" height="100" style="background-color: #F2F5FE;border:none;">
+          <table cellpadding="0" cellspacing="0" border="0" >
+            <tr>
+              <td style="border: 2px outset #E1E1E1;padding: 5px;background-color: #E1E1E1;">
+                <div id="emptyReportListMsg">$msg.get( "manage.reportList.loading" )</div>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div class="buttonPanel">
+    $button.render( "deleteReport", $msg.get("manage.button.delete"), "Button", "handleDeleteReports(this)", "$ROLE_UI_REPORT_DELETE" )
+    $button.render( "importReport", $msg.get("manage.button.import"), "button", "handleImportButton( this );", "$ROLE_UI_REPORT_EDIT" )
+    $button.render( "manageGroups", $msg.get("manage.button.manageGroups"), "button", "handleManageGroupsButton(this);", "$ROLE_UI_REPORT_EDIT" )
+  </div>
+  <!--
+  <div class="buttonPanel">
+    $button.render( "deleteReport", $msg.get("manage.button.delete"), "disabledButton", "handleDeleteReportsOLD(this)", "$ROLE_UI_REPORT_DELETE" )
+    $button.render( "importReport", $msg.get("manage.button.import"), "button", "handleImportButtonOLD( this );", "$ROLE_UI_REPORT_EDIT" )
+    $button.render( "manageGroups", $msg.get("manage.button.manageGroups"), "button", "handleManageGroupsButtonOLD(this);", "$ROLE_UI_REPORT_EDIT" )
+  </div>
+  <p><a id="wait" href="#" onclick="showWaitPopup('Importing Group')"><img src="../images/aboutBoxLogos.gif" alt=""/></a></p>
+  -->
+  
+  #parse( "/dialogFrames.vm" )
+  
+  #parse( "postContent.vm" )
+  
+  <div style="display:none" id="importError">$importError</div>
+
+  <div class="fancybox-popup-wrap">
+    <!-- <div id="import-report-popup" class="fb-popup"></div> -->
+    #parse( "/errorPopup.vm" )
+    #parse( "/questionPopup.vm" )
+    #parse( "/waitPopup.vm" )
+  </div>
+  <a id="fb-popup-link" href="" style="display: none;"></a> <!-- href set dynamically -->
+  <a id="fb-modal-popup-link" href="" style="display: none;"></a> <!-- href set dynamically -->
+
+</body>
+
+</html>

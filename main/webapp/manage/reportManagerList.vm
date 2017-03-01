@@ -1,0 +1,163 @@
+<!--
+  Copyright (c) 2004-2007 by Alcatel-Lucent and Motive, Inc. All rights reserved.
+ 
+  CONFIDENTIAL. All rights reserved. This computer program is
+  protected under Copyright. Recipient is to retain the program in
+  confidence, and is not permitted to copy, use, distribute, modify or
+  translate the program without authorization
+-->
+#parse("/roles.vm")
+
+<!-- #if ( $reportListFailure ) reportListLoadFailure #end -->
+
+#set ($bNewUI = false)
+#set($cookies = $request.getCookies())
+#foreach($cookie in $cookies)
+	#if ($cookie.getName() == "ReportManagement-NewUI")
+		#if ($cookie.getValue() == "true")
+			#set ($bNewUI = true)
+		#end
+	#end
+#end
+#if ($bNewUI == true)
+
+<table id="report-management-table" class="table">
+	<thead>
+		<tr>
+			<th width="28">
+				<input id="report-management-table-select-all" class="cb-select-all" type="checkbox" #if(!$security.hasRole("$ROLE_UI_REPORT_DELETE")) disabled #end />
+			</th>
+			<th>$msg.get("manage.reportList.header.name")</th>
+			<th>$msg.get("manage.reportList.header.description")</th>
+			<th>$msg.get("manage.reportList.header.reportXML")</th>
+			<th>Configuration</th>
+		</tr>
+	</thead>
+	<tbody>
+		#set($reportCount = 1)
+		#foreach($report in $reportList)
+			<tr>
+				<td #if (!$security.hasRole("$ROLE_UI_REPORT_DELETE") ) disabled #end>
+					<input type="checkbox" class="cb-select" value="$report.id">
+				</td>
+				<td>$report.displayName</td>
+				<td>$util.nvl($report.description, $msg.get("view.reportList.descriptionEmpty"))</td>
+				<td>
+					<!-- #if ($security.hasRole("$ROLE_UI_REPORT_EXPORT")) -->
+					<button id="report-management-download_${report.id}" data-reportid="${report.id}" class="report-management-download btn btn-default selection-button" type="button">$msg.get("manageGroups.dialog.list.download")</button>
+					<!-- #end -->
+				</td>
+				<td>
+					<!-- #if ($security.hasRole("$ROLE_UI_REPORT_EDIT")) -->
+					<button id="report-management-config_${report.id}" data-reportid="${report.id}" data-popupid="report-management-roles-assign" class="report-management-roles-assign btn btn-default selection-button pm-button" type="button">Config</button>
+					<!-- #end -->
+				</td>
+			</tr>
+			<tr style="display:none;" id="infoID$report.id">
+				<td colspan="4" style="padding:0;">
+					<div class="tableInfoBox">
+						<table class="table">
+							<tr>
+								<td class="infoFieldName" align="right" width="20%">$msg.get("manage.reportList.description")</td>
+								<td width="*">$util.nvl($report.description, $msg.get("view.reportList.descriptionEmpty"))</td>
+							</tr>
+						</table>
+					</div>
+				</td>
+			</tr>
+			#set($reportCount = $reportCount + 1)
+		#end
+		#if ($reportCount == 1)
+			<tr>
+				<td colspan="5">
+					<table class="table">
+						<tr>
+							<td>
+								<div id="emptyReportListMsg">
+									#if ("$groupId" == "-1")
+										$msg.get("manage.reportList.noGroups")
+									#else
+										$msg.get("manage.reportList.emtpy")
+									#end
+								</div>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		#end
+	</tbody>
+</table>
+
+#else
+
+<form id="objectListFormRML" name="objectListFormRML" action="#" method="post" onsubmit="return false;">
+	<table cellpadding="0" cellspacing="0" border="0" width="100%" id="" class="">
+		<tr>
+			<th class="checkBox_Column" align="center" width="28">
+				<input name="select_all" id="selectAllObjects" type="checkbox" onclick="objListRML.selectItems(this);" #if ( !$security.hasRole("$ROLE_UI_REPORT_DELETE") ) disabled #end >
+			</th>
+			<th align="left" nowrap>$msg.get("manage.reportList.header.name")</th>
+			<th align="left" nowrap >$msg.get("manage.reportList.header.description")</th>
+			<th width="1%" nowrap >$msg.get("manage.reportList.header.reportXML")</th>
+			<th width="1%" nowrap >Configuration</th>
+		</tr>
+		#set( $reportCount = 1 )
+		#set( $shadeRow = 1 )
+		#foreach($report in $reportList)
+			#if ( $shadeRow == 0 )
+				#set( $shadeRow = 1 )
+				#set( $rowClass = "evenRow" )
+			#else
+				#set( $shadeRow = 0 )
+				#set( $rowClass = "oddRow" )
+			#end
+			<tr class="$rowClass">
+				<td class="checkBox_Column" align="center" #if ( !$security.hasRole("$ROLE_UI_REPORT_DELETE") ) disabled #end><input type="checkbox" name="objectItem" value="$report.id" onclick="objListRML.handleObjectSelection(false)"></td>
+				<td>$report.displayName</td>
+				<td>$util.nvl($report.description, $msg.get("view.reportList.descriptionEmpty"))</td>
+				<td align="center">
+					$button.render( "downloadReport", $msg.get("manageGroups.dialog.list.download"), "button", "if ( isButtonEnabled( this )) location='$link.getContextPath()/manage/downloadReport.do?reportID=${report.id}';", "$ROLE_UI_REPORT_EXPORT" )
+				</td>
+				<td align="center">
+					$button.render( "assignRoles", "Config", "button", "handleAssignRolesButton( this,${report.id});", "$ROLE_UI_REPORT_EDIT" )
+					<!-- $button.render( "assignRolesOld", "Assign Roles OLD", "button", "handleAssignRolesButtonOLD( this,${report.id});", "$ROLE_UI_REPORT_EDIT" ) -->
+				</td>
+			</tr>
+			<tr class="$rowClass" style="display:none;" id="infoID$report.id">
+				<td colspan="4" style="padding:0;">
+					<div class="tableInfoBox">
+						<table cellpadding="0" cellspacing="0" border="0" width="100%" >
+							<tr>
+								<td class="infoFieldName" align="right" width="20%">$msg.get("manage.reportList.description")</td>
+								<td width="*">$util.nvl($report.description, $msg.get("view.reportList.descriptionEmpty"))</td>
+							</tr>
+						</table>
+					</div>
+				</td>
+			</tr>
+			#set( $reportCount = $reportCount + 1 )
+		#end
+		#if ( $reportCount == 1 )
+			<tr class="even_table_row" align="center">
+				<td colspan="12" height="100" style="background-color: #F2F5FE;border:none;">
+					<table cellpadding="0" cellspacing="0" border="0" >
+						<tr>
+							<td style="border: 2px outset #E1E1E1;padding: 5px;background-color: #E1E1E1;">
+								<div id="emptyReportListMsg">
+									#if ( "$groupId" == "-1" )
+										$msg.get( "manage.reportList.noGroups" )
+									#else
+										$msg.get( "manage.reportList.emtpy" )
+									#end
+								</div>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		#end
+	</table>
+</form>
+
+#end

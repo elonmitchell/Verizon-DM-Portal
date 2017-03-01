@@ -1,0 +1,481 @@
+.pm-link {
+	cursor: pointer;
+}
+
+#popupviewer-popup-wrap {
+}
+
+.modal-content {
+	border-radius: 0;
+	max-width: 960px;
+}
+
+.modal-body-content-center {
+	text-align: center;
+}
+
+
+/* fancybox popups */
+.fancybox-popup-wrap {
+	display: none;
+	font-size: 14px;
+}
+
+.fb-popup {
+	position: relative;
+	border: solid #cccccc;
+	border-width: 4px;
+	padding: 20px 20px 23px 24px;
+	background: #eeeeee;
+	overflow: hidden;
+}
+
+.fb-popup .error-message {
+	text-align: center;
+	font-size: 14px;
+	padding: 4px;
+	border: 2px red solid;
+	background: #ffeeee;
+	max-width: 96%;
+	margin: auto;
+}
+
+.fb-popup h1 {
+	margin-bottom: 8px;
+	text-align: center;
+	white-space: nowrap;
+}
+
+.fb-popup p {
+	margin: 20px 0 12px 0;
+	font-size: 14px;
+	line-height: 20px;
+}
+
+.fb-popup ul {
+	list-style: disc outside none;
+	margin: 0 0 18px;
+	font-size: 16px;
+}
+
+.fb-popup ul li {
+	margin-left: 20px;
+	font-size: 14px;
+}
+
+.fb-popup table tr td {
+	padding: 10px 5px 0px 5px;
+	font-size: 14px;
+}
+
+.fb-popup table tr.error {
+	display: none;
+}
+
+.fb-popup table tr.relatedRow td {
+	padding-top: 5px;
+}
+
+.fb-popup table tr.error td {
+	padding-top: 0;
+	padding-bottom: 0px;
+}
+
+.fb-popup .popup-submit-button {
+	margin-top: 20px;
+	text-align: center;
+}
+
+.fb-popup .popup-submit-button-left { 
+	float: left;
+}
+
+.fb-popup .popup-submit-button-right { 
+	float: right;
+	margin-left: 5px;
+}
+
+.fb-popup .popup-submit-button-clear {
+	clear: both;
+}
+
+.fb-popup tr.newSection td {
+	padding-bottom: 4px !important;
+}
+.fb-popup tr.newSection fieldset {
+	border-top: 1px #ccc solid;
+}
+.fb-popup tr.newSection fieldset legend {
+	font-size: 14px;
+	padding: 0 16px;
+	font-style: italic;
+}
+
+.formLabel {
+}
+
+.formLabel .reqd {
+	color: #CC0000;
+}
+
+.formFieldError {
+	color: #CB2027;
+	font-size: 0.9em;
+}
+
+.formFieldErrorSmall {
+	font-size: 11px;
+	color: #890000;
+}
+
+.meridianGroup {
+	font-size: 10px;
+}
+
+.cstNote {
+	margin-top: 10px;
+	text-align: center;
+	font-size: 12px;
+}
+
+.labelNote {
+	text-align: right;
+	font-size: 12px;
+}
+
+/* ********************* */
+/* Upload campaign popup */
+/* ********************* */
+
+#upload-software-popup { 
+	width: 450px;
+}
+
+.upload-software-popup-wait, .popup-wait {
+	padding: 25px 0 15px 0;
+	text-align: center;
+	font-size: 13px;
+}
+
+.upload-software-popup-model-wait {
+	display: inline;
+}
+
+.upload-software-popup-time-notice {
+	padding-top: 15px;
+	padding-bottom: 5px;
+}
+
+div.scrollable {
+	border: 1px solid #ccc;
+	background: #ffffff;
+	padding: 0 4px;
+	overflow: auto; 
+	max-height: 90px;
+	display: block;
+}
+
+div.scrollable table {
+	width: 100%;
+}
+
+div.scrollable table tr td {
+	font-size: 11px;
+	padding: 2px 6px 2px 0;
+}
+
+div.scrollable hr {
+	border: none;
+	background-color: #ccc;
+	color: #ccc;
+	height: 1px;
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+
+div.scrollingDivArea {
+	border: 1px solid #aaa;
+	background: #ffffff;
+}
+
+div.scrollingDivArea div.scrollingDivHeader {
+	padding: 0 4px;
+	background: #eee;
+	border-bottom: 1px solid #aaa;
+}
+
+div.scrollingDivArea div.scrollingDiv {
+	padding: 0 4px;
+	overflow: auto;
+	max-height: 70px;
+	display: block;
+}
+
+div.scrollingDivArea div.scrollingDivHeader table,
+div.scrollingDivArea div.scrollingDiv table {
+	width: 100%;
+}
+
+div.scrollingDivArea div.scrollingDivHeader table tr td,
+div.scrollingDivArea div.scrollingDiv table tr td {
+	font-size: 11px;
+	padding: 2px 6px 2px 0;
+}
+
+div.scrollingDivArea div.scrollingDiv hr {
+	border: none;
+	background-color: #ccc;
+	color: #ccc;
+	height: 1px;
+}
+
+
+/* ************************ */
+/* Single device test popup */
+/* ************************ */
+
+#single-device-test-popup,
+#sdm-single-device-test-popup {
+	width: 500px;
+}
+
+div[popupid="single-device-test-pm-popup"] .img-button-medium,
+div[popupid="sdm-single-device-test-pm-popup"] .img-button-medium {
+	height: 25px;
+	padding: 0 12px;
+}
+
+div[popupid="single-device-test-pm-popup"] .img-button-medium span,
+div[popupid="sdm-single-device-test-pm-popup"] .img-button-medium span {
+	line-height: 25px;
+	font-size: 12px;
+}
+
+/* ******************* */
+/* Schedule push popup */
+/* ******************* */
+
+#schedule-push-popup { 
+	width: 400px;
+}
+
+.lra-opt-in-area {
+	padding-top: 10px;
+}
+.lra-opt-in-title {
+	font-size: 14px;
+	padding: 10px 0 8px 0;
+}
+.lra-opt-in-list {
+	border: solid 1px #cccccc;
+	background: #ffffff;
+	/* color: #ffffff; */
+	padding: 4px;
+	/* width: 200px; */
+	height: 100px;
+	overflow: auto; 
+}
+table.lra-opt-in-table tr td {
+	padding: 0 2px;
+	font-size: 11px;
+}
+
+/* ********************* */
+/* Unschedule push popup */
+/* ********************* */
+#unschedule-push-popup {
+	width: 400px;
+}
+
+/* ************************ */
+/* View test campaign popup */
+/* ************************ */
+
+#view-tester-campaign-popup {
+	width: 700px;
+}
+
+#delete-special-group-popup {
+	width: 450px;
+}
+
+/* ************************ */
+/* Edit test campaign popup */
+/* ************************ */
+#edit-tester-campaign-popup {
+	width: 570px;
+}
+
+/* ************************** */
+/* Delete test campaign popup */
+/* ************************** */
+#delete-tester-campaign-popup {
+	min-width: 400px;
+}
+
+/* ************************** */
+/* Add special group popup */
+/* ************************** */
+
+#add-special-group-popup {
+	width: 380px;
+}
+
+/* ************************** */
+/* Import tester device popup */
+/* ************************** */
+
+#import-tester-device-popup { 
+	/* Width should be dynamic since Special Group pulldown can be dynamic width */
+}
+
+#import-tester-device-popup .error-message { 
+	text-align: left;
+}
+
+/* ************************** */
+/* Delete tester device popup */
+/* ************************** */
+
+#delete-tester-device-popup { 
+	width: 400px;
+}
+#delete-all-tester-devices-popup { 
+	width: 400px;
+}
+
+/* ******************* */
+/* Add blacklist popup */
+/* ******************* */
+
+#add-blacklist-device-popup {
+	width: 420px;
+	min-height: 200px;
+}
+table.blacklist-manual-table {
+	width: 100%;
+	border-width: 1px;
+	border-spacing: 2px;
+	border-style: solid;
+	border-color: #999999;
+	border-collapse: collapse;
+}
+table.blacklist-manual-table th,
+table.blacklist-manual-table td {
+	border-width: 1px;
+	padding: 2px;
+	border-style: solid;
+	border-color: #999999;
+	font-weight: normal;
+	width: 50%;
+}
+
+table.blacklist-manual-header-table,
+table.blacklist-manual-header-table th {
+	border-bottom-width: 0;
+}
+
+.add-blacklist-device-wait-popup-wait {
+	padding: 40px 0 20px 0;
+	text-align: center;
+}
+
+.add-blacklist-device-wait-popup-wait {
+	display: inline;
+}
+
+.add-blacklist-device-wait-popup-time-notice {
+	padding-top: 15px;
+	padding-bottom: 5px;
+}
+
+
+table.dynamicTable {
+	width: 100%;
+	border-width: 1px;
+	border-spacing: 2px;
+	border-style: solid;
+	border-color: #999999;
+	border-collapse: collapse;
+}
+
+table.dynamicTable th, table.dynamicTable td {
+	border-width: 1px;
+	padding: 2px;
+	border-style: solid;
+	border-color: #999999;
+	font-weight: normal;
+	width: 50%;
+}
+
+/* ******************* */
+/* Delete blacklist popup */
+/* ******************* */
+
+#delete-blacklist-device-popup {
+	width: 400px;
+}
+
+/* **************** */
+/* Add tester popup */
+/* **************** */
+
+#add-tester-device-popup {
+	width: 350px;
+	min-height: 200px;
+}
+#add-tester-device-popup #imei-textarea {
+}
+
+.import-tester-device-wait-popup-wait {
+	padding: 40px 0 20px 0;
+	text-align: center;
+}
+
+.import-tester-device-wait-popup-wait {
+	display: inline;
+}
+
+.import-tester-device-wait-popup-time-notice {
+	padding-top: 15px;
+	padding-bottom: 5px;
+}
+
+/* ********************* */
+/* Wait and result popup */
+/* ********************* */
+
+#wait-and-result-popup {
+	width: 400px;
+}
+
+/* ************************* */
+/* Create SDM Campaign popup */
+/* ************************* */
+
+#create-sdm-campaign-pm-popup__scr-CSC-input table {
+	width: 100%;
+}
+
+/* *********************** */
+/* Edit SDM Campaign popup */
+/* *********************** */
+
+#edit-sdm-campaign-pm-popup__scr-ESC-input table {
+	width: 100%;
+}
+
+/* ********************** */
+/* View Device Logs Popup */
+/* ********************** */
+
+.max-size-container {
+	box-sizing: border-box;
+}
+
+.CodeMirror {
+	border: 1px solid #ccc;
+	height: 100%;
+	font-size: 13px;
+}

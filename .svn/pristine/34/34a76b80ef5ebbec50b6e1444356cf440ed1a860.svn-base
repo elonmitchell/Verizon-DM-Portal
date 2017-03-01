@@ -1,0 +1,111 @@
+/* Dashboard */
+
+#dashboard-content-container {
+}
+
+#dashboard-campaign-stats {
+	width: 480px;
+	float: left;
+	margin-right: 20px;
+}
+
+.dashboard-scrolling-div {
+	border: solid 1px #bdbcbc;
+	padding: 6px;
+	overflow: auto;
+}
+
+#dashboard-campaign-stats .dashboard-scrolling-div {
+	height: 385px;
+}
+
+#dashboard-other-stats {
+	float: left;
+}
+
+#dashboard-other-stats > div {
+}
+
+.dashboard-content-section {
+	margin-bottom: 20px;
+}
+
+#dashboard-total-devices-provisioned > div,
+#dashboard-total-subscriptions > div {
+	float: left;
+	margin-right: 20px;
+}
+
+.dashboard-total-devices-provisioned-count,
+.dashboard-total-subscriptions-count {
+	color: #cd040b;
+	font-weight: bold;
+}
+
+#dashboard-apn-configs > .dashboard-chart > table {
+	width: 100% !important;
+	padding-bottom: 0;
+	margin-bottom: 0;
+}
+
+#dashboard-other-stats button.btn {
+	display: block;
+	margin-top: 8px;
+}
+
+/* Dashboard - Calendar */
+
+div.dashboard-calendar {
+	padding: 6px;
+	/* height: 412px; */
+}
+
+div.dashboard-calendar .style_0 { font-size: 10pt; color: black; text-indent: 0; letter-spacing: normal; word-spacing: normal; text-transform: none; white-space: normal; line-height: normal;}
+div.dashboard-calendar .style_1 { background-color: #e5e5e5; } /* ? */
+div.dashboard-calendar .style_3 { border: thin solid #f6f6f6;} /* ? */
+div.dashboard-calendar .style_4 { padding: 0; } /* headers */
+div.dashboard-calendar .style_5 { border: 0 padding: 0 } /* "Software Update Calendar" */
+div.dashboard-calendar .style_6 { font-weight: bold; font-size: 11pt; padding: 4px; background-color: #e4e5e3; margin-bottom: 8px; } /* "Software Update Calendar" */
+div.dashboard-calendar tr.style_7 td { padding: 4px 0; } /* month / year */
+div.dashboard-calendar .style_8 { display: none; } /* year */
+div.dashboard-calendar .style_9 { font-weight: bold; font-size: 11pt; padding: 0; margin: 4px 0 8px 0; } /* months */
+div.dashboard-calendar tr.style_10 td { } /* day names */
+div.dashboard-calendar .style_11 { font-size: 11pt; border-top: thin solid white; } /* day names */
+div.dashboard-calendar .style_12 { height: 80px; } /* days */
+div.dashboard-calendar .style_13 { height: 80px; border-right: thin solid #f6f6f6; background-color: white; } /* all but last column */
+div.dashboard-calendar .style_14 { background-color: #e4e5e3; font-weight: normal; font-size: 10pt; } /* day numbers */
+div.dashboard-calendar .style_15 { font-size: 8pt; padding: 2px;} /* day content */
+div.dashboard-calendar .style_16 { padding: 2px; background-color: white;} /* last column */
+
+/* Historical Reports */
+
+table#historical-reports-table > tbody > tr > td {
+	vertical-align: middle;
+	position: relative;
+}
+
+table#historical-reports-table > tbody > tr > td img {
+	border: none;
+	outline: none;
+}
+
+table#historical-reports-table > tbody > tr > td .newIcon {
+	background: url('../images/new_report.png') no-repeat;
+	width: 23px;
+	height: 22px;
+	position: absolute;
+	bottom: 5px;
+	left: 0;
+}
+
+.report-groups {
+	display: inline-block;
+	width: 100%;
+	margin: 0 0 10px 0;
+}
+
+/* Report Schedules */
+
+.text-wrap {
+	width: 100% !important;
+}

@@ -1,0 +1,164 @@
+<!--
+  Copyright (c) 2004-2007 by Alcatel-Lucent and Motive, Inc. All rights reserved.
+ 
+  CONFIDENTIAL. All rights reserved. This computer program is
+  protected under Copyright. Recipient is to retain the program in
+  confidence, and is not permitted to copy, use, distribute, modify or
+  translate the program without authorization
+-->
+#parse("/roles.vm")
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+#set( $pageTitle = "etl.form.title" )
+#parse( "pageHeader.vm" )
+<script src="$link.getContextPath()/js/prototype.js" type="text/javascript" language="Javascript"></script>
+<script src="$link.getContextPath()/js/scriptaculous.js?load=effects" language="javascript" type="text/javascript"></script>    
+<script type="text/javascript" language="Javascript">
+var oETLGroupsContainer = null;
+var oETLRefreshButton = null;
+var oErrorStringDiv = null;
+var etlLoadFailure = $etlLoadError;
+var etlLog__xmlDoc = null;
+
+function handleResize() {
+    setTableHeight( 163, "mainContentArea" );
+    setContentWidth(22, 700);
+}
+
+function init() {
+    onItemSelectButtonArray = new Array("deleteReport");
+    oETLGroupsContainer = document.getElementById("mainContentArea");
+    oETLRefreshButton = document.getElementById("refreshETL" );
+    //oErrorStringDiv = document.getElementById("etlLoadErrorMessage");
+    displayETLLog();
+    if ( etlLoadFailure )
+        showCriticalDialog( "$msg.get("etl.error.loading.etlData")" );
+    _setCopyrightYear();
+}
+
+function toggleWelcomeDivVisability( theDivId, imageElement) {
+    theDivObject = findObject( theDivId );
+    if ( theDivObject != null ) {
+        if ( theDivObject.style.display == "none") {
+            theDivObject.style.display = "block";
+            imageElement.src="$link.getContextPath()/images/triangle.gif";
+        }
+        else {
+            theDivObject.style.display = "none";
+            imageElement.src="$link.getContextPath()/images/triangle_down.gif";
+        }
+    }
+}
+
+function toggleInfoDivVisability( theDivId, imageElement) {
+    theDivObject = findObject( theDivId );
+    if ( theDivObject != null ) {
+        if ( theDivObject.style.display == "none") {
+            theDivObject.style.display = "block";
+            imageElement.src="$link.getContextPath()/images/infoBoxArrowDown.gif";
+        }
+        else {
+            theDivObject.style.display = "none";
+            imageElement.src="$link.getContextPath()/images/infoBoxArrowUp.gif";
+        }
+    }
+}
+
+
+
+function submitRefreshJob() {
+    var reqParameters = "operation=submitETLJob&userID=" + escape("$util.getUserName()");
+    successHandler = function(res) {
+        usrMsg = "$msg.get("etl.refresh.submitted")";
+        if ( res.responseText != "" )
+            usrMsg =  res.responseText;
+        showInformationDialog(usrMsg, doRefresh);
+    }               
+    failureHandler = function(res) {
+        //refreshList();
+        // display an error
+        showCriticalDialog(res.responseText);
+    }
+    new Ajax.Request(globals_contextPath + "etl/refresh.do", {asynchronous:true, parameters:reqParameters, onSuccess:successHandler, onFailure:failureHandler});
+}
+
+
+function handleGroupLoadError(responseText) {
+    if ( responseText.indexOf( "reportGroupLoadFailure" ) != -1 ) {
+        groupLoadFailer = true;
+        disableButton( oImportButton );
+        disableButton( oManageButton );
+        showCriticalDialog("$msg.get("manage.error.reportGroupLoadError")");
+        document.getElementById("emptyReportListMsg").innerText = errorLoadingListMsg;
+    }
+}
+
+function handleETLError( errMsg ) {
+    showCriticalDialog(errMsg);
+}
+
+function handleETLRefreshButton(theButton ) {
+    if ( isButtonEnabled( theButton )) {
+        msgText = "$msg.get("etl.confirm.submit.form.text")";
+        showQuestionDialog(msgText, submitRefreshJob);
+    }
+}
+
+function doRefresh() {
+    var reqParameters = "operation=refreshETLData";
+    successHandler = function(res) {
+        document.getElementById("etlXMLData").value = res.responseText;
+        displayETLLog();
+    }               
+    failureHandler = function(res) {
+        showCriticalDialog( "$msg.get("etl.error.loading.etlData")" );
+    }
+    new Ajax.Request(globals_contextPath + "etl/refresh.do", {asynchronous:true, parameters:reqParameters, onSuccess:successHandler, onFailure:failureHandler});
+
+}
+
+function displayETLLog() {
+    var oXMLContainer = document.getElementById("etlXMLData");	
+    var oXSLContainer = document.getElementById("etlLogXSL");
+    var oHTMLContainer = document.getElementById("mainContentArea");
+    
+    etlLog__xmlDoc = loadXMLFromString(oXMLContainer.value);	
+    oHTMLContainer.innerHTML = new String(etlLog__xmlDoc.transformNode(oXSLContainer));
+}
+
+function _setCopyrightYear() {
+	document.getElementById("spanYear").innerHTML=new Date().getFullYear();
+}
+</script> 
+</head>
+#parse("/etl/reportETLXSL.vm")
+<body onload="handleResize();init();">
+  <!-- nav header -->
+  #set( $activeTab = "etl" )
+  #set( $sectionHeadString = $msg.get("etl.sectionHeader"))
+  #parse( "preContent.vm" )
+
+  <textarea name="etlXMLData" id="etlXMLData" style="display:none;">
+    #parse("/etl/reportETLXML.vm")
+  </textarea>
+  <div class="filterDiv" id="reportGroupSelectContainerDiv" style="padding-top:7px;">
+    $button.render( "refreshETL", $msg.get("etl.button.submit"), "button", "handleETLRefreshButton(this);", "$ROLE_UI_ETLADMIN_EXECUTE")
+  </div>
+  <div class="welcomeContentDiv minimumWidth" id="mainContentArea">
+  </div>
+  #parse( "/dialogFrames.vm" )
+  <div style="display:none" id="importError">$importError</div>
+
+  #parse( "postContent.vm" )
+
+  <div class="fancybox-popup-wrap">
+    <div id="import-tester-device-popup" class="fb-popup">
+
+    </div>
+  </div>
+  <a id="fb-popup-link" href="" style="display: none;"></a> <!-- href set dynamically -->
+  <a id="fb-modal-popup-link" href="" style="display: none;"></a> <!-- href set dynamically -->
+</body>
+</html>

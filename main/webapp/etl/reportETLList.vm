@@ -1,0 +1,110 @@
+<!--
+  Copyright (c) 2004-2007 by Alcatel-Lucent and Motive, Inc. All rights reserved.
+ 
+  CONFIDENTIAL. All rights reserved. This computer program is
+  protected under Copyright. Recipient is to retain the program in
+  confidence, and is not permitted to copy, use, distribute, modify or
+  translate the program without authorization
+-->
+    <div id="etlLoadErrorMessage">#if ( $etlLoadFailure ) etlLoadFailureMessge #end</div>
+            <table cellpadding="0" cellspacing="0" border="0" width="100%" id="data_table" class="data_table">
+                <tr>
+                    <th align="left" nowrap width="1%">
+                        $msg.get("etl.reportList.header.run")
+                    </th>					
+                    <th align="left" nowrap width="10%">
+                        $msg.get("etl.reportList.header.operator") 
+                    </th>
+                    <th align="left" nowrap width="15%">
+                        $msg.get("etl.reportList.header.inserted")
+                    </th>
+                    <th align="left" nowrap width="10%">
+                        $msg.get("etl.reportList.header.severity")
+                    </th>							
+                    <th  align="left" nowrap width="15%">
+                        $msg.get("etl.reportList.header.component")
+                    </th>
+                    <th align="left" nowrap width="*">
+                        $msg.get("etl.reportList.header.messageDetail")
+                    </th>
+                    <th>&nbsp;</th>
+                </tr>
+                #set( $logCount = 1 )
+                #set( $shadeRow = 1 )
+                #foreach($etl in $etlList)
+                    #if ( $shadeRow == 0 )
+                        #set( $shadeRow = 1 )
+                        #set( $rowClass = "odd_table_row" )
+                    #else
+                        #set( $shadeRow = 0 )
+                        #set( $rowClass = "even_table_row" )
+                    #end
+                    <tr class="$rowClass">
+                        <td >
+                            $etl.runNumber
+                        </td>
+                        <td >
+                            $etl.operator
+                        </td>
+                        <td >									
+                            $util.nvl( $util.formatDate($etl.inserted) , "&nbsp;" )
+                        </td>
+                        <td >
+                            $msg.get("etl.reportList.loglevel.$etl.severity" )
+                        </td>
+                        <td >
+                            $etl.component
+                        </td>
+                        <td >
+                            $util.limitedString( $util.nvl($etl.errorDetails, "&nbsp;"), 40, $msg.get("ellipsis"))
+                        </td>
+                        <td align="center" width="20" nowrap><button onclick="showInfo('infoID$etl.id', 'infoIcon$etl.id', '$link.getContextPath()/images/i.gif', '$link.getContextPath()/images/triangle.gif')" style="margin:0;border:0;background:none;"><img src="$link.getContextPath()/images/i.gif" id="infoIcon$etl.id" border="0"></button></td>
+                    </tr>
+                    <tr class="$rowClass" style="display:none;" id="infoID$etl.id">
+                        <td colspan="7" style="padding:0;">
+                            <div class="tableInfoBox">
+                                <table cellpadding="0" cellspacing="0" border="0" width="100%" >
+                                    <tr>
+                                        <td class="infoFieldName" align="right" width="15%" style="border-right:none;border-bottom:none;border-right:none;">
+                                            $msg.get("etl.reportList.errorDetails")
+                                        </td>
+                                        <td width="*" style="border-left:none;border-bottom:none;border-right:none;">
+                                            $util.nvl($etl.errorDetails, "")
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="infoFieldName" align="right" width="15%" style="border-right:none;border-bottom:none;border-right:none;">
+                                            $msg.get("etl.reportList.context1")
+                                        </td>
+                                        <td width="*" style="border-left:none;border-bottom:none;border-right:none;">
+                                            $util.nvl($etl.context1, "")
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="infoFieldName" align="right" width="15%" style="border-right:none;;border-bottom:none;border-right:none;">
+                                            $msg.get("etl.reportList.context2")
+                                        </td>
+                                        <td width="*" style="border-left:none;border-bottom:none;border-right:none;">
+                                            $util.nvl($etl.context2, "")
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                #set( $logCount = $logCount + 1 )
+                #end
+                #if ( $logCount == 1 )
+                    <tr class="even_table_row" align="center">
+                       <td colspan="6" height="100" style="background-color: #F2F5FE;border:none;">
+                            <table cellpadding="0" cellspacing="0" border="0" >
+                                 <tr>
+                                    <td style="border: 2px outset #E1E1E1;padding: 5px;background-color: #E1E1E1;">
+                                       <div id="emptyReportListMsg">$msg.get( "etl.errorDetail.empty" )</div>
+                                    </td>
+                                </tr>
+                            </table>
+                       </td>
+                    </tr>
+                #end
+            </table>

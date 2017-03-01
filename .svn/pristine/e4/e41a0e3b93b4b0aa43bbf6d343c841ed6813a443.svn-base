@@ -1,0 +1,415 @@
+#-----------------------------------------------------------------------------
+# Globals
+#-----------------------------------------------------------------------------
+app.name =  Reporting Console
+#product.version = Version 3.1.0
+product.version.label = {0} version
+dialog.ok = OK
+dialog.close = Close
+dialog.cancel = Cancel
+true.yesno.value = Yes
+false.yesno.value = No
+file.access.error = An error occurred while attempting to load the .zip file. Please verify that the path to the .zip file is valid.
+logout = Log Off
+changePassword = Change Password
+about = About
+help = Help
+ellipsis = ...
+
+#-----------------------------------------------------------------------------
+# Date string used in UI other than what is obtained by the calendar widget.
+#-----------------------------------------------------------------------------
+java.dateFormat = MM/dd/yyyy H:mm
+log.dateFormat = MM/dd/yyyy H:mm:ss
+
+#--------------------------------------------------------------------
+# About
+#---------------------------------------------------------------------
+about.form.title = About - {0}
+about.licenseInfo = /report-console-help/licensingInfo.txt
+about.version = Version
+
+#--------------------------------------------------------------------
+# Navigation Header
+#---------------------------------------------------------------------
+navigation.welcome = Welcome
+navigation.view = View
+navigation.manage = Manage
+navigation.etl = ETL Admin
+
+#--------------------------------------------------------------------
+# Navigation Header
+#---------------------------------------------------------------------
+branding.product= /images/productTitle.gif
+branding.motive = /images/motivelogo.gif
+
+#--------------------------------------
+# Help url
+#--------------------------------------
+helpPath = /report-console-help
+
+#-----------------------------------------------------------------------------
+# Icons
+#-----------------------------------------------------------------------------
+icon.exclamation = /images/exclamation.gif
+icon.question = /images/question.gif
+icon.critical = /images/critical.gif
+icon.information = /images/information.gif
+icon.contextHelp = /images/contextHelp.gif
+icon.triangle = /images/triangle.gif
+icon.triangleDown= /images/triangle_down.gif
+icon.infoBoxArrowDown = /images/infoBoxArrowDown.gif
+icon.infoBoxArrowUp = /images/infoBoxArrowUp.gif
+icon.report = /images/report_16.gif
+icon.infoButton = /images/i.gif
+
+#-----------------------------------------------------------------------------
+# Error dialog
+#-----------------------------------------------------------------------------
+exception.showDetails = Show Details
+exception.hideDetails = Hide Details
+exception.goBack = Go Back
+exception.ok = OK
+exception.timestamp = Time
+exception.location = URL
+exception.error = Error
+exception.stackTrace = Stack Trace
+
+#-----------------------------------------------------------------------------
+# License Input page
+#-----------------------------------------------------------------------------
+license.form.title = License Key - {0}
+license.form.header = License Key {0}
+license.form.section.header = {0} License
+license.expired.exception = <br>The license for {0} has expired on {1}.<br><br> \
+                            Please see the Administration Guide for instructions about obtaining and installing a new license key.
+license.invalid.host.exception = <br>The license for {0} is not valid for this host ID ( {1} ).<br><br> \
+                                 Please see the Administration Guide for instructions about obtaining and installing a new license key.
+license.invalid.exception = <br>The license key for {0} is invalid.<br><br> \
+                            Please see the Administration Guide for instructions about obtaining and installing a new license key.
+license.missing.exception = <br>A valid license key for {0} was not found.<br><br> \
+                            Please see the Administration Guide for instructions about obtaining and installing a new license key.
+feature.license.missing.exception = <br>Your current license does not include access to {0}.<br><br> \
+                            Please see the Administration Guide for instructions about obtaining and installing a new license key. 
+license.invalid.version.exception = <br>The license version ( {0} ) does not match the product version ( {1} ).<br><br> \
+						  Please see the Administration Guide for instructions about obtaining and installing a new license key.                                                                                    
+license.missing.versionfile.exception = <br>An error occurred while retrieving the application version information. \
+						  Please contact your system administrator if the issue persists.
+license.missing.version.exception = <br>The license does not contain the product version information.<br><br> \
+						  Please see the Administration Guide for instructions about obtaining and installing a new license key.						                 
+license.form.submit = Log Off
+host-ids.name = Home Device Manager Reporting
+reporting.name = Reporting Console
+
+#-----------------------------------------------------------------------------
+# Licensing Errors
+#-----------------------------------------------------------------------------
+reporting.licensing.warning.msg = Warning: Your license for {0} {1}
+reporting.licensing.warning.pattern =  will expire in {0}.
+reporting.licensing.warning.pattern.part.1 = one day
+reporting.licensing.warning.pattern.part.2 = {1} days
+
+#-----------------------------------------------------------------------------
+# Login page
+#-----------------------------------------------------------------------------
+
+# arg 0 is the app.name
+login.form.title = Log On - {0}
+login.form.header = Log on to {0}
+login.form.section.header = {0} Logon
+login.form.login.prompt = User Name:
+login.form.password.prompt = Password:
+login.form.submit = Log On
+
+login.form.sessionTimeout = Your session has timed out. Please log on again.
+
+# arg 0 is the app.name
+login.failure.title = Logon Error - {0}
+login.failure = You have entered an invalid user name and/or password. \
+                Please click <b>Back</b> and try again.
+login.failure.back = Back
+
+# arg 0 is the app.name
+login.unauthorized.title = Authorization Failed - {0}
+login.unauthorized = You are not authorized to use this application.  You can try \
+                     to log off and log on again as another user with the appropriate \
+                     privileges or you can close the window.
+login.unauthorized.close = Close
+login.unauthorized.logout = Log Off
+
+login.invalidBrowser.title = Unsupported Browser
+login.invalidBrowser.text = You are using an unsupported browser. This application requires Microsoft Internet Explorer version 6.0 or later.
+
+#-----------------------------------------------------------------------------
+# Logout page
+#-----------------------------------------------------------------------------
+
+# arg 0 is the app.name
+logout.title = Log Off - {0}
+logout.message = You have been logged off from the system.
+logout.form.section.header = {0} Logoff
+logout.button.close = Close
+logout.button.login = Log On Again
+
+#-----------------------------------------------------------------------------
+# Logged Out page (when the user hits a link that should have a session
+# but does not (like if they logged out in another browser window with the
+# same session))
+#-----------------------------------------------------------------------------
+
+# arg 0 = app.name
+loggedOut.title = Logged Off - {0}
+
+loggedOut.message = You have been logged off from the system.  This could be \
+                    due to inactivity.
+
+loggedOut.back = Log On Again
+
+#-----------------------------------------------------------------------------
+# Privilege error page
+#-----------------------------------------------------------------------------
+# arg 0 = app.name
+privilegeError.form.title = Insufficient Privileges - {0}
+privilegeError.form.section.header = Insufficient Privileges
+privilegeError.form.errorMessage = You have attempted to access a page for which you have insufficent access privileges. For more information, contact the system administrator.
+
+
+#--------------------------------------------------------------------
+# Welcome
+#---------------------------------------------------------------------
+welcome.form.title = Welcome - {0}
+welcome.sectionHeader = Welcome
+welcome.reporting.sectionLabel = Reporting
+welcome.reporting.viewReport.label = View Reports
+welcome.reporting.viewReport.desc = View existing reports.
+welcome.reporting.etlManager.label = ETL Admin
+welcome.reporting.etlManager.desc = View ETL logs and refresh report data.
+welcome.reporting.manageReport.label = Manage Reports
+welcome.reporting.manageReport.desc = Add or remove existing reports and manage report groups.
+welcome.form.list.section.icon.viewReportList = /images/reportGroup_48.gif
+welcome.form.list.section.icon.manageReport = /images/manageReport_48.gif
+welcome.form.list.section.icon.etlManager = /images/ETLManager_48.gif
+welcome.form.list.section.icon.viewReportList.disabled = /images/ReportGroup_48_disabled.gif
+welcome.form.list.section.icon.manageReport.disabled = /images/ReportManager_48_disabled.gif
+welcome.form.list.section.icon.etlManager.disabled = /images/ETLManager_48_disabled.gif
+
+#--------------------------------------------------------------------
+# View
+#---------------------------------------------------------------------
+view.form.title = View Reports - {0}
+view.sectionHeader = View Reports
+view.reportList.emtpy = No reports defined in report group.
+view.reportList.descriptionEmpty = No Description
+view.groupList.emtpy = No report groups defined.
+
+#--------------------------------------------------------------------
+# Manage
+#---------------------------------------------------------------------
+manage.form.title = Manage Reports - {0}
+manage.sectionHeader = Manage Reports
+manage.reporting.sectionLabel = Reporting
+manage.group.filter = Show Group
+manage.group.filter.noGroups = No report groups defined.
+manage.reportList.header.name = Name
+manage.reportList.header.description = Description
+manage.reportList.header.reportXML = Report ZIP
+manage.reportList.description = Description:
+manage.reportList.emtpy = No reports defined in report group.
+manage.reportList.noGroups=No report groups are defined. To add report groups, click the <b>Manage Groups</b> button.
+manage.reportList.loading = Loading lists of reports for the selected report group.
+manage.reportList.loadingerror = Click the browser Refresh button to reload the report list.
+manage.reportList.delete.form.text.single = Are you sure you want to delete the selected report?
+manage.reportList.delete.form.text.multiple = Are you sure you want to delete the selected reports?
+manage.reportList.delete.group.empty = Report groups must be empty before they can be deleted.
+manage.button.delete = Delete
+manage.button.import = Import
+manage.button.manageGroups = Manage Groups
+manage.error.reportDeleteError = Error deleting one or more reports.
+manage.delete.pass.single = Deleted {0} report.
+manage.delete.pass.multiple = Deleted {0} reports.
+manage.delete.partial.single.single = Deleted {0} report. Delete failed on {1} report.
+manage.delete.partial.single.multiple = Deleted {0} report. Delete failed on {1} report.
+manage.delete.partial.multiple.single = Deleted {0} report. Delete failed on {1} report.
+manage.delete.partial.multiple.multiple = Deleted {0} report. Delete failed on {1} report.
+
+manage.error.reportGroupLoadError = Error loading group list. Please try again, and if the problem persists contact the system administrator.
+manage.error.reportListLoadError = Error loading report list. Please try again, and if the problem persists contact the system administrator.
+
+
+#--------------------------------------------------------------------
+# ETL
+#---------------------------------------------------------------------
+etl.form.title = Report ETL Admin- {0}
+etl.sectionHeader = Report ETL Admin
+etl.reportList.header.run = Run number
+etl.reportList.header.operator = Operator
+etl.reportList.header.inserted = Inserted
+etl.reportList.header.component = Component
+etl.reportList.header.severity = Severity
+etl.reportList.header.messageDetail = Message
+etl.reportList.errorDetails = Error Details:
+etl.reportList.context1 = Context 1:
+etl.reportList.context2 = Context 2:
+etl.reportList.emtpy = The ETL log contains no entries.
+etl.reportList.loading = Loading lists of reports for the selected report group.
+etl.reportList.loadingerror = Click the browser refresh button to reload ETL information.
+etl.button.submit = Refresh Report Data
+etl.confirm.submit.form.text = This operation will start an ETL process on the database server. This processing may be expensive, and should generally only be performed during off-peak hours, to minimize system load.<br><br>Are you sure you want to proceed ?
+
+etl.reportList.loglevel.10000 = DEBUG
+etl.reportList.loglevel.20000 = INFO
+etl.reportList.loglevel.30000 = WARN
+etl.reportList.loglevel.40000 = ERROR
+etl.reportList.loglevel.50000 = FATAL
+
+etl.errorDetail.empty = ETL log is empty.
+
+etl.refresh.submitted = ETL refresh job has been submitted.
+etl.error.submitting.job = Unable to start data refresh because an existing job is still running.
+etl.error.submitting.job.providerException = Error submitting ETL job. Please try again, and if the problem persists contact the system administrator.
+etl.error.loading.etlData = Error loading ETL log data. Please try again, and if the problem persists contact the system administrator.
+
+#--------------------------------------------------------------------
+# Manage - Import Dialog
+#---------------------------------------------------------------------
+importReport.dialog.title = Manage Reports - {0}
+importReport.dialog.header = Import Report
+importReport.dialog.infoArea = Import a new report by clicking the Browse button, selecting the report .zip file, and clicking Import.
+importReport.dialog.fileLabel = Report .zip file:
+importReport.dialog.groupLabel = Select a group for the report:
+importReport.dialog.nameLabel = Report Name:
+importReport.dialog.descLabel = Description:
+importReport.dialog.button.import = Import
+importReport.dialog.button.cancel = Cancel
+importReport.dialog.error.nameInUse = The report {0} failed to be imported successfully because it already exists in the system.
+importReport.dialog.error.nameInUseLong = The report {0} failed to be imported successfully because it already exists in the system as {1} in the group {2}.
+importReport.dialog.error.invalidZip = Import of report failed. The .zip file did not contain a report or more than one report was found.
+importReport.dialog.error.unknown = Report failed to import for an unknown reason.
+
+#--------------------------------------------------------------------
+# Manage - Group Manager Dialog
+#---------------------------------------------------------------------
+manageGroups.dialog.title = Manage Reports - {0}
+manageGroups.dialog.header = Manage Report Groups
+manageGroups.dialog.nameLabel = Group Name:
+manageGroups.dialog.list.label = Report Groups
+manageGroups.dialog.list.header.name = Name
+manageGroups.dialog.list.download = Download
+manageGroups.dialog.groupCreated = New report group created.
+manageGroups.dialog.error.groupCreateError = Unable to create the new report group. The group name is invalid or may already be in use.
+manageGroups.dialog.error.groupDeleteError = Unable to delete report groups.
+manageGroups.dialog.error.loadListError = Unable to load list of report groups.
+manageGroups.dialog.delete.pass.single = Deleted {0} report group.
+manageGroups.dialog.delete.pass.multiple = Deleted {0} report groups.
+manageGroups.groupList.emtpy = No report groups defined.
+manageGroups.loading.groupList = Loading report groups.
+manageGroups.reportCount = # Reports
+manageGroups.dialog.delete.partial.single.single = Deleted {0} report group. Unable to delete {1} report group because only empty groups can be deleted.
+manageGroups.dialog.delete.partial.multiple.single = Deleted {0} report groups. Unable to delete {1} report group because only empty groups can be deleted.
+manageGroups.dialog.delete.partial.single.multiple = Deleted {0} report group. Unable to delete {1} report groups because only empty groups can be deleted.
+manageGroups.dialog.delete.partial.multiple.multiple = Deleted {0} report groups. Unable to delete {1} report groups because only empty groups can be deleted.
+manageGroups.dialog.button.add = Add
+manageGroups.dialog.button.delete = Delete
+manageGroups.dialog.button.close = Close
+
+#-----------------------------------------------------------------------------
+# Password change
+#-----------------------------------------------------------------------------
+changepassword.context.help.new = /help/en/ContextHelp/changeNewPassword.html
+changepassword.context.help.change = /help/en/ContextHelp/changeExistingPassword.html
+
+changepassword.form.title = Please change your password
+changepassword.form.output.changepassword = Please change your password
+changepassword.form.output.firstlogin = This is your first logon. <br>Please change your password.
+changepassword.form.output.reset = An administrator has reset your password. <br>Please change your password.
+changepassword.form.output.expired = Your password has expired. <br>Please change your password.
+changepassword.form.output.noaccount = Your account could not be found. Please contact the system administrator.
+changepassword.form.output.unknown = Your account is in an unexpected state. Please try again. If the problem persists, contact the system administrator.
+changepassword.form.password.current = Current password:
+changepassword.form.password.new = New password:
+changepassword.form.password.newconfirm = Confirm password:
+changepassword.form.change = Change
+changepassword.form.error = Could not change the password: <br>
+changepassword.form.cancel = Cancel
+
+#BEA AUTHENTICATOR error messages
+changepassword.form.noCurrentPassword=Please enter your current password.
+changepassword.form.currentPasswordInvalid=The entered 'current' password doesn't match.
+changepassword.form.hashingProblem=Could not generate the hash of the password: {0}.
+changepassword.form.userNotFound=Your user account ''{0}'' could not be found.
+changepassword.form.emptyPasssword=Please enter non-empty passwords.
+changepassword.form.invalidPasswordConfirmation=Please confirm your new password with the same value.
+changepassword.form.passwordEqualsCurrent=You cannot reuse your current password.
+changepassword.form.passwordHasComma=A password cannot contain a comma.
+changepassword.form.passwordSurroundedWithWhitespace=A password should not start or end with whitespace.
+changepassword.form.passwordMinimumLength=A password should contain a minimum of {0} characters.
+changepassword.form.passwordReuseOldPassword=You cannot reuse a password you recently used.
+changepassword.form.lookupError=A general error occurred: {0}.
+
+
+#--------------------------------------------------------------------
+# Schedule
+#---------------------------------------------------------------------
+schedule.form.title = Manage Schedules - {0}
+schedule.sectionHeader = Manage Schedules
+schedule.reporting.sectionLabel = Reporting
+schedule.group.filter = Show Group
+schedule.group.filter.noGroups = No report groups defined.
+#---
+schedule.scheduleList.header.name = Report Schedule Name
+schedule.scheduleList.header.reportname = Associated Report Name
+schedule.scheduleList.header.frequency = Frequency
+schedule.scheduleList.header.starttime = Start Time (CST)
+schedule.scheduleList.error.scheduleListLoadError = Error loading schedule list. Please try again, and if the problem persists contact the system administrator.
+schedule.scheduleList.delete.form.text.single = Are you sure you want to delete the selected schedule?
+schedule.scheduleList.delete.form.text.multiple = Are you sure you want to delete the selected schedules?
+schedule.dialog.delete.pass.single = Deleted {0} schedule.
+schedule.dialog.delete.pass.multiple = Deleted {0} schedules.
+schedule.delete.partial.single.single = Deleted {0} schedule. Delete failed on {1} schedule.
+schedule.delete.partial.single.multiple = Deleted {0} schedule. Delete failed on {1} schedule.
+schedule.delete.partial.multiple.single = Deleted {0} schedule. Delete failed on {1} schedule.
+schedule.delete.partial.multiple.multiple = Deleted {0} schedule. Delete failed on {1} schedule.
+#--- 
+schedule.reportList.header.name = Name
+schedule.reportList.header.description = Description
+schedule.reportList.header.reportXML = Report ZIP
+schedule.reportList.description = Description:
+schedule.reportList.emtpy = No reports defined in report group.
+schedule.reportList.noGroups=No report groups are defined. To add report groups, click the <b>Manage Groups</b> button.
+schedule.reportList.loading = Loading lists of reports for the selected report group.
+schedule.reportList.loadingerror = Click the browser Refresh button to reload the report list.
+schedule.reportList.delete.form.text.single = Are you sure you want to delete the selected report?
+schedule.reportList.delete.form.text.multiple = Are you sure you want to delete the selected reports?
+schedule.reportList.delete.group.empty = Report groups must be empty before they can be deleted.
+schedule.button.create = Create
+schedule.button.delete = Delete
+schedule.button.import = Import
+schedule.button.manageGroups = Manage Groups
+schedule.error.reportDeleteError = Error deleting one or more reports.
+schedule.delete.pass.single = Deleted {0} report.
+schedule.delete.pass.multiple = Deleted {0} reports.
+
+
+manage.error.reportGroupLoadError = Error loading group list. Please try again, and if the problem persists contact the system administrator.
+manage.error.reportListLoadError = Error loading report list. Please try again, and if the problem persists contact the system administrator.
+
+
+#--------------------------------------------------------------------
+# Schedule - Create Dialog
+#---------------------------------------------------------------------
+createSchedule.dialog.title = Manage Schedules - {0}
+createSchedule.dialog.header = Import Report
+createSchedule.dialog.infoArea = Import a new report by clicking the Browse button, selecting the report .zip file, and clicking Import.
+createSchedule.dialog.fileLabel = Report .zip file:
+createSchedule.dialog.groupLabel = Select a group for the report:
+createSchedule.dialog.nameLabel = Schedule Name:
+createSchedule.dialog.descLabel = Description:
+createSchedule.dialog.button.create = Create
+createSchedule.dialog.button.cancel = Cancel
+createSchedule.dialog.error.nameInUse = The report {0} failed to be imported successfully because it already exists in the system.
+createSchedule.dialog.error.nameInUseLong = The report {0} failed to be imported successfully because it already exists in the system as {1} in the group {2}.
+createSchedule.dialog.error.invalidZip = Import of report failed. The .zip file did not contain a report or more than one report was found.
+createSchedule.dialog.error.unknown = Report failed to import for an unknown reason.
+
+
+

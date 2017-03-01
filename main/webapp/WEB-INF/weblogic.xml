@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (c) 2007-2008 Motive, Inc. All rights reserved. -->
+<weblogic-web-app xmlns="http://www.bea.com/ns/weblogic/90" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd http://www.bea.com/ns/weblogic/90 http://www.bea.com/ns/weblogic/90/weblogic-web-app.xsd">
+
+  <security-role-assignment> 
+    <role-name>UI_REPORT_READ</role-name>
+ 	<externally-defined/>
+  </security-role-assignment>
+
+  <security-role-assignment> 
+    <role-name>UI_REPORT_EXPORT</role-name>
+	<externally-defined/>
+  </security-role-assignment>
+
+  <security-role-assignment> 
+    <role-name>UI_REPORT_DELETE</role-name>
+	<externally-defined/>
+  </security-role-assignment>
+    
+  <security-role-assignment> 
+    <role-name>UI_REPORT_EDIT</role-name>
+	<externally-defined/>
+  </security-role-assignment>
+
+  <security-role-assignment> 
+    <role-name>UI_ETLADMIN_READ</role-name>
+	<externally-defined/>
+  </security-role-assignment>
+
+  <security-role-assignment> 
+    <role-name>UI_ETLADMIN_EXECUTE</role-name>
+	<externally-defined/>
+  </security-role-assignment>
+
+  <session-descriptor>  
+    <timeout-secs>1800</timeout-secs>
+    <monitoring-attribute-name>user.name</monitoring-attribute-name>
+  </session-descriptor> 
+    
+  <jsp-descriptor>
+    <page-check-seconds>-1</page-check-seconds>
+  </jsp-descriptor>
+
+  <container-descriptor>
+    <servlet-reload-check-secs>-1</servlet-reload-check-secs>
+    <session-monitoring-enabled>true</session-monitoring-enabled>
+  </container-descriptor> 
+   
+  <charset-params>
+    <input-charset>
+      <resource-path>/*</resource-path>
+      <java-charset-name>UTF-8</java-charset-name>
+    </input-charset>
+  </charset-params>
+
+</weblogic-web-app>
+

@@ -1,0 +1,23 @@
+<div class="form-group {{#if fieldData.required === true}}required{{/if}}">
+	{{#fieldData.name}}<label for="{{fieldId}}">{{fieldData.name}}</label>{{/fieldData.name}}
+	<div class="fieldValue {{fieldId}}">
+		{{#each fieldData.radioOptions}}
+			{{# {radioOptionFieldData: this, groupId: fieldId, fieldId: this.id, bChecked: fieldData.value === this.elementValue} }}
+				<div>
+					<input type="radio" class="radio-inline" id="{{fieldId}}" name="{{groupId}}" data-name="{{groupId}}"
+						{{> field-attributes}}
+						{{# {fieldData: radioOptionFieldData}}}
+							{{> field-attributes}}
+						{{/}}
+						value="{{radioOptionFieldData.elementValue}}"
+						{{#if bChecked}}checked="on"{{/if}}
+						twoway="false"/>
+					{{#radioOptionFieldData.valueLabel}}
+						<label for="{{fieldId}}" class="value-label">{{radioOptionFieldData.valueLabel}}</label>
+					{{/radioOptionFieldData.valueLabel}}
+				</div>
+			{{/}}
+		{{/each}}
+	</div>
+	{{> help-blocks}}
+</div>

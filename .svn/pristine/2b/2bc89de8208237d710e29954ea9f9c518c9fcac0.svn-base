@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- #parse("/roles.vm") -->
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<title>Report Management - Reporting Console</title>
+
+<!-- Bootstrap Core CSS -->
+<link href="$link.getContextPath()/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<!-- Font Awesome CSS -->
+<link href="$link.getContextPath()/lib/font-awesome/font-awesome.min.css" rel="stylesheet"/>
+<!-- Custom CSS -->
+<link href="$link.getContextPath()/css/spinner.css" rel="stylesheet">
+<link href="$link.getContextPath()/css/simple-sidebar.css" rel="stylesheet">
+<link href="$link.getContextPath()/css/verizon.default.css" rel="stylesheet"/>
+<link href="$link.getContextPath()/css/reportconsole.css" rel="stylesheet"/>
+<link href="$link.getContextPath()/css/popupstyles.css" rel="stylesheet" type="text/css"/>
+<link href="$link.getContextPath()/css/popupstyles2.css" rel="stylesheet" type="text/css"/>
+</head>
+
+<body class="shell">
+
+<div class="main-header">
+	<!-- Navigation -->
+	<div class="top-nav">
+		<div class="verizon-logo"><i class="fa fa-bars" id="menu-toggle" aria-hidden="true"></i><div class="logo"></div></div>
+		<div class="app-name"><h4>DM Reporting Console by Nokia</h4></div>
+		<div class="top-nav-right">
+			<div class="user-menu top-nav-menu">
+				<div class="dropdown">
+					<div data-toggle="dropdown" class="dropdown-toggle">
+						<span class="fa fa-user top-menu-icon" title="Current User"></span>
+						$util.getUserName()
+						<span class="caret" title="User Menu"></span>
+					</div>
+					<ul class="dropdown-menu dropdown-menu-right">
+						<li><a href="$link.getContextPath()/logout.do"><span class="fa fa-sign-out" title="User Menu"></span> Logout</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div> <!-- .main-header -->
+
+<div class="wrapper">
+
+	<!-- Sidebar -->
+	<div class="sidebar-wrapper">
+		<ul class="sidebar-nav">
+			<li id="sidebar-brand-dashboard" class="sidebar-brand"><a href="$link.getContextPath()/view/dashboard.do">Dashboard</a></li>
+				<!-- #if ($security.hasRole( "$ROLE_UI_REPORT_VIEW" )) -->
+			<li id="sidebar-brand-historical-reports" class="sidebar-brand"><a href="$link.getContextPath()/view/historicalReports.do">Historical Reports</a></li>
+			<li id="sidebar-brand-report-templates" class="sidebar-brand"><a href="$link.getContextPath()/view/reportTemplates.do">View Reports</a></li>
+				<!-- #end -->
+				<!-- #if (($security.hasRole( "$ROLE_UI_REPORT_EDIT" ))|| ($security.hasRole( "$ROLE_UI_REPORT_DELETE" ))|| ($security.hasRole( "$ROLE_UI_REPORT_EXPORT" ))) -->
+			<li id="sidebar-brand-report-management" class="sidebar-brand active"><a href="$link.getContextPath()/manage/reportManagement.do">Report Management</a></li>
+				<!-- #end -->
+				<!-- #if ($security.hasRole( "$ROLE_UI_REPORT_VIEW" )) -->
+			<li id="sidebar-brand-report-schedules" class="sidebar-brand"><a href="$link.getContextPath()/schedule/reportSchedules.do">Report Schedules</a></li>
+				<!-- #end -->
+		</ul>
+
+		<span class="disclaimer">Copyright © 2008-<span id="copyrightEndYear">2016</span> Nokia.<br> All rights reserved.<br><br>Best viewed with IE11 or higher</span>
+	</div> <!-- /#sidebar-wrapper -->
+
+	<!-- Page Content -->
+	<div class="page-content-wrapper">
+		<div class="container-fluid">
+			<div class="row">
+				<div id="content-area" class="col-lg-12">
+
+					<!-- Tester Campaigns -->
+					<div id="main-area-report-management" class="main-area-page" style="display: block">
+						<div class="grid-title-area clearfix">
+							<div class="grid-title">Report Management</div>
+							<div class="grid-title-details">
+								<span>$msg.get("manage.group.filter"):</span> <!-- Show Group: -->
+								<select id="report-group-filter" name="selectGroup" #if($util.size($groupList) == 0) disabled #end>
+									#if ( $util.size( $groupList ) == 0 )
+										<option value="-1">
+											$msg.get("manage.group.filter.noGroups")
+										</option>
+									#else
+										#foreach( $groupItem in $groupList )
+											<option value="$groupItem.id" data-optionname="$groupItem.name" #if ( $currentGroupID == $groupItem.id )) selected #end >
+											$groupItem.name
+											</option>
+										#end
+									#end
+								</select>
+								<input type="hidden" id="testerSpecialGroupDefaultFilter" name="testerSpecialGroupDefaultFilter" value="default"/>
+							</div>
+						</div>
+
+						<div id="report-management-content-container">
+
+							<form id="report-management-form">
+								<table id="report-management-table" class="table">
+									<thead>
+										<tr>
+											<th width="28"><input id="report-management-table-select-all" class="cb-select-all" type="checkbox"/></th>
+											<th>$msg.get("manage.reportList.header.name")</th>
+											<th>$msg.get("manage.reportList.header.description")</th>
+											<th>$msg.get("manage.reportList.header.reportXML")</th>
+											<th>Configuration</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td colspan="5">
+												<div id="emptyReportListMsg">$msg.get( "manage.reportList.loading" )</div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</form>
+
+							<div class="button-bar form-inline">
+								<!-- #if ($security.hasRole("$ROLE_UI_REPORT_DELETE")) -->
+								<!-- Delete -->
+								<button id="report-management-delete" class="btn btn-default selection-button pm-button" type="button">$msg.get("manage.button.delete")</button>
+								<!-- #end -->
+								<!-- #if ($security.hasRole("$ROLE_UI_REPORT_EDIT")) -->
+								<!-- Import -->
+								<button id="report-management-import" class="btn btn-default pm-button" type="button">$msg.get("manage.button.import")</button>
+								<!-- Manage Groups -->
+								<button id="report-management-groups-manage" class="btn btn-default pm-button" type="button">$msg.get("manage.button.manageGroups")</button>
+								<!-- #end -->
+							</div> <!-- .button-bar -->
+
+							#parse( "/dialogFrames.vm" ) ## Necessary?
+							<div style="display:none" id="importError">$importError</div>
+						</div> <!-- #report-management-content-container -->
+
+					</div> <!-- #main-area-report-management -->
+
+				</div> <!-- #content-area -->
+			</div> <!-- .row -->
+		</div> <!-- .container-fluid -->
+	</div> <!-- /#page-content-wrapper -->
+
+</div> <!-- /#wrapper -->
+
+<!-- jQuery -->
+<script src="$link.getContextPath()/lib/jquery/jquery-1.11.1.src.js"></script>
+<script src="$link.getContextPath()/lib/jquery/jquery-ui.min.js"></script>
+<!-- Bootstrap Core JavaScript -->
+<script src="$link.getContextPath()/lib/bootstrap/js/transition.js"></script>
+<script src="$link.getContextPath()/lib/bootstrap/js/collapse.js"></script>
+<script src="$link.getContextPath()/lib/bootstrap/js/bootstrap.min.js"></script>
+<!-- Event Manager -->
+<script src="$link.getContextPath()/lib/event/EventManager.js" type="text/javascript"></script>
+<!-- Caching/Cookies/Storage -->
+<script src="$link.getContextPath()/lib/js.cookie/js.cookie.min.js" type="text/javascript"></script>
+<!-- Misc -->
+<script src="$link.getContextPath()/js/util/CommonUtil.js" type="text/javascript"></script>
+<script src="$link.getContextPath()/js/util/DoubleHash.js" type="text/javascript"></script>
+<!-- Popup library 	-->
+<script src="$link.getContextPath()/lib/jquery-popup-overlay/jquery.popupoverlay.js" type="text/javascript"></script>
+<script src="$link.getContextPath()/lib/ejs/ejs.js" type="text/javascript"></script>
+<script src="$link.getContextPath()/lib/ejs/view.js" type="text/javascript"></script>
+<script src="$link.getContextPath()/lib/ractive/ractive.js" type="text/javascript"></script>
+<script src="$link.getContextPath()/lib/popup/PopupManager.js" type="text/javascript"></script>
+<script src="$link.getContextPath()/lib/popup/PopupViewer.js" type="text/javascript"></script>
+<script src="$link.getContextPath()/lib/popup/Popup.js" type="text/javascript"></script>
+<script src="$link.getContextPath()/lib/popup/PopupScreen.js" type="text/javascript"></script>
+<!-- File Upload -->
+<script src="$link.getContextPath()/lib/fileupload/ajaxfileupload.js" type="text/javascript"></script>
+<script src="$link.getContextPath()/lib/fileupload/FileUploadTransfer.js" type="text/javascript"></script>
+<script src="$link.getContextPath()/lib/fileupload/FileUploadProgress.js" type="text/javascript"></script>
+<!-- Validators -->
+<script src="$link.getContextPath()/lib/validators/ScreenValidator.js" type="text/javascript"></script>
+<script src="$link.getContextPath()/lib/validators/TextareaValidator.js" type="text/javascript"></script>
+<!-- Page Managers, popup controllers, and datagrids -->
+<script src="$link.getContextPath()/js/ReportManagementManager.js" type="text/javascript"></script>
+<script src="$link.getContextPath()/js/datagrids/ReportManagementDataGrid.js" type="text/javascript"></script>
+<script src="$link.getContextPath()/js/popups/ReportManagementRolesAssign.js" type="text/javascript"></script>
+<script src="$link.getContextPath()/js/popups/ReportManagementImport.js" type="text/javascript"></script>
+<script src="$link.getContextPath()/js/popups/ReportManagementDelete.js" type="text/javascript"></script>
+
+<script>
+	$(document).ready(function() {
+		var pageData = {
+			importErrorMessage: "$importError",
+			groupLoadFailed: "$groupLoadFailed",
+			groupLoadFailedMessage: "$msg.get("manage.error.reportGroupLoadError")",
+			errorLoadingListMsg: "$msg.get("manage.reportList.loadingerror")",
+			persistedSelectedIndex: Math.round("$!persistedSelectedIndex"),
+			contextPath: "$link.getContextPath()/"
+		};
+		ReportManagementManager.init(pageData);
+	});
+</script>
+
+</body>
+
+</html>

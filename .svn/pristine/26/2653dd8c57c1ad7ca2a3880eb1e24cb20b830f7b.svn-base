@@ -1,0 +1,165 @@
+<!--
+  Copyright (c) 2004-2007 by Alcatel-Lucent and Motive, Inc. All rights reserved.
+ 
+  CONFIDENTIAL. All rights reserved. This computer program is
+  protected under Copyright. Recipient is to retain the program in
+  confidence, and is not permitted to copy, use, distribute, modify or
+  translate the program without authorization
+-->
+#parse("/roles.vm")
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" >
+<html>
+    <head>
+        #set( $pageTitle = "welcome.form.title" )
+        #parse( "pageHeader.vm" )
+        <script src="../js/buttonPanel.js" language="javascript" type="text/javascript"></script>
+        <script src="../js/common.js" language="javascript" type="text/javascript"></script>
+        <script type="text/javascript" language="Javascript">
+            
+            function initPage() {
+                handleRoles();
+                handleErrors();
+             }
+            
+            function handleResize() {
+                setTableHeight( 112, "mainContentArea" );
+                setContentWidth(22, 700);
+            }
+        
+            function handleRoles() {
+                var canReadReport = $security.hasRole("$ROLE_UI_REPORT_READ");
+                var canManageReport = $security.hasRole("$ROLE_UI_REPORT_EDIT") || $security.hasRole("$ROLE_UI_REPORT_DELETE") || $security.hasRole("$ROLE_UI_REPORT_EXPORT");
+                var canReadETLAdmin = $security.hasRole("$ROLE_UI_ETLADMIN_READ");
+                var isAuthenticatorInstalled = $security.isCompliantDataAccessAuthenticatorAvailable();
+                
+                if ( !canReadReport ) {
+                    disablePanelButtonLarge("viewReportListButton","$link.contextPath$msg.get("welcome.form.list.section.icon.viewReportList.disabled")");
+                    findObject( "viewReportListButtonLabel" ).disabled = true;
+                    findObject( "viewReportListButtonInfo" ).disabled = true;
+                }
+                if ( !canManageReport ) {
+                    disablePanelButtonLarge("reportManagerButton","$link.contextPath$msg.get("welcome.form.list.section.icon.manageReport.disabled")");
+                    findObject( "reportManagerButtonLabel" ).disabled = true;
+                    findObject( "reportManagerButtonInfo" ).disabled = true;
+                }
+                if ( !canReadETLAdmin ) {
+                    disablePanelButtonLarge("etlManagerButton","$link.contextPath$msg.get("welcome.form.list.section.icon.etlManager.disabled")");
+                    findObject( "etlManagerButtonLabel" ).disabled = true;
+                    findObject( "etlManagerButtonInfo" ).disabled = true;
+                }
+                 
+            }
+        
+            function toggleWelcomeDivVisability( theDivId, imageElement) {
+                theDivObject = findObject( theDivId );
+                if ( theDivObject != null ) {
+                    if ( theDivObject.style.display == "none") {
+                        theDivObject.style.display = "block";
+                        imageElement.src="$link.getContextPath()$msg.get("icon.triangle")";
+                    }
+                    else {
+                        theDivObject.style.display = "none";
+                        imageElement.src="$link.getContextPath()$msg.get("icon.triangleDown")";
+                    }
+                }
+            }
+            
+            function redirectWelcomePage( theButtonID, pageURL ) {
+                if (!isPanelButtonDisabled(theButtonID)) {
+                    window.location = pageURL; //"$link.getContextPath()/" + pageURL;
+                }
+            }
+            
+            function displayDialogInWelcomePage( theButtonID, dialogURL ) {
+                if (!isPanelButtonDisabled(theButtonID)) {
+                    showDialog( "$link.getContextPath()/" + dialogURL );
+                }
+            }
+            
+            function disablePanelButtonLarge(obj,disableSrc,tooltip) {
+                var oBtn = findObjectFlex(obj);
+                if (oBtn && !isPanelButtonDisabled(oBtn)) {
+                    // see if the button has an image, if so set the src to the disabled one
+                    var oImg = findObjectFlex(oBtn.id + "Icon");
+                    if (oImg) {
+                        oImg.src = disableSrc;
+                    }
+                    // disable and set the style
+                    oBtn.title = (tooltip && tooltip != "") ? tooltip : oBtn.title;
+                    oBtn.className = "buttonPanelButtonLargeDisabled";		
+                    oBtn.disabled = true;		
+                }
+            }
+
+        </script> 
+    </head>
+    <body onload="initPage();" onresize="handleResize();">
+        <!-- nav header -->
+        #set( $activeTab = "welcome" )
+        #set( $sectionHeadString = $msg.get("welcome.sectionHeader"))
+        #parse( "/navigationBar.vm" )
+        <div class="welcomeContentDiv minimumWidth" id="mainContentArea">
+            <div class="welcomeSectionHeader">
+                <table cellpadding="0" cellspacing="0" border="0" >
+                    <tr>
+                        <td align="left" nowrap width="1%">
+                            $msg.get("welcome.reporting.sectionLabel")&nbsp;
+                        </td>
+                        <td nowrap width="98%">
+                            <hr>
+                        </td>
+                        <td style="padding: 1 5 0 5;" width="1%">
+                            <img src="$link.getContextPath()$msg.get("icon.triangle")" height="18" width="18" onclick="toggleWelcomeDivVisability('reportWelcomeList', this);"/>
+                        </td>
+                    </tr>
+                </table>
+                <div id="reportWelcomeList" class="welcomeButtonSection">
+                    <table cellpadding="0" cellspacing="0" border="0" >
+                        <tr>
+                            <td width="1%">
+                                <button id="viewReportListButton" class="buttonPanelButtonLarge" onclick='redirectWelcomePage(this.id, "../view/reportList.do");' title="$msg.get("welcome.reporting.viewReport.label")">
+                                    <img id="viewReportListButtonIcon" src="$link.getContextPath()$msg.get("welcome.form.list.section.icon.viewReportList")" height="48" width="48" onclick=""/>
+                                </button>
+                            </td>
+                            <td width="49%" class="welcomeButtonSectionInfo">
+                                <a href="#" id="viewReportListButtonLabel" onclick='if ( this.disabled == false) redirectWelcomePage(this.id, "../view/reportList.do");'>$msg.get("welcome.reporting.viewReport.label")</a><br>
+                                <div id="viewReportListButtonInfo">$msg.get("welcome.reporting.viewReport.desc")</div>
+                            </td>
+                            <td width="1%">
+                                <button id="reportManagerButton" class="buttonPanelButtonLarge" onclick='redirectWelcomePage(this.id, "../manage/reportManager.do");' title="$msg.get("welcome.reporting.manageReport.label")">
+                                    <img id="reportManagerButtonIcon" src="$link.getContextPath()$msg.get("welcome.form.list.section.icon.manageReport")" height="48" width="48" />
+                                </button>
+                            </td>
+                            <td width="49%" class="welcomeButtonSectionInfo">
+                                <a href="#" id="reportManagerButtonLabel" onclick='if ( this.disabled == false) redirectWelcomePage(this.id, "../manage/reportManager.do");'>$msg.get("welcome.reporting.manageReport.label")</a><br>
+                                <div id="reportManagerButtonInfo">$msg.get("welcome.reporting.manageReport.desc")</div>
+                            </td>
+                        </tr>
+                        <!--tr>
+                            <td width="1%">
+                                <button id="etlManagerButton" class="buttonPanelButtonLarge" onclick='redirectWelcomePage(this.id, "../etl/etManager.do");' title="$msg.get("welcome.reporting.etlManager.label")">
+                                    <img id="etlManagerButtonIcon" src="$link.getContextPath()$msg.get("welcome.form.list.section.icon.etlManager")" height="48" width="48" onclick=""/>
+                                </button>
+                            </td>
+                            <td width="49%" class="welcomeButtonSectionInfo">
+                                <a href="#" id="etlManagerButtonLabel" onclick='if ( this.disabled == false) redirectWelcomePage(this.id, "../etl/etManager.do");'>$msg.get("welcome.reporting.etlManager.label")</a><br>
+                                <div id="etlManagerButtonInfo">$msg.get("welcome.reporting.etlManager.desc")</div>
+                            </td>
+                            <td width="1%">
+                                &nbsp;
+                            </td>
+                            <td width="49%" class="welcomeButtonSectionInfo">
+                                &nbsp;
+                            </td>
+                        </tr-->
+                    </table>
+                </div>
+            </div>
+        </div>
+        #parse( "/dialogFrames.vm" )
+    </body>
+    <script type="text/javascript" language="Javascript">
+        handleResize();
+    </script> 
+
+</html>

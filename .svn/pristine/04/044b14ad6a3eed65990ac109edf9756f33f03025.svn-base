@@ -1,0 +1,7 @@
+    <div id="error-popup" class="fb-popup">
+      <h1><span class="title">Error</span></h1>
+      <p><span class="errMsg">An error occurred.</span></p>
+      <div class="popup-submit-button paddingTop20">
+        $button.render( "cancelButton", $msg.get("exception.ok"), "button", "" )
+      </div>
+    </div>

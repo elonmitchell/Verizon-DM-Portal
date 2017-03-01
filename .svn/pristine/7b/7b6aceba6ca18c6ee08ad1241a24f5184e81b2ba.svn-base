@@ -1,0 +1,265 @@
+<!--
+  Copyright (c) 2004-2007 by Alcatel-Lucent and Motive, Inc. All rights reserved.
+ 
+  CONFIDENTIAL. All rights reserved. This computer program is
+  protected under Copyright. Recipient is to retain the program in
+  confidence, and is not permitted to copy, use, distribute, modify or
+  translate the program without authorization
+-->
+#parse("/roles.vm")
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+#set( $pageTitle = "schedule.form.title" )
+#parse( "pageHeader.vm" )
+
+<script type="text/javascript" src="$link.getContextPath()/lib/moment/moment.min.js"></script>
+<script type="text/javascript" src="$link.getContextPath()/js/objectList.js" language="javascript"></script>
+<script type="text/javascript" src="$link.getContextPath()/js/scriptaculous.js?load=effects" language="javascript"></script>
+
+<link rel="stylesheet" href="$link.getContextPath()/lib/jquery-textext/css/textext.core.css" type="text/css" />
+<link rel="stylesheet" href="$link.getContextPath()/lib/jquery-textext/css/textext.plugin.tags.css" type="text/css" />
+<link rel="stylesheet" href="$link.getContextPath()/lib/jquery-textext/css/textext.plugin.autocomplete.css" type="text/css" />
+<link rel="stylesheet" href="$link.getContextPath()/lib/jquery-textext/css/textext.plugin.focus.css" type="text/css" />
+<link rel="stylesheet" href="$link.getContextPath()/lib/jquery-textext/css/textext.plugin.prompt.css" type="text/css" />
+<link rel="stylesheet" href="$link.getContextPath()/lib/jquery-textext/css/textext.plugin.arrow.css" type="text/css" />
+<script src="$link.getContextPath()/lib/jquery-textext/js/textext.core.js" type="text/javascript" charset="utf-8"></script>
+<script src="$link.getContextPath()/lib/jquery-textext/js/textext.plugin.tags.js" type="text/javascript" charset="utf-8"></script>
+<script src="$link.getContextPath()/lib/jquery-textext/js/textext.plugin.autocomplete.js" type="text/javascript" charset="utf-8"></script>
+<script src="$link.getContextPath()/lib/jquery-textext/js/textext.plugin.suggestions.js" type="text/javascript" charset="utf-8"></script>
+<script src="$link.getContextPath()/lib/jquery-textext/js/textext.plugin.filter.js" type="text/javascript" charset="utf-8"></script>
+<script src="$link.getContextPath()/lib/jquery-textext/js/textext.plugin.focus.js" type="text/javascript" charset="utf-8"></script>
+<script src="$link.getContextPath()/lib/jquery-textext/js/textext.plugin.prompt.js" type="text/javascript" charset="utf-8"></script>
+<script src="$link.getContextPath()/lib/jquery-textext/js/textext.plugin.ajax.js" type="text/javascript" charset="utf-8"></script>
+<script src="$link.getContextPath()/lib/jquery-textext/js/textext.plugin.arrow.js" type="text/javascript" charset="utf-8"></script>
+
+<script>
+$j(function() {
+	onPopupStartFuncs.push(function () {
+		// Add date picker logic when edit popup launches
+		var jqFbPopup = $j('.fb-popup');
+		DatePicker.addDatePickers(jqFbPopup);
+	});
+	// Run logic when popup displays
+	onPopupCompleteFuncs.push(function() {
+		// Populate schedule recipients
+		if (typeof(populateRecipients) != "undefined" && $j.isFunction(populateRecipients)) {
+			populateRecipients();
+		}
+	});
+	// Run logic when popup closes
+	onPopupClosedFuncs.push(function () {
+		// Remove artifacts from token input library
+	});
+});
+
+
+var g_scheduleJsonData = {
+	"scheduleData": [
+		{
+			"scheduleName": "FOTA_20K_Report_2014-01-07_daily",
+			"reportName": "FOTA 20K Report",
+			"frequency": "Weekly",
+			"startTime": "1/7/14 15:04",
+			"recipientList": [
+				{ "id": "7", "email": "roshan.chacko@motive.com", "name": "Roshan Chacko" },
+				{ "id": "4", "email": "rkakkad@motive.com", "name": "Raji Kakkad" }
+			]
+		},
+		{
+			"scheduleName": "APN_Statistics_Report_2014-01-07_daily",
+			"reportName": "APN Statistics Report",
+			"frequency": "Daily",
+			"startTime": "1/21/14 9:00",
+			"recipientList": [
+				{ "id": "7", "email": "roshan.chacko@motive.com", "name": "Roshan Chacko" },
+				{ "id": "9", "email": "balrajk@motive.com", "name": "Balraj Kannan" },
+				{ "id": "11", "email": "sashikala.sellamuthu@motive.com", "name": "Sashikala Sellamuthu" },
+				{ "id": "12", "email": "francisco.fuentes@motive.com", "name": "Francisco Fuentes" },
+				{ "id": "1", "email": "tedw@motive.com", "name": "Ted Weatherly" }
+			]
+		},
+		{
+			"scheduleName": "HTC_ADR6400L_V1_V2",
+			"reportName": "Device List for Firmware Version Report",
+			"frequency": "Daily",
+			"startTime": "1/7/14 12:00",
+			"recipientList": [
+				{ "id": "10", "email": "srinivas.tummalapelly@motive.com", "name": "Srinivas Tummalapelly" }
+			]
+		},
+		{
+			"scheduleName": "APN_Statistics_Report_2014-01-07_weekly",
+			"reportName": "APN Statistics Report",
+			"frequency": "Weekly",
+			"startTime": "1/21/14 15:30",
+			"recipientList": [
+				{ "id": "13", "email": "manish.gupta@motive.com", "name": "Manish Gupta" },
+				{ "id": "4", "email": "rkakkad@motive.com", "name": "Raji Kakkad" },
+				{ "id": "7", "email": "roshan.chacko@motive.com", "name": "Roshan Chacko" }
+			]
+		}
+	]	
+};
+
+
+var objListSML = null;
+var oDeleteButton = null;
+
+function init() {
+	if ( $scheduleLoadFailed ) {
+		document.getElementById("emptyScheduleListMsg").innerHTML = "$msg.get("schedule.scheduleList.error.scheduleListLoadError")";
+	}
+	var onItemSelectButtonArray = ["deleteSchedule"];
+	objListSML = new ObjectList("objectListFormSML");
+  objListSML.setEnableOnItemSelectionButtons(onItemSelectButtonArray);
+	objListSML.handleObjectSelection(false);
+	oDeleteButton = document.getElementById("deleteSchedule");
+	_setCopyrightYear();
+}
+
+function handleResize() {
+  setTableHeight( 112, "mainContentArea" );
+  setContentWidth(22, 700);
+}
+
+function handleDeleteSchedules( theButton ) {
+	//alert("handleDeleteSchedules");
+	//alert(theButton);
+	var isEna = isButtonEnabled( theButton );
+	//alert(isEna);
+    if ( isButtonEnabled( theButton )) {
+        var titleStr;
+        //alert("if");
+        if ( objListSML.isMultipleObjectChecked() ) {
+        	//alert("multiple");
+            msgText = "$msg.get("schedule.scheduleList.delete.form.text.multiple")";
+            titleStr = "Delete Reports";
+        } else {
+        	//alert("single");
+            msgText = "$msg.get("schedule.scheduleList.delete.form.text.single")";
+            titleStr = "Delete Report";
+        }
+        showQuestionPopup(msgText, titleStr, doDeleteSchedules);
+    }
+}
+
+function doDeleteSchedules() {
+    var ids = "";
+    
+    if (!isButtonEnabled(oDeleteButton)) {
+        return;
+    }
+    
+    var oIDArray = new Array();
+    var oListForm = document.getElementById("objectListFormSML");
+    for (var i=0; i<oListForm.elements.length; i++) {
+        var elem = oListForm.elements[i];
+        if (elem.type && elem.type == "checkbox" && elem.checked && elem.value != "") {
+            oIDArray.push(elem);
+        }
+    }
+
+    var len = oIDArray.length;
+    for (var j=0; j<len; j++) {
+        ids += (len > 1 && j > 0) ? ","+oIDArray[j].value : oIDArray[j].value;
+    }
+    parameters= "operation=deleteSchedules&ids=" + ids;
+    if ( ids != "") {
+        successHandler = function(res) {
+			//alert(res.responseText);
+            //if (isResponseLoginPage(res.responseText)) {
+			if (res.responseText > 0) {
+			  window.location.href="/report-console/schedule/scheduleManager.do";
+              return;
+            }
+        }               
+        failureHandler = function(res) {
+            alert(res.responseText);
+        }
+		//alert(globals_contextPath);
+        new Ajax.Request(globals_contextPath + "/schedule/deleteScheduleAjax.do", {asynchronous:true, parameters:parameters, onSuccess:successHandler, onFailure:failureHandler});
+    }
+    disableButton( oDeleteButton );
+    $j.fancybox.close();
+}
+
+function _setCopyrightYear() {
+	document.getElementById("spanYear").innerHTML=new Date().getFullYear();
+}
+</script>
+</head>
+<body onload="init();">
+  #set( $activeTab = "schedule" )
+  #parse( "preContent.vm" )
+
+  <!-- filter -->
+    <div class="dataListDiv" id="mainContentArea">
+   
+	<!-- <h3>Manage Report Schedules</h3> -->
+	  
+	  #set( $allCount = 1 )
+	  #set( $groupCount = 1 )
+	  #set( $shadeRow = 1 )
+	  <table id="viewSchedulesTable" width="100%" cellpadding="0" cellspacing="0" border="0" >
+	    <form id="objectListFormSML" name="objectListFormRML">
+  	    <tr>
+  	      <th class="checkBox_Column" align="center" width="28">
+            <input name="select_all" id="selectAllObjects" type="checkbox" onclick="objListSML.selectItems(this);" />
+          </th>
+	      <th>$msg.get("manage.reportList.header.name")</th>
+	      <th>$msg.get("schedule.scheduleList.header.reportname")</th>
+	      <th>$msg.get("schedule.scheduleList.header.frequency")</th>
+	      <th>$msg.get("schedule.scheduleList.header.starttime")</th>
+	    </tr>
+	    #foreach($schedule in $scheduleList)
+	      #set( $scheduleCount = 1 )
+	      #set ( $evenOddClass = "oddRow" )
+	      #if ($allCount % 2 == 0)
+	        #set ( $evenOddClass = "evenRow" )
+	      #end
+	      <tr class="$evenOddClass">
+	      	<td class="checkBox_Column" align="center">
+	      		<input type="checkbox" name="objectItem" value="$schedule.id" onclick="objListSML.handleObjectSelection(false)">
+	      	</td>
+	        <td>
+	          <a href="$link.getContextPath()/schedule/editSchedulePopup.do?scheduleId=$schedule.id" class="manage-schedules-edit fb-link" popupid="FOTA_20K_Report_2014-01-07_daily-popup">$schedule.scheduleName</a>
+	        </td>
+	        <td nowrap="nowrap">$schedule.reportName</td>
+	        <td nowrap="nowrap">$schedule.frequency</td>
+	        <td nowrap="nowrap">$schedule.startTime</td>
+	        
+	      </tr>
+	      #set( $allCount = ($allCount + 1) )
+	    #end
+	    </form>
+	  </table>
+	  <!-- </fieldset> -->
+          
+    <div id="emptyScheduleListMsg" style="display: none;"></div>
+  </div>
+  
+  <!-- Delete button -->
+  <div class="buttonPanel">
+    $button.render( "deleteSchedule", $msg.get("schedule.button.delete"), "button", "handleDeleteSchedules(this)", "$ROLE_UI_REPORT_VIEW" )
+  </div>
+  
+  #parse( "/dialogFrames.vm" )
+  #parse( "postContent.vm" )
+  <div style="display:none" id="importError">$importError</div>
+
+  <div class="fancybox-popup-wrap">
+    <!-- <div id="import-report-popup" class="fb-popup"></div> -->
+    #parse( "/errorPopup.vm" )
+    #parse( "/questionPopup.vm" )
+    #parse( "/waitPopup.vm" )
+		###parse( "/schedule/editPopup.vm" )
+		
+  </div>
+  <a id="fb-popup-link" href="" style="display: none;"></a> <!-- href set dynamically -->
+  <a id="fb-modal-popup-link" href="" style="display: none;"></a> <!-- href set dynamically -->
+
+</body>
+
+</html>

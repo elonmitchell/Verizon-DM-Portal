@@ -1,0 +1,69 @@
+{
+	"screens": [
+		{
+			"id": "scr-ReportSchedulesImport-input",
+			"template": "two-button",
+			"content": {
+				"title": "Import Report",
+				"paraText": "Import a new report by clicking the Browse button, selecting the report .zip file, and clicking Import.",
+				"formFields": {
+					"fieldLayout": [
+						"importFile",
+						"reportGroup",
+						"reportName",
+						"reportDescription"
+					],
+					"fieldData": {
+						"importFile": {
+							"name": "Report .zip file",
+							"type": "file",
+							"value": "",
+							"required": true
+						},
+						"reportGroup": {
+							"name": "Select a group for the report",
+							"type": "select",
+							"options": [],
+							"value": "",
+							"required": true
+						},
+						"reportName": {
+							"name": "Report Name",
+							"type": "text",
+							"value": "",
+							"required": true
+						},
+						"reportDescription": {
+							"name": "Description",
+							"type": "textarea",
+							"value": ""
+						}
+					}
+				},
+				"buttons": [
+					{
+						"text": "Import",
+						"value": "import"
+					}
+				]
+			}
+		},
+		{
+			"id": "scr-ReportSchedulesImport-wait",
+			"template": "wait",
+			"type": "modal",
+			"content": {
+				"title": "Import Report",
+				"waitText": "Importing the report schedules..."
+			}
+		},
+		{
+			"id": "scr-ReportSchedulesImport-result",
+			"template": "simple",
+			"content": {
+				"title": "Import Report",
+				"resultText": "Successfully imported."
+			}
+		}
+	]
+}

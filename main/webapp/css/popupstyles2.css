@@ -1,0 +1,182 @@
+/* Title */
+
+.modal-content .modal-header #myModalLabel {
+	text-wrap: none;
+	margin-right: 30px;
+}
+
+/* Wait/Spinner */
+
+p.spinner-text {
+	text-align: center;
+}
+
+/* Form Group */
+
+.form-group-related-above {
+	margin-top: -8px;
+}
+
+.form-group input[type="checkbox"].checkbox-inline {
+	margin-top: 0;
+}
+
+label.value-label {
+	font-weight: normal;
+}
+
+/* Validation */
+
+.form-group.required > label:after {
+	content: " *";
+	color: #CB2027;
+}
+
+.form-group .help-block {
+	display: none;
+	margin-top: 6px;
+	font-size: 0.9em;
+	color: #CB2027;
+}
+
+.alerts-area .alert ul {
+	padding-left: 15px;
+}
+
+/* displayTableData */
+
+table.displayTableData tr td, table.displayTableData tr th {
+	padding: 4px 8px;
+}
+
+/* specialGroupChooser */
+.specialGroupChooser {
+	/* min-width: 300px; */
+}
+
+/* lraGroupChooser */
+.lraGroupChooser {
+	min-width: 300px;
+}
+
+/* Schedule Campaign Push */
+
+/* -- Prevents date-time-picker from taking full browser width -- */
+.date-time-picker .input-group-addon {
+	width: auto;
+}
+
+/* Import Tester Devices */
+
+textarea#manualEntryTextarea {
+	font-family: "Courier New", Courier, monospace;
+}
+
+/* View Subscription */
+
+#view-subscriptions {
+	/* margin-left: -10px; */
+}
+
+#view-subscriptions .container-fluid {
+	padding: 0;
+}
+
+#view-subscriptions .col-xs-6,
+#view-subscriptions .col-sm-6,
+#view-subscriptions .col-md-6 {
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+#view-subscriptions h3 {
+	font-size: 1.2em;
+	margin-bottom: 15px;
+}
+
+#view-subscriptions .basic-subscription-data {
+	margin-bottom: 4px;
+}
+
+#view-subscriptions .basic-subscription-data .subscription-data-value {
+	text-align: right;
+}
+
+#view-subscriptions #features-section {
+	margin-top: 20px;
+	margin-bottom: 16px;
+}
+
+#view-subscriptions #features-section .features-header {
+	margin-bottom: 8px;
+}
+
+@media (min-width: 768px) {
+	#view-subscriptions #features-section .feature-value span {
+		float: right;
+	}
+}
+
+#view-subscriptions #features-section .feature-value-enabled {
+	color: #15A216;
+}
+#view-subscriptions #features-section .feature-value-disabled {
+	color: #F81E12;
+}
+
+#view-subscriptions #features-section .feature-info {
+	margin-bottom: 4px;
+}
+
+#view-subscriptions #datetime-info-section {
+	margin-top: 40px;
+}
+
+#view-subscriptions #datetime-info-section .datetime-info {
+	margin-bottom: 4px;
+}
+
+/* Blacklist */
+
+.blacklist-manual-entries-row {
+	margin-bottom: 10px;
+}
+
+.blacklist-manual-entries-note {
+	margin-top: 20px;
+}
+
+/* Job History View Details */
+
+#job-history-details {
+}
+
+#job-history-details .container-fluid {
+	padding: 0;
+}
+
+#job-history-details .col-xs-12,
+#job-history-details .col-sm-6,
+#job-history-details .col-sm-5,
+#job-history-details .col-sm-4,
+#job-history-details .col-sm-3 {
+	padding-left: 0px;
+}
+
+#job-history-details h3 {
+	font-size: 1.2em;
+	margin-bottom: 15px;
+}
+
+#job-history-details .job-details-info {
+	margin-bottom: 0px;
+	margin-top: 8px;
+}
+
+#job-history-details .job-details-info .job-details-info-value {
+}
+
+#job-history-details .job-details-tree-section {
+	margin-top: 20px;
+	margin-bottom: 16px;
+}

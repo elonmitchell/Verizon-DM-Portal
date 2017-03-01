@@ -1,0 +1,595 @@
+/* Common page elements */
+/*
+* {
+    font-family: Tahoma, Arial, Helvetica, sans-serif;
+    font-size: 8pt;
+}
+*/
+
+body {
+    font-family: Tahoma, Arial, Helvetica, sans-serif;
+    font-size: 8pt;
+    color: #000000;
+    background-color: #DAD8D8;
+    background-image: url(../images/background2.gif);
+    background-repeat: repeat-x;
+    margin: 0px;
+    overflow: auto;
+}
+
+legend {
+    color: black;
+}
+
+fieldset {
+    border: 2px groove;
+    padding: 10px;
+}
+
+select {
+    margin-top: 3px;
+}
+
+.bold {
+    font-family: Tahoma, Arial, Helvetica, sans-serif;
+    font-size: 8pt;
+    font-weight: bold;
+}
+
+.input_field {
+    font-family: Tahoma, Arial, Helvetica, sans-serif;
+    font-size: 8pt;
+    border: 1px solid #7B9CBD;
+    background-color: #FFFFFF;
+    width: 100%;
+}
+
+/* Page header classes */
+.branding_header {
+	background-image: url(../images/brand_header_background.gif);
+	width: 100%;
+	height: 32px;
+	margin: 0px;
+	padding-left: 0px;
+}
+
+.minimumWidth {
+    min-width: 720px;
+    width:expression(document.body.clientWidth < 720? "720px": "auto" );
+}
+
+.headerProductTitle
+{
+    padding-top: 7px;
+    padding-left: 10px;
+    float:left;
+}
+
+.headerCompanyLogos
+{
+    padding-right: 5px;
+    padding-top: 3px;
+    float: right;
+}
+
+.navigationHeader {
+    background-image: url(../images/top_nav_background.gif);
+    margin: 0px;
+    text-align: middle;
+    height: 33px;
+}
+
+.leftFloatingDiv {
+    float:left;
+}
+
+.rightFloatingDiv {
+    float: right;
+    margin-right: 10px;
+}
+
+.leftPaddding {
+    padding-top: 3px;
+    padding-left: 10px;
+}
+
+.navigationHeaderLinks {
+    font-family: Tahoma, Arial, Helvetica, sans-serif;
+    font-size: 8pt;
+    font-weight: bold;
+    text-decoration: none;
+    color: #000000;
+}
+.navigationHeaderLinks a {
+    text-decoration: none;
+    color: #b00000;
+}
+
+.navigationHeaderLinks a:hover {
+    text-decoration: underline;
+    /* color: #0000ff; */
+}
+
+.subNavigationHeader {
+    background-image: url(../images/sub_nav_background.gif);
+    font-family: Tahoma, Arial, Helvetica, sans-serif;
+    font-size: 8pt;
+    font-weight: bold;
+    color: #ffffff;
+    height:26px;
+}
+
+/* navigation tab classes */
+.inactive_tab {
+    /* color: #474747; */
+    color: #000000;
+    text-align: center;
+    text-transform: inherit;
+    font-family: Tahoma, Arial, Helvetica, sans-serif;
+    font-size: 8pt;
+    font-weight: bold;
+    padding: 0 15 0 15;
+    cursor:pointer;
+    cursor: hand;
+}
+.inactive_tab {
+    white-space: nowrap;
+}
+
+.disabled_link {
+    color: #505050;
+}
+
+/* login page classes */
+#login
+{
+    /* background-image: url(../images/login-bk.gif); */
+    /* background-repeat: repeat-x; */
+    background: #E9E9E9;
+    height: 111px;
+    width: 350px;
+    font-family: Tahoma, Arial, Helvetica, sans-serif;
+    font-size: 8pt;
+    font-weight: normal;
+    color: #000000;
+    border-width: 1px;
+    border-style: grove;
+    border-color: #000000;
+    padding: 3px;
+}
+
+#login th
+{
+    border-top: solid 1px #A3A3A3;
+    border-bottom: solid 1px #A3A3A3;
+    background-color: #890000;
+    font-family: Tahoma, Arial, Helvetica, sans-serif;
+    font-size: 8pt;
+    font-weight: bold;
+    color: #ffffff;
+    padding-left: 5px;
+    text-align: left;
+    text-transform: inherit;
+}
+#login td {
+    padding-right: 10px;
+    font-family: Tahoma, Arial, Helvetica, sans-serif;
+    font-size: 8pt;
+    font-weight: normal;
+
+}
+
+.page_title
+{
+    color: #FFFFFF;
+    font-family: Tahoma, Arial, Helvetica, sans-serif;
+    font-size: 10pt;
+    font-weight: bold;
+    height: 26;
+    padding: 0 15 5 10;
+    vertical-align: middle;
+    text-transform: inherit;
+}
+
+.disabled_tab {
+    /* color: #474747; */
+    color: #505050;
+    text-align: center;
+    text-transform: inherit;
+    font-family: Tahoma, Arial, Helvetica, sans-serif;
+    font-size: 8pt;
+    font-weight: bold;
+    padding: 0 15 0 15;
+}
+    
+.inactive_tab a {
+    text-decoration: none;
+    font-weight: bold;
+    color: #262626;
+}
+
+.inactive_tab a:hover {
+    text-decoration: none;
+    text-weight: bold;
+    color: #ffffff;
+}
+
+.active_tab {
+    background-image: url(../images/tab_background.gif);
+    text-align: center;
+    color: #ffffff;
+    font-family: Tahoma, Arial, Helvetica, sans-serif;
+    font-size: 8pt;
+    font-weight: bold;
+    padding: 0 10 0 15;
+}
+
+.active_tab th {
+    white-space: nowrap;
+}
+
+.active_tab_left {
+    background-image: url(../images/tab_left_cap.gif);
+}
+
+.active_tab_right {
+    background-image: url(../images/tab_right_cap.gif);
+}
+
+.active_tab a {
+    text-decoration: none;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.active_tab a:hover {
+    /* text-decoration: underline;
+    text-weight: bold;
+    color: #0000FF; */
+}
+
+.nav_divider {
+    background-image: url(../images/nav_divider.gif);
+    height:33px;
+    width: 10px;
+}
+
+/* data table styles */
+.welcomeContentDiv {
+    margin: 10 10 10 10;
+    background-color: #F2F5FE;
+    overflow: scroll;
+    border: 1px solid #5D5D5D;
+   /*  border-top: none; */
+}
+
+.welcomeSectionHeader tr {
+    padding: 0 5 0 5;
+}
+.welcomeSectionHeader div {
+    padding-bottom:5px;
+}
+.welcomeSectionHeader td {
+    padding: 0 5 0 5;
+    font-weight: bold;
+}
+
+.welcomeButtonSection td {
+    padding: 5 5 0 10;
+    font-weight: normal;
+}
+
+.welcomeButtonSectionInfo div {
+    padding: 3 0 0 0;
+    font-weight: normal;
+}
+
+.welcomeButtonSectionInfo a {
+    color: #000;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.welcomeButtonSectionInfo a:hover{
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.buttonPanelButtonLarge {
+	margin:0;
+	background-color: #F2F5FE;  	
+	border: 0;
+	width: 52px;
+	height: 52px;
+	cursor:hand;
+}
+
+.buttonPanelButtonLargeDisabled {
+	margin:0;
+	background-color: #F2F5FE;  	
+	border: 0;
+	width: 52px;
+	height: 52px;
+}
+
+
+/* Report list page classes */
+.filterDiv {
+    background-color: #E1E1E1;
+    border-color: #E1E1E1;
+    border-width: 2px;
+    border-style: outset;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin: 10 10 10 10;
+}
+
+.reportInfoBox
+{
+	border-left: 2px solid #9ed3e5;
+	margin-left: 18px;
+	margin-top: 3px;
+	vertical-align: middle;
+    padding-left: 5px;
+    padding-top: 3px;
+
+}
+
+.infoBoxImage {
+    margin-left: 2px;
+    cursor:pointer;
+    cursor: hand;
+
+}
+
+.reportListSectionInfo a {
+    padding: 3 0 0 0;
+    font-weight: normal;
+    padding-left: 3px;
+    color: #000;
+}
+
+
+/* Report Manager classes */
+data_table {
+    font-family: Tahoma, Arial, Helvetica, sans-serif;
+    font-size: 8pt;
+    font-weight: normal;
+    text-align: left;
+    text-transform: inherit;
+}
+
+.data_table th
+{
+    background-image: url(../images/table_header_background.gif);
+    border-left: 1px solid #5D5D5D;
+    padding: 0 5 0 5;
+    font-weight: normal;
+    height: 21px;
+    text-align: top;
+    border: 1px solid #5D5D5D;
+    border-top: none;
+    white-space: nowrap; 
+}
+
+.data_table td
+{
+    padding: 0 5 0 5;
+    /* border-right: 1px solid #F2F5FE;
+    border-top: 1px solid #E6EBFF; */
+}
+
+.even_table_row td {
+     border-right: 1px solid #BBCEFE;
+     border-bottom: 1px solid #BBCEFE; 
+     background-color: #E7EFFF; 
+}
+
+.odd_table_row td {
+    border-right: 1px solid #E7EFFF;
+    border-bottom: 1px solid #E7EFFF;
+    background-color: #BBCEFE;
+}
+
+.tableInfoBox td {
+    /* border: 1px solid #000000; */
+    margin: 0 0 0 0;
+    padding: 5;
+}
+
+.infoFieldName {
+    font-family: Tahoma, Arial, Helvetica, sans-serif;
+    font-size: 8pt;
+    font-weight: bold;}
+
+.buttonPanel {
+    padding-left: 7px;
+}
+
+/* Classes for custom buttons */
+.hdm-button {
+  margin:0;
+  border:0;
+  padding: 0 .25em;
+  overflow: visible;
+  background:none;
+}
+.hdm-button div
+{
+	float: left;
+	background: url("../images/button-left.gif") no-repeat left center;
+	margin: 0;
+	padding: 0 5 0 14px;
+	cursor: hand;
+}
+
+.hdm-button span {
+  color: #ffffff;	
+  float:left;
+  width: 60px;
+  display:block;
+  background:url("../images/button-right.gif") no-repeat right center;
+  padding-top: 3px;
+  padding-bottom: 4px;
+  padding-right: 15px;
+  padding-left:2px;
+  text-decoration:none;
+  font-weight:normal;
+  white-space:nowrap;
+  font-family: Tahoma, Arial, Helvetica, sans-serif;
+  font-size: 8pt;
+  text-align: center;
+  text-transform: inherit;
+  overflow:visible;
+
+  }
+  
+.hdm-button-disabled, .hdm-button-locked {	
+  margin:0;
+  border:0;
+  padding: 0 .25em;
+  overflow: visible;
+  background:none;
+}
+.hdm-button-disabled div, .hdm-button-locked div {
+  float:left;
+  background:url("../images/button-disabled-left.gif") no-repeat left center;
+  margin:0;
+  padding:0 5 0 14px;
+  cursor:hand;
+  }
+  
+.hdm-button-disabled span, .hdm-button-locked span {
+  color:#666666;
+  float:left;
+  display:block;
+  background:url("../images/button-disabled-right.gif") no-repeat right center;
+  padding-top: 3px;
+  padding-bottom: 4px;
+  padding-right: 15px;
+  padding-left:2px;
+  text-decoration:none;
+  font-weight:normal;
+  white-space:nowrap;
+  font-family: Tahoma, Arial, Helvetica, sans-serif;
+  font-size: 8pt;
+  text-align: center;
+  text-transform: inherit;
+  overflow:visible;  
+  width: 60px;
+  }  
+  
+.button {
+    color: #ffffff;
+    font-family: Tahoma, Arial, Helvetica, sans-serif;
+    font-size: 8pt;
+    text-align: center;
+    text-transform: inherit;
+    overflow:visible;
+}
+
+.graphic_button {
+    margin: 0;
+    padding: 0;
+    border: 0px solid #747474;
+    text-align: center;
+    text-transform: inherit;
+}
+
+
+.disabledButton {
+    color: #adad9c;
+    font-family: Tahoma, Arial, Helvetica, sans-serif;
+    font-size: 8pt;
+    overflow:visible;
+    text-align: center;
+    text-transform: inherit;    
+}
+
+/* Virtual dialog classes */
+#dialogHeader {
+    cursor:move;
+}
+
+.virtualDialog {
+    filter: alpha(opacity=100);
+    opacity: 1.0;
+    color: black;
+    border-width: 2px;
+    border-style: outset;
+    background-color:#E7E7E7;
+}
+
+#contextZoomingDiv {
+    display:none;
+    overflow:hidden;
+    border:none;
+    z-index:14;
+    position:absolute;
+    top:100;
+    left:150;
+    filter:alpha(opacity=100);
+    opacity:1.0;
+    width:350;
+    height:230;
+}
+
+#emptyframe {
+    display:none;
+    overflow:hidden;
+    z-index:10;
+    position:absolute;
+    top:0;left:0;
+    filter:alpha(opacity=50);
+    opacity:0.5;
+    width:100%;
+    height:100%;
+    background-color:#FFFFFF;
+}
+.context_help_header {
+    width: 100%;
+    border-top: solid 1px #A3A3A3;
+    border-bottom: solid 1px #A3A3A3;
+    padding: 5 5 5 5;
+    font-size: 8pt;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #890000;
+}
+
+.context_help_header a {
+    font-weight: bold;
+    text-decoration: none;
+    color: #00007B;
+}
+
+.context_help_header a:hover {
+    font-weight: bold;
+    text-decoration: underline;
+    color: #00007B;
+}
+
+#dialogFrame {
+    display:none;
+    overflow:hidden;
+    border:none;
+    z-index:25;
+    position:absolute;
+    top:100;
+    left:150;
+    width:350;
+    height:230;
+}
+
+/* data table styles */
+.table_div {
+    background-color: #F2F5FE;
+    overflow: scroll;
+    width: 100%;
+    border: 1px solid #5D5D5D;
+   /*  border-top: none; */
+}
+
+
+

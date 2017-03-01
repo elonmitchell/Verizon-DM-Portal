@@ -1,0 +1,18 @@
+<div id="{{g_RD.domScreenId}}" class="modal-content">
+	{{#if g_RD.title || !g_RD.bIsModal}}
+		<div class="modal-header">
+			{{#if !g_RD.bIsModal}}<button type="button" class="close {{g_RD.domScreenId}}_close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>{{/if}}
+			{{#g_RD.title}}<h4 class="modal-title" id="myModalLabel">{{g_RD.title}}</h4>{{/g_RD.title}}
+		</div>
+	{{/if}}
+	<div class="modal-body">
+		{{> two-button-body}}
+	</div>
+	<div class="modal-footer">
+		{{#g_RD.button}}
+		<button type="button" class="btn btn-primary {{g_RD.domScreenId}}_close" data-dismiss="modal" value="{{g_RD.button.value}}"><span>{{g_RD.button.text}}</span></button>
+		{{else}}
+		<button type="button" class="btn btn-primary {{g_RD.domScreenId}}_close" data-dismiss="modal"><span>OK</span></button>
+		{{/g_RD.button}}
+	</div>
+</div>

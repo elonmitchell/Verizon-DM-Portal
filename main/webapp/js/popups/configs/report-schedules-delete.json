@@ -1,0 +1,35 @@
+{
+	"screens": [
+		{
+			"id": "scr-ReportSchedulesDelete-confirm",
+			"template": "two-button",
+			"content": {
+				"title": "Delete Report Schedules",
+				"paraText": "Are you sure you want to delete the selected report schedules?",
+				"buttons": [
+					{
+						"text": "Delete",
+						"value": "delete"
+					}
+				]
+			}
+		},
+		{
+			"id": "scr-ReportSchedulesDelete-wait",
+			"template": "wait",
+			"type": "modal",
+			"content": {
+				"title": "Delete Report Schedules",
+				"waitText": "Deleting the report schedules..."
+			}
+		},
+		{
+			"id": "scr-ReportSchedulesDelete-result",
+			"template": "simple",
+			"content": {
+				"title": "Delete Report Schedules",
+				"resultText": "Successfully deleted."
+			}
+		}
+	]
+}

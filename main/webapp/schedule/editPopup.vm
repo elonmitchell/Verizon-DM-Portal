@@ -1,0 +1,318 @@
+## It is bad form to call this .vm file directly from a compiled servlet, i.e. editSchedulePopup.do
+#set ($bReturnJSON = false)
+#set($cookies = $request.getCookies())
+#foreach($cookie in $cookies)
+	#if ($cookie.getName() == "ReportSchedulesEdit-ReturnJSON")
+		#if ($cookie.getValue() == "true")
+			#set ($bReturnJSON = true)
+		#end
+	#end
+#end
+#if ($bReturnJSON == true)
+{
+	"scheduleId": "$schedule.id",
+	"scheduleName": "$schedule.name",
+	"reportName": "$reportSchName",
+	"frequency": "$schedule.interval",
+	"startDateTime": "$schedule.startDate",
+	"recipients": $schedule.emailto
+}
+#else
+
+<script>
+var schId = $schedule.id;
+var schName = "$schedule.name"; 
+var schfreq = $schedule.interval;
+var startTimeDate = "$schedule.startDate";
+var recip = $schedule.emailto;
+var repName = "$reportSchName";
+var useremids = "";
+var editPopupScreenValidator = new ScreenValidator(getFieldVal);
+function okButtonHandlerEP() {
+    try {
+	  
+      //document.getElementById("scheduleIdEP").value = schId;
+      //document.getElementById("emailsIdEP").value = useremids;
+      //document.updateScheduleForm.submit();
+      //showWaitPopup('Importing Group');
+    } catch (e) {
+      alert("$msg.get("file.access.error")");
+    }
+}
+
+var initRecipientsList;
+jQuery(document).ready(function($) {
+  // This is not the best way to do this, we should switch to the DMPortal popup framework at some point
+	// Get the schedule id
+  var jqContext = $('#edit-report-schedule-popup');
+  var jqFbPopup = jqContext.closest('.fb-popup');
+  var popupId = jqFbPopup.attr("id");
+  var scheduleId = popupId.replace(/-popup$/, "");
+	// Get the schedule data from g_scheduleJsonData
+  var scheduleDataObj = null;
+  var scheduleDataArr = g_scheduleJsonData.scheduleData;
+	for (var i = 0; i < scheduleDataArr.length; i++) {
+		var dataObj = scheduleDataArr[i];
+		if (dataObj.scheduleName == scheduleId) {
+			scheduleDataObj = dataObj;
+			break;
+		}
+	};
+  // Populate data
+	// -- labels
+  //$('#scheduleNameLabel', jqContext).html(scheduleDataObj.scheduleName);
+  $('#scheduleNameLabel', jqContext).html(schName);
+  //$('#reportNameLabel', jqContext).html(scheduleDataObj.reportName);
+  $('#reportNameLabel', jqContext).html(repName);
+	// -- frequency
+  //$('#reportFrequency', jqContext).val(scheduleDataObj.frequency);
+  $('#reportFrequency', jqContext).val(schfreq);
+	// -- start time
+	//var startTimeDate = new Date(scheduleDataObj.startTime);
+	var momentObj = moment(startTimeDate);
+  $('#startTimeDate', jqContext).val(momentObj.format("MM/DD/YYYY"));
+  $('#startTimeHour', jqContext).val(momentObj.format("h"));
+  $('#startTimeMinute', jqContext).val(momentObj.format("mm"));
+	if (momentObj.format("a") == "am") {
+		$('#startTimeMeridian-AM', jqContext).attr("checked", "checked");
+	} else if (momentObj.format("a") == "pm") {
+		$('#startTimeMeridian-PM', jqContext).attr("checked", "checked");
+	}
+	// -- recipients
+	//populateRecipients(scheduleDataObj.recipientList);
+  //initRecipientsList = scheduleDataObj.recipientList;
+  //initRecipientsList = [{"id":"2882","email":"roshan.chacko@motive.com","name":"Roshan Chacko"},{"id":"2880","email":"francisco.fuentes@motive.com","name":"Francisco Fuentes"}];
+  initRecipientsList = recip;
+	if (window.Prototype) { // Stupid Prototype has a messed up stringify function
+    delete Object.prototype.toJSON;
+    delete Array.prototype.toJSON;
+    delete Hash.prototype.toJSON;
+    delete String.prototype.toJSON;
+	}
+	
+	$('#scr-ASG-input-edit').click(function () {
+		// Validate
+		var bIsValid = editPopupScreenValidator.validateFields(null, null, jqContext);
+		if (!bIsValid) {
+			return false;
+		} else {
+			// Check that date is for today or after
+			var bIsLater = true;
+			var dateStr = $('#startTimeDate', jqContext).val();
+			var hourStr = $('#startTimeHour', jqContext).val();
+			var minuteStr = $('#startTimeMinute', jqContext).val();
+			var bIsAM = ($('#startTimeMeridian-AM', jqContext).prop("checked") == true) ? true : false;
+			var meridianStr = (bIsAM) ? "am" : "pm";
+			var dtStr = dateStr + " " + hourStr + ":" + minuteStr + " " + meridianStr; // e.g. 03/14/2014 1:12 pm
+			var fieldDT = moment(dtStr);
+			var currentDT = moment();
+			var diff = fieldDT.diff(currentDT);
+			if (diff <= 0) {
+				bIsLater = false;
+			}
+			//if (!bIsLater) {
+				//editPopupScreenValidator.showFieldError("startTimeDate", "checkdate2", null, jqContext);
+				//return false;
+			//} else {
+				// Submit data
+				var jsonrec = "";
+				$('div.text-wrap').each(function(index) {
+					$(this).find('input').each(function() {
+						jsonrec = $(this).val();
+					});
+				});
+				//******gkmt VZWLTE-13325
+					for (var i=0; i < jsonrec_parsed.length; i++) {
+						if(i==0){
+							useremids = "" + jsonrec_parsed[i].id;
+						}
+						if (i != 0) {
+							useremids = useremids + ",";
+							useremids = useremids + jsonrec_parsed[i].id;
+						}
+					}
+				/*
+				if (jsonrec != "") {
+					var jsonrec_parsed = jsonrec.evalJSON();
+					for (var i=0; i < jsonrec_parsed.length; i++) {
+						if (i != 0) {
+							useremids = useremids + ",";
+						}
+						useremids = useremids + jsonrec_parsed[i].id;
+					}
+				}
+				*/
+				document.getElementById("scheduleIdEP").value = schId;
+				document.getElementById("emailsIdEP").value = useremids;
+				document.getElementById("amvalueIdEP").value = bIsAM ? "true" : "false";
+				document.getElementById("pmvalueIdEP").value = bIsAM ? "false" : "true";
+				//document.updateScheduleForm.submit();
+			//}
+		}
+	});
+});
+
+function populateRecipients() {
+	var url = "/report-viewer/email";
+	var initItems = initRecipientsList;
+	jQuery('#scheduleRecipients').textext({
+		plugins : 'autocomplete filter tags ajax', // prompt
+    	prompt  : 'Type one or more recipients...',
+		ajax : {
+		    type : 'post', 
+			url : url,
+			dataType : 'json',
+			cacheResults : false
+		},
+		tags: { items: initItems },
+		filterItems: initItems,
+		ext: {
+      		itemManager: {
+        		//stringToItem: function(str) {
+        		stringToItem: function(str) { return { email: str, name: str }; },
+				itemToString: function(item) { return item.name; },
+				itemContains: function(item, needle) { return item.name.toLowerCase().indexOf(needle.toLowerCase()) == 0; },
+				compareItems: function(item1, item2) { return item1.name == item2.name; }
+          		//return { email: str, name: str };
+        	}
+        //,
+        //itemToString: function(item) {
+        //return item.name;
+        //},
+		//		itemContains: function(item, needle) {
+		//			return item.name.toLowerCase().indexOf(needle.toLowerCase()) == 0;
+		//		},
+        //compareItems: function(item1, item2) {
+        //  return item1.name == item2.name;
+        //}
+        }
+	}).bind('isTagAllowed', function(e, data) {
+		data.result = true;
+		// Make sure new tag is a valid email address
+		if (isValidEmail(data.tag.email)) {
+			// Check for duplicates
+			var formDataStr = jQuery(e.target).textext()[0].tags()._formData;
+			if (formDataStr.length) {
+				var formDataArray = eval(formDataStr);
+				for (var i = 0; i < formDataArray.length; i++) {
+					var formData = formDataArray[i];
+					if (formData.name == data.tag.name) {
+						var errorStr = "'" + data.tag.name + "' is already listed.";
+						jQuery('#scheduleRecipientsError').html(errorStr).css('visibility', 'visible');
+						data.result = false;
+						break;
+					}
+				}
+			}
+		} else {
+			var errorStr = "'" + data.tag.name + "' is not in the address book and is not a valid email address.";
+			jQuery('#scheduleRecipientsError').html(errorStr).css('visibility', 'visible');
+			data.result = false;	
+		}
+	}).keypress(function() {
+		jQuery('#scheduleRecipientsError').css('visibility', 'hidden');
+	});
+}
+
+function isValidEmail(email) { 
+  var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(email);
+} 
+
+function getFieldVal(jqField) {
+	var val;
+	if (jqField.attr("id") == "scheduleRecipients") {
+		var jqHidden = jqField.siblings("input[type='hidden']");
+		val = jqHidden.val();
+		if (val == "[]") val = "";
+	} else {
+		val = jqField.val();
+	}
+	return val;
+}
+</script>
+
+<h1>Edit Report Schedule</h1>
+<form name="updateScheduleForm" id="updateScheduleForm"  method="post" action="$link.getContextPath()/schedule/updateSchedule.do" target="_parent" novalidate>
+<div class="error-message" style="display: none;"></div>
+<div class="success-message" style="display: none;"></div>
+<div id="edit-report-schedule-popup">
+	<table style="float: left">
+		<tbody>
+			<tr>
+				<td align="right" nowrap="nowrap"><div class="formLabel"><span class="reqd">*</span> Report Schedule Name:</div></td>
+				<td align="left">
+					<span id="scheduleNameLabel">HTC_ADR6400L_V1_V2</span>
+					<input type="hidden" name="scheduleId" id="scheduleIdEP"/>
+					<input type="hidden" name="emailsId" id="emailsIdEP"/>
+					<input type="hidden" name="amvalueId" id="amvalueIdEP"/>
+					<input type="hidden" name="pmvalueId" id="pmvalueIdEP"/>
+				</td>
+			</tr>
+			<tr>
+				<td align="right" nowrap="nowrap"><div class="formLabel"><span class="reqd">*</span> Associated Report Name:</div></td>
+				<td align="left"><span id="reportNameLabel">Device List for Firmware Version Report</span></td>
+			</tr>
+			<tr>
+				<td align="right" nowrap="nowrap"><div class="formLabel"><span class="reqd">*</span> Frequency:</div></td>
+				<td align="left">
+					<div class="fieldValue reportFrequency">
+						<select id="reportFrequency" name="reportFrequency" required="true">
+							<option value="1">Daily</option>
+							<option value="2">Weekly</option>
+						</select>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td align="right" nowrap="nowrap"><div class="formLabel"><span class="reqd">*</span> Start Time (CST):</div></td>
+				<td align="left">
+          <table class="startTime-table" style="margin-left: -5px; margin-top: -8px;">
+	          <tbody>
+              <tr>
+		            <td style="padding-right: 0"><input type="text" name="startTimeDate" id="startTimeDate" class="date-picker schedule-date" value="" size="10" checkdate="true" required="true"/></td>
+		            <td>@</td>
+		            <td style="padding-right: 1px;"><input type="text" name="startTimeHour" id="startTimeHour" class="schedule-hour" value="12" size="2" maxlength="2" checkhour="true" required="true"/></td>
+		            <td style="padding-left: 1px; padding-right: 1px;">:</td>
+		            <td style="padding-left: 1px;"><input type="text" name="startTimeMinute" id="startTimeMinute" class="schedule-minute" value="00" size="2" maxlength="2" checkminute="true" required="true"/></td>
+		            <td>
+									<div class="meridianGroup">
+										<input required="true" checked="true" id="startTimeMeridian-AM" value="am" type="radio" name="startTimeMeridian"/> <label for="startTimeMeridian-AM">AM</label>&nbsp;
+										<input required="true" id="startTimeMeridian-PM" value="pm" type="radio" name="startTimeMeridian"/> <label for="startTimeMeridian-PM">PM</label>
+									</div>
+		            </td>
+	            </tr>
+            </tbody>
+          </table>
+        </td>
+			</tr>
+			<tr class="relatedRow error required startTimeDate startTimeHour startTimeMinute" style="display: none;"><td></td><td><div class="formFieldError">Please enter the Start Time</div></td></tr>
+			<tr class="relatedRow error checkdate startTimeDate" style="display: none;"><td></td><td><div class="formFieldError">Date field is invalid</div></td></tr>
+			<tr class="relatedRow error checkdate2 startTimeDate" style="display: none;"><td></td><td><div class="formFieldError">Start Time must be after the current date and time</div></td></tr>
+			<tr class="relatedRow error checkhour startTimeHour" style="display: none;"><td></td><td><div class="formFieldError">Hour field should be between 1-12</div></td></tr>
+			<tr class="relatedRow error checkminute startTimeMinute" style="display: none;"><td></td><td><div class="formFieldError">Minutes field should be between 0-59</div></td></tr>
+			<tr>
+				<td align="right" nowrap="nowrap"><div class="formLabel"><span class="reqd">*</span> Recipients:</div></td>
+				<td align="left"><textarea id="scheduleRecipients" required="true" rows="1" style="width: 400px;"></textarea></td>
+			</tr>
+			<tr class="relatedRow error required scheduleRecipients" style="display: none"><td></td><td><div class="formFieldError">Please enter the Recipients</div></td></tr>
+			<tr class="relatedRow"><td></td><td align="left"><div id="scheduleRecipientsError" style="color: #ff0000; font-size: 12px; visibility: hidden;">Duplicate found</div></td></tr>
+    </tbody>
+	</table>
+
+	<div style="clear: both"></div>
+</div>
+
+<div class="popup-submit-button paddingTop10">
+	<div class="popup-submit-button-left">
+		<button class="img-button img-button-medium" id="cancelButton" onclick="closePopup(); return false;"><span>Cancel</span></button>
+	</div>
+
+	<div class="popup-submit-button-right">
+		<button class="img-button default img-button-medium" id="scr-ASG-input-edit" value="edit" ><span>Edit</span></button>
+	</div>
+</div>
+<div class="popup-submit-button-clear"></div>
+</form>
+
+#end

@@ -1,0 +1,11 @@
+{{#fieldData.placeholderText}}placeholder="{{fieldData.placeholderText}}"{{/fieldData.placeholderText}}
+{{#fieldData.size}}size="{{fieldData.size}}"{{/fieldData.size}}
+{{#if (fieldData.required == true && bFieldShown != false)}}required="true"{{/if}}
+{{#fieldData.valregexp}}data-valregexp="{{fieldData.valregexp}}"{{/fieldData.valregexp}}
+{{#fieldData.valsize}}data-valsize="{{fieldData.valsize}}"{{/fieldData.valsize}}
+{{#fieldData.valminsize}}data-valminsize="{{fieldData.valminsize}}"{{/fieldData.valminsize}}
+{{#fieldData.checkurl}}data-checkurl="{{fieldData.checkurl}}"{{/fieldData.checkurl}}
+{{#fieldData.dependsOnField}}data-dependsOnField="{{fieldData.dependsOnField}}"{{/fieldData.dependsOnField}}
+{{#g_RD.checkIfFormChanged}}data-checkIfChanged="{{g_RD.checkIfFormChanged}}"{{/g_RD.checkIfFormChanged}}
+{{#fieldData.autocomplete}}autocomplete="{{fieldData.autocomplete}}"{{/fieldData.autocomplete}}
+{{#fieldData.extra_attributes:attributeName}}{{attributeName}}="{{.}}" {{/fieldData.extra_attributes}}

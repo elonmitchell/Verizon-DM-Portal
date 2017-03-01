@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+
+<toolbox>
+    <tool>
+        <key>toolLoader</key>
+        <class>org.apache.velocity.tools.generic.ToolLoader</class>
+    </tool>
+    <tool>
+        <key>link</key>
+        <class>org.apache.velocity.tools.struts.StrutsLinkTool</class>
+    </tool>
+    <tool>
+        <key>math</key>
+        <class>org.apache.velocity.tools.generic.MathTool</class>
+    </tool>
+    <tool>
+        <key>number</key>
+        <class>org.apache.velocity.tools.generic.NumberTool</class>
+    </tool>    
+    <tool>
+        <key>msg</key>
+        <class>motive.reports.reportconsole.tools.MotiveMessageTool</class>
+        <!--
+            <class>org.apache.velocity.tools.struts.MessageTool</class>
+        -->
+    </tool>
+    <tool>
+        <key>errors</key>
+        <class>org.apache.velocity.tools.struts.ErrorsTool</class>
+    </tool>
+    <tool>
+        <key>form</key>
+        <class>org.apache.velocity.tools.struts.FormTool</class>
+    </tool>
+    <tool>
+        <key>date</key>
+        <class>org.apache.velocity.tools.generic.DateTool</class>
+    </tool>
+    <tool>
+        <key>util</key>
+        <class>motive.reports.reportconsole.tools.VelocityUtilityTool</class>
+    </tool>
+    <tool>
+        <key>button</key>
+        <class>motive.reports.reportconsole.tools.ButtonTool</class>
+    </tool>
+    <tool>
+        <key>version</key>
+        <class>motive.reports.reportconsole.tools.VersionTool</class>
+    </tool>   
+    <tool>
+        <key>security</key>
+        <class>motive.reports.reportconsole.tools.SecurityTool</class>
+    </tool>
+
+    <tool>
+      <key>params</key>
+      <scope>request</scope>
+      <class>org.apache.velocity.tools.view.tools.ParameterParser</class>
+    </tool> 
+
+</toolbox>

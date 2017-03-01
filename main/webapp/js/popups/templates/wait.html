@@ -1,0 +1,31 @@
+<div id="{{g_RD.domScreenId}}" data-popupid="{{g_RD.domPopupId}}" class="modal-content">
+	{{#if g_RD.title || !g_RD.bIsModal}}
+		<div class="modal-header">
+			{{#if !g_RD.bIsModal}}<button type="button" class="close {{g_RD.domScreenId}}_close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>{{/if}}
+			{{#g_RD.title}}<h4 class="modal-title" id="myModalLabel">{{g_RD.title}}</h4>{{/g_RD.title}}
+		</div>
+	{{/if}}
+	<div class="modal-body">
+		<div class="modal-body-content-center">
+			<div class="spinner">
+				<div class="bounce1"></div>
+				<div class="bounce2"></div>
+				<div class="bounce3"></div>
+			</div>
+			{{#g_RD.waitText}}<p>{{g_RD.waitText}}</p>{{/g_RD.waitText}}
+		</div>
+
+		{{#g_RD.waitNote}}
+			<p>{{g_RD.waitNote}}</p>
+		{{/g_RD.waitNote}}
+
+	</div>
+	{{#if g_RD.bHideButtons === false}}
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal"><span>Cancel</span></button>
+			{{#each g_RD.buttons}}
+				<button type="button" id="{{g_RD.screenId}}-{{this.value}}" class="btn btn-primary {{#if this.type == 'goto'}}btn-goto{{/if}}" value="{{this.value}}"><span>{{this.text}}</span></button>
+			{{/each}}
+		</div>
+	{{/if}}
+</div>

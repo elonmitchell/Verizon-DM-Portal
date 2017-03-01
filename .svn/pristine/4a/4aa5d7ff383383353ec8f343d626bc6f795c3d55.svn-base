@@ -1,0 +1,272 @@
+#parse("/roles.vm")
+<script type="text/javascript" language="Javascript">   
+var oDeleteButtonGM = null;
+var oAddGroupButtonGM = null;
+var oCancelButtonGM = null;
+var oStatusAreaGM = null;
+var oGroupFormGM = null;
+var oReportGroupsContainerGM = null;
+var hasGroupChanged = false;
+var objListGML = null;
+
+/**
+ * Initializes javascript objects for use in all scripts
+ */
+function initPageElementsGM() {
+    oGroupFormGM = document.getElementById("objectListFormGML");
+    oAddGroupButtonGM = document.getElementById("addGroup");
+    oCancelButtonGM = document.getElementById("closeButtonGM");
+    oDeleteButtonGM = document.getElementById("deleteButtonGM");
+    oReportGroupsContainerGM = document.getElementById("reportGroupsContainer");
+    oStatusAreaGM = document.getElementById("statusArea");
+    oGroupNameField = document.getElementById("groupName");
+    validateInputGM();
+}
+
+/**
+ * Retrieves list of report groups defined on the server
+ */
+function getReportGroupsGM(msg) {
+    msg = (msg) ? msg : "";
+    clearStatusGM();      
+    var xml, xsl, url;
+    successHandler = function(res) {
+        if (isResponseLoginPage(res.responseText)) {
+          location.reload();
+          return;
+        }
+        handleGroupLoadErrorGM(res.responseText);
+        oReportGroupsContainerGM.innerHTML = res.responseText;
+        if (msg != "") {
+            setStatusGM(msg);
+        }
+        else {
+            if ( getStatusGM() == "" )
+                setStatusGM("$msg.get("manage.reportList.delete.group.empty")");
+        }
+        setDialogSize();
+    }               
+    failureHandler = function(res) {
+        setStatusGM("$msg.get("manageGroups.dialog.error.loadListError")");
+    }               
+    new Ajax.Request(globals_contextPath + "manage/getReportGroups.do", {asynchronous:true, parameters:"", onSuccess:successHandler, onFailure:failureHandler});
+    
+    disableButton( oDeleteButtonGM );
+}
+
+/**
+ * Retrieves list of report groups defined on the server
+ */
+function handleAddGroupGM(msg, theButton) {
+    if ( isButtonEnabled( theButton )) {
+        msg = (msg) ? msg : "";
+        clearStatusGM();      
+        var xml, xsl, url;
+        groupName = oGroupNameField.value;
+        var parametersString = "operation=createReportGroup&operation=createReportGroup&groupName=" + groupName;
+        successHandler = function(res) {
+            if (isResponseLoginPage(res.responseText)) {
+              location.reload();
+              return;
+            }
+            oGroupNameField.value = "";
+            validateInputGM();
+            hasGroupChanged = true;
+            getReportGroupsGM();
+            setStatusGM(res.responseText);
+        }               
+        failureHandler = function(res) {
+            setStatusGM("$msg.get("manageGroups.dialog.error.groupCreateError")");
+        }
+        new Ajax.Request(globals_contextPath + "/manage/manageGroupAjax.do", {asynchronous:true, parameters:parametersString, onSuccess:successHandler, onFailure:failureHandler});
+    }
+}
+
+/**
+ * Saves backup settings
+ */
+function deleteGroupsGM() {
+    var ids = "";
+    
+    if (!isButtonEnabled(oDeleteButtonGM)) {
+        return;
+    }
+    
+    clearStatusGM();
+    
+    var oIDArray = new Array();
+    for (var i=0; i<oGroupFormGM.elements.length; i++) {
+        var elem = oGroupFormGM.elements[i];
+        if (elem.type && elem.type == "checkbox" && elem.checked && elem.value != "") {
+            oIDArray.push(elem);
+        }
+    }
+
+    var len = oIDArray.length;
+    for (var j=0; j<len; j++) {
+        ids += (len > 1 && j > 0) ? ","+oIDArray[j].value : oIDArray[j].value;
+    }
+    parameters= "operation=deleteReportGroups&ids=" + ids;
+    if ( ids != "") {
+        successHandler = function(res) {
+            if (isResponseLoginPage(res.responseText)) {
+              location.reload();
+              return;
+            }
+            oGroupNameField.value = "";
+            validateInputGM();
+            hasGroupChanged = true;
+            getReportGroupsGM();
+            setStatusGM(res.responseText);
+        }               
+        failureHandler = function(res) {
+            alert(res.responseText);
+            setStatusGM("$msg.get("manageGroups.dialog.error.groupDeleteError")");
+        }
+        new Ajax.Request(globals_contextPath + "/manage/manageGroupAjax.do", {asynchronous:true, parameters:parameters, onSuccess:successHandler, onFailure:failureHandler});
+
+    }
+}
+
+/**
+ * Puts content in the dialog status area
+ */
+function setStatusGM(val) {
+    if (oStatusAreaGM) {
+        oStatusAreaGM.innerHTML = val;
+    }
+    setDialogSize();
+}
+
+/**
+ * Puts content in the dialog status area
+ */
+function getStatusGM() {
+    currentStatus = "";
+    if (oStatusAreaGM) {
+        currentStatus = oStatusAreaGM.innerHTML;
+    }
+    return( currentStatus);
+}
+
+/**
+ * Clears content in the dialog status area
+ */
+function clearStatusGM() {
+    if (oStatusAreaGM) {
+        oStatusAreaGM.innerHTML = "";
+    }
+    setDialogSize();
+}
+
+function validateInputGM() {
+   if( createGroupFormGM.groupName.value.length > 0 ) {
+       enableButton( oAddGroupButtonGM );
+   }
+   else {
+       disableButton( oAddGroupButtonGM );
+   }
+}
+
+function updateGroupsAndCloseGM() {
+    if ( hasGroupChanged )
+        updateReportGroupSelect();
+    closePopup();
+}
+
+/**
+ * Sets up page once it's done loading
+ */     
+function initPageGM() {
+    setDialogSize();
+    initPageElementsGM();
+    objListGML = new ObjectList("objectListFormGML");
+    objListGML.setEnableOnItemSelectionButtons(new Array("deleteButtonGM"));
+    objListGML.setDisableOnMultipleSelectionButtons(null);     
+    disableButton(oDeleteButtonGM);   
+    clearStatusGM();          
+
+    getReportGroupsGM();  
+}
+            
+function handleGroupLoadErrorGM(responseText) {
+    if ( responseText.indexOf( "reportGroupLoadFailure" ) != -1 ) {
+        closePopup();
+        updateReportGroupSelect();
+    }
+}
+
+initPageGM();
+</script>
+<style type="text/css">
+#statusArea {
+    height:32px;
+    color:#000000;
+}
+</style>
+
+<h1>$msg.get("importReport.dialog.header")</h1>
+
+<table width="100%"  border="0" cellpadding="0" spacing="0">
+  <tr>
+    <td colspan="2">
+      <table>
+        <tr>
+          <form name="createGroupFormGM" id="createGroupFormGM" target="hiddeniFrame" method="post" action="$link.setAction("/device/importGroup")" enctype="multipart/form-data">                            
+            <td nowrap>$msg.get("manageGroups.dialog.nameLabel")</td>
+            <td nowrap><input name="groupName" id="groupName" type="text" value="" style="width:225px" class="default_font" onkeyup="validateInputGM();" onchange="validateInputGM();"></td>
+            <td nowrap>$button.render( "addGroup", $msg.get("manageGroups.dialog.button.add"), "Button", "handleAddGroupGM('', this);", "$ROLE_UI_REPORT_EDIT" )</td>
+          </form>
+        </tr>
+      </table>
+      <iframe id="hiddeniFrame" name="hiddeniFrame" height="0" src="$link.getContextPath()/empty.vm" FRAMEBORDER="0" scrolling="no" style="background-color:#E7E7E7;" style="display:none;"></iframe>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" align="left">
+      <hr width="425">
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">$msg.get("manageGroups.dialog.list.label")</td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <form name="objectListFormGML" id="objectListFormGML" method="post" action="" enctype="multipart/form-data">
+        <div class="table_div" id ="reportGroupsContainer" style="height:164px;width:425;">
+          <table cellpadding="0" cellspacing="0" border="0" width="100%" id="criteriaDataTable" class="data_table">
+            <tr>
+              <th class="checkBox_Column" align="center" width="1%">
+                <input name="select_all" id="selectAllObjects" value="-1" type="checkbox" onclick="objListGML.selectItems(this);" #if ( !$security.hasRole("$ROLE_UI_REPORT_EDIT") ) disabled #end />       
+              </th>       
+              <th align="left" width="20%" style="white-space:nowrap">
+                $msg.get("manageGroups.dialog.list.header.name")
+              </th>
+            </tr>
+            <tr class="even_table_row" align="center">
+              <td colspan="12" height="100" style="background-color: #F7F7FF;border:none;">
+                <table cellpadding="0" cellspacing="0" border="0" >
+                  <tr>
+                    <td style="border: 2px outset #E1E1E1;padding: 5px;background-color: #E1E1E1;">
+                      <div id="emptyReportListMsg">$msg.get( "manageGroups.loading.groupList" )</div>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </form>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="3"><div id="statusArea"></div><div id="messageDiv" name="messageDiv" style="display:none;"></div>
+    </td>
+  </tr>
+  <tr>
+    <td height="1" align="right" colspan="2" style="padding-right:6px;padding-bottom:8px;">
+      $button.render( "deleteButtonGM", $msg.get("manageGroups.dialog.button.delete"), "button", "deleteGroupsGM();", "$ROLE_UI_REPORT_EDIT")
+      $button.render( "closeButtonGM", $msg.get("manageGroups.dialog.button.close"), "button", "updateGroupsAndCloseGM();" )
+    </td>
+  </tr>
+</table>

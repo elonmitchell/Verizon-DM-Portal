@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="$request.getCharacterEncoding()" ?> 
+<etlLog>
+#if ($etlList)	
+	#foreach ($etl in $etlList)
+	<entry>
+		<runNumber>$!etl.runNumber</runNumber>
+		<operator><![CDATA[$!etl.operator]]></operator>
+		<insertedDate><![CDATA[$util.nvl( $util.formatDate($etl.inserted, $request.getLocale()) , "&nbsp;" )]]></insertedDate>
+		<severity><![CDATA[$msg.get("etl.reportList.loglevel.$etl.severity" )]]></severity>
+		<component><![CDATA[$!etl.component]]></component>
+		<messageText><![CDATA[$util.nvl($etl.errorDetails, " ")]]></messageText>
+        <context1><![CDATA[$util.nvl($etl.context1, " ")]]></context1>
+        <context2><![CDATA[$util.nvl($etl.context2, " ")]]></context2>
+        <infoDivId>infoID$etl.id</infoDivId>
+        <infoIconId>infoIcon$etl.id</infoIconId>
+	</entry>
+	#end
+#end	
+</etlLog>

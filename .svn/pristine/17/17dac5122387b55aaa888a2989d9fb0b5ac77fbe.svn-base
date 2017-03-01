@@ -1,0 +1,24 @@
+<div class="form-group {{#if fieldData.required === true}}required{{/if}}">
+	{{#fieldData.name}}<label for="{{fieldId}}">{{fieldData.name}}</label>{{/fieldData.name}}
+	<div class="fieldValue {{fieldId}}">
+		{{#each fieldData.checkboxOptions}}
+			{{# {cbOptionFieldData: this, cbOptionFieldId: this.id} }}
+				{{# {bChecked: (fieldData.valueArray != null && (fieldData.valueArray.indexOf(cbOptionFieldData.elementValue) > -1))} }}
+					<div>
+						<input type="checkbox" class="checkbox-inline" data-name="{{fieldId}}" id="{{cbOptionFieldId}}"
+							{{> field-attributes}}
+							{{# {fieldData: cbOptionFieldData}}}
+								{{> field-attributes}}
+							{{/}}
+							value="{{cbOptionFieldData.elementValue}}"
+							{{#if bChecked}}checked="checked"{{/if}}/>
+						{{#cbOptionFieldData.valueLabel}}
+							<label for="{{cbOptionFieldId}}" class="value-label">{{cbOptionFieldData.valueLabel}}</label>
+						{{/cbOptionFieldData.valueLabel}}
+					</div>
+				{{/}}
+			{{/}}
+		{{/each}}
+	</div>
+	{{> help-blocks}}
+</div>

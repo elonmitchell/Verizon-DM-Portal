@@ -1,0 +1,47 @@
+<td align="right" height="33" nowrap>
+    <!-- link area -->
+    
+	<div class="head_line_area" style="display:inline;">
+			<div style="margin: 0 5 0 5;" class="user_name menuBarItem" id="userMenuBarItem" onmouseOver='showMenu("userMenuBarItem","userMenu");' onmouseOut='mouseExitMenu();'> $util.getUserName()<img src="$link.getContextPath()/images/button_arrow_down.gif"/>
+			</div>
+            <div class="default_font menuContainerHidden" id="userMenu" onmouseOver='setMouseInMenu(true);' onmouseout='setMouseInMenu(false);'>
+				<table width="100%" cellpadding="0" cellspacing="1">
+					#if($passwordChangeable == true)
+						<tr>
+							<td class="default_font menuItem" id="changePasswordMenuItem" nowrap onmouseOver="setActiveMenuItem( this.id );" onmouseOut='setActiveMenuItem( "" );'>
+									<a id="changePasswordLink" href="$link.getContextPath()/changePassword.do">$msg.get("changePassword")</a>
+							</td>
+						</tr>
+					#end
+					<tr>
+						<td class="default_font menuItem" id="logoutMenuItem" nowrap onmouseOver="setActiveMenuItem( this.id );" onmouseOut='setActiveMenuItem( "" );'>
+							<a id="logoutLink" href="$link.getContextPath()/logout.do">$msg.get( "logout" )</a>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<!--div style="margin: 0 5 0 5;" class="user_name menuBarItem" id="aboutMenuVarItem" onmouseOver='showMenu("aboutMenuVarItem","aboutMenu");' 
+				onmouseOut='mouseExitMenu();'>$msg.get("about")<img src="$link.getContextPath()/images/button_arrow_down.gif"/>
+			</div>
+            <div class="default_font menuContainerHidden" id="aboutMenu" onmouseOver='setMouseInMenu(true);' onmouseout='setMouseInMenu(false);'>
+				<table width="100%" cellpadding="0" cellspacing="1">
+					<tr>
+						<td class="default_font menuItem" nowrap id="aboutMenuItem" onclick='forceCloseMenu();showDialog("$link.getContextPath()/aboutDialog.vm" );' onmouseOver="setActiveMenuItem( this.id );" onmouseOut='setActiveMenuItem( "" );'>
+							<a href='javascript:forceCloseMenu();showDialog( "$link.getContextPath()/aboutDialog.vm" );' onclick='showDialog( "$link.getContextPath()/aboutDialog.vm" );'>$msg.get("about")</a>
+						</td>
+					</tr>
+					<tr>
+						<td class="default_font menuItem" nowrap id="helpMenuItem" onclick='forceCloseMenu();launchHelp("$request.getScheme()://$request.getServerName():$request.getServerPort()/$msg.get("helpPath")" );' onmouseOver="setActiveMenuItem( this.id );" onmouseOut='setActiveMenuItem( "" );'>
+								<a href="#" onclick='launchHelp( "$request.getScheme()://$request.getServerName():$request.getServerPort()/$msg.get("report-console-help")" );'>$msg.get("help")</a>
+						</td>
+					</tr>
+				</table>
+			</div-->
+	</div>
+</td>
+<td width="5" height="33">
+    <img src="$link.getContextPath()/images/space.gif" width="10" height="5">
+</td>
+
+						
+                        

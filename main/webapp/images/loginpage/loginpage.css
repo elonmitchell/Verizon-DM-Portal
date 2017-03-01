@@ -1,0 +1,29 @@
+/* ::::: https://xvzwmdmii.xdev.motive.com/mdm-console/jsicss/style.css;jsessionid=DBF68C3BB7FB7421F7C24D6DF5028BED.xvzw6_7803 ::::: */
+
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, fieldset, legend, input, textarea, p, blockquote, th, td { margin: 0pt; padding: 0pt; }
+form { margin: 0pt; }
+a img, fieldset, map, img { border: 0pt none; }
+body { color: rgb(38, 38, 38); background-color: rgb(218, 216, 216); background-image: url('background2.gif'); background-repeat: repeat-x; font-family: Tahoma,Arial; min-width: 1000px; }
+#breadcrumbs a, #breadcrumbs span, #header_login span { padding-right: 5px; font-size: 11px; font-weight: bold; }
+#header_login { min-width: 1000px; background-image: url('bg.header.gif'); background-position: center bottom; background-repeat: repeat-x; width: 100%; height: 45px; position: fixed; top: 0pt; left: 0pt; }
+#header_login span { float: left; padding-left: 20px; margin-top: 15px; }
+#loginCont { display: block; position: relative; height: auto; bottom: 0pt; top: 0pt; left: 0pt; right: 0pt; margin: 95px 20px 0pt; }
+#footer { position: fixed; min-width: 1000px; width: 100%; bottom: 0pt; left: 0pt; height: 38px; background-image: url('bg.footer.png'); background-repeat: repeat-x; padding-top: 4px; }
+#footer p { padding-left: 20px; padding-top: 7px; font-size: 10px; float: left; }
+#footer p strong { padding-right: 5px; font-size: 12px; padding-bottom: 2px; width: 100%; display: block; }
+#logo { text-indent: -3000px; display: block; float: right; margin-right: 20px; width: 174px; height: 40px; background-image: url('company_logo.png'); }
+.isBeingEdited input[type="text"], .isBeingEdited input[type="password"], #loginForm input, .mdmForm input.textbox { float: left; border: 1px solid rgb(153, 153, 153); background-color: rgb(250, 255, 191); padding: 3px; line-height: 20px; height: 20px; font-size: 12px; width: 400px; margin: 0pt; }
+#loginMessage, #required { display: none; }
+#loginForm, #warningBox { float: left; padding: 20px 20px 10px; width: 408px; left: 50%; margin-left: -200px; margin-top: 50px; position: relative; }
+#loginForm label, #loginForm fieldset, .mdmForm label { float: left; width: 100%; }
+#loginForm fieldset { padding-bottom: 10px; }
+#loginForm label, .mdmForm label { font-size: 11px; padding-bottom: 2px; font-weight: bold; }
+#loginForm button { height: 29px; color: rgb(89, 89, 89); border: 1px solid rgb(153, 153, 153); font-size: 14px; font-weight: bold; padding: 4px 8px 4px 27px; background-repeat: no-repeat; background-image: url('ico.lock.png'); }
+#loginForm button.locked { background-color: rgb(250, 250, 250); background-position: 6px 6px; }
+#loginForm h1, .mdmForm h1, #warningBox h1 { font-size: 13px; font-weight: bold; padding-bottom: 5px; border-bottom: 1px solid rgb(204, 204, 204); }
+#loginForm h1, .mdmForm h1, #warningBox h1 { padding: 7px 6px; background-image: url('bg.title.gif'); background-repeat: repeat-x; }
+#loginForm h1, .formCol h1, #warningBox h1 { width: 410px; }
+#loginForm fieldset, .mdmForm fieldset { position: relative; background-color: rgb(225, 225, 225); border-left: 1px solid rgb(229, 229, 229); border-right: 1px solid rgb(229, 229, 229); border-bottom: 1px solid rgb(204, 204, 204); padding-top: 5px; }
+.formCol fieldset, #loginForm fieldset, .twoFormCol fieldset { float: left; padding: 5px; }
+.formCol fieldset, #loginForm fieldset { width: 410px; }
+#footer_spacer { height: 45px; float: left; width: 100%; }

@@ -1,0 +1,312 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+  #set( $state = $LOGIN_STATE )
+  #set( $errorMsg = $ERROR_MESSAGE )
+  
+  #if($state.intValue()==0)
+  	#set( $headingMsg = $msg.get("changepassword.form.output.changepassword") )
+  #elseif($state.intValue()==1)
+	#set( $headingMsg = $msg.get("changepassword.form.output.firstlogin") )
+  #elseif($state.intValue()==2)
+  	#set( $headingMsg = $msg.get("changepassword.form.output.reset") )
+  #elseif($state.intValue()==3)
+  	#set( $headingMsg = $msg.get("changepassword.form.output.expired") )
+  #elseif($state.intValue()==4)
+  	#set( $headingMsg = $msg.get("changepassword.form.output.noaccount") )
+  #else
+  	#set( $headingMsg = $msg.get("changepassword.form.output.unknown") )
+  #end
+<html>
+  <head>
+    <title>$msg.get("changepassword.form.title",[$msg.get("app.name")])</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link href="$link.getContextPath()/css/reporting.css" rel="stylesheet" type="text/css">
+        <script src="$link.getContextPath()/js/globals.vm" type="text/javascript" language="Javascript"></script>
+        <script src="$link.getContextPath()/js/common.js" type="text/javascript" language="Javascript"></script>
+        <script src="$link.getContextPath()/js/virtualDialog.js" type="text/javascript" language="Javascript"></script>
+        <script src="$link.getContextPath()/js/contextHelp.js" type="text/javascript" language="Javascript"></script>
+	<script type="text/javascript" language="Javascript">
+    	var loginState = "$state.intValue()";
+    	var helpTopicURL;
+    	if (loginState == "1") {
+    		helpTopicURL = "$link.getContextPath()$msg.get( "changepassword.context.help.new" )";			
+    	} else {
+    		helpTopicURL = "$link.getContextPath()$msg.get( "changepassword.context.help.change" )";
+    	}
+	
+            function change() 
+            {
+                window.alert("submitting");
+            }
+            
+            var mChar_currentpassword = new Array();
+            var mChar_newpassword = new Array();
+            var mChar_confirmpassword = new Array();
+            
+            var crtlKey = false;
+     
+     		function init() {     			
+     		}
+     
+            function mask(elementID, event) {                              	                          						                   					
+                        					
+                if (event.ctrlKey)
+  					return;        					
+                        									 
+            	var passElement_fakeRef = document.getElementById(elementID + "_fake");
+    			var passElementRef =  document.getElementById(elementID);
+ 
+ 				var maskedCharacters = getMaskCharArray(elementID);
+    			var arrayLength = maskedCharacters.length;   			
+    			var code = event.keyCode;	    	    			    			   			
+    			    			
+	    		var validCode = false;
+	    		if( code >= 32 && code <= 126 ) validCode = true;	   
+	    		 		
+    			if( validCode ) {    			    				
+	    		
+	    			var character = String.fromCharCode(code);
+	    		
+	    			var i = Math.round(5*Math.random());
+	    			var index = maskedCharacters.length;    
+			    
+			    	maskedCharacters[index] = "";
+			    
+			      	for( var j = 0 ; j < i ; j = j + 1 ) {
+			        	passElement_fakeRef.value = passElement_fakeRef.value + "-";
+			        	maskedCharacters[index] = maskedCharacters[index] + "-";
+			      	}
+			      
+			      	//alert(maskedCharacters[index]);
+			      	passElementRef.value = passElementRef.value + character;
+	    		}
+  			}
+  			
+  			function handleBackspace(elementID, event) {  			  				
+  				
+            	var passElement_fakeRef = document.getElementById(elementID + "_fake");
+    			var passElementRef =  document.getElementById(elementID);        			
+    			
+    			var maskedCharacters = getMaskCharArray(elementID);
+    			var arrayLength = maskedCharacters.length;
+    			
+  				if (event.ctrlKey)
+  					return;
+    			
+    			var code = event.keyCode;
+    			
+    			if( code == 8 ) { // Backspace
+    			    				
+	    			if( maskedCharacters.length == 0 ) return;
+	    			
+	    			// Remove the last character
+	    			var index = maskedCharacters.length - 1;
+	    			var text = maskedCharacters[index];
+	    			
+	    			var length = maskedCharacters.length;
+	    			
+	    			maskedCharacters.splice(index,1);
+	    			
+	    			var previousFakeRefValue = passElement_fakeRef.value;
+	    			passElement_fakeRef.value = passElement_fakeRef.value.substring(0, passElement_fakeRef.value.length - text.length);
+	    				    			
+	    			var previousRefValue = passElementRef.value;
+	    			passElementRef.value = previousRefValue.substring(0, previousRefValue.length - 1);		    		
+	    		}  
+      
+  			}
+  			
+  			function doFocus(elementID) {
+  				  				  				
+				var passElement_fakeRef = document.getElementById(elementID + "_fake");
+    			var passElementRef =  document.getElementById(elementID);   		
+    			
+    			var maskedCharacters = getMaskCharArray(elementID);
+    			var arrayLength = maskedCharacters.length;		  				  				
+    			
+    			// undo changes from ctrl-v
+  				var pressedKey = String.fromCharCode(event.keyCode).toLowerCase();
+  				if (event.ctrlKey && (pressedKey == "v" || event.keyCode == 86)) {
+  					var fakeValue = "";
+  					for( var i = 0 ; i < arrayLength ; i++ ) {
+  						fakeValue += maskedCharacters[i] + "-";
+  						//alert(maskedCharacters[i]);
+  					}
+  					passElement_fakeRef.value = fakeValue;
+  					return;
+  				}
+  				
+  				if (event.ctrlKey)
+  					return;
+  				
+  				var code = event.keyCode;
+    			
+    			if( code == 8 || code == 46) { // Backspace or delete
+	  				
+	  				// If the user highlights all characters and click backspace	  				
+	    			
+	    			if (passElement_fakeRef.value == "")		    			
+			    			passElementRef.value = "";	
+    			}
+    			
+  				document.getElementById(elementID + "_fake").focus();
+  			}
+  			
+  			function getMaskCharArray(elementID) {
+  				
+  				if (elementID == "currentpassword")
+  					return mChar_currentpassword;
+  				else if (elementID == "newpassword")
+  					return mChar_newpassword;
+  				else if (elementID == "confirmpassword")
+  					return mChar_confirmpassword;		
+  			}
+  			
+  			function handleCancel() {  				
+  				window.location = "$link.getContextPath()";  			
+  			}  		
+			
+			function handleContextHelp() {
+				showHelpDialog();
+			}
+  			            
+        </script>
+  </head>
+
+  <body>
+        <table cellpadding="0" cellspacing="0" border="0" width="100%" height="100%">
+            <tr>
+                <td class="branding_header" valign="middle" nowrap height="32">
+                    <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                        <tr>
+                            <td class="branding_header" valign="middle" nowrap height="32" style="padding-top:8px;padding-left:5px;">
+                                <!-- branding -->
+                                <img src="$link.getContextPath()$msg.get("branding.product")">
+                            </td>
+                            <td class="branding_header" align="right" valign="middle" nowrap height="32" style="padding-top:2px;padding-right:5px;">
+                                <!-- branding -->
+                                <img src="$link.getContextPath()$msg.get("branding.motive")">
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+			<tr>
+				<td class="navigationHeader" height="33">
+<!-- navigation -->
+					<img src="$link.getContextPath()/images/space.gif">
+				</td>
+			</tr>
+			<tr>
+				<td>
+<!-- content -->
+					<table cellpadding="0" cellspacing="0" border="0" width="100%" height="100%">
+						<tr>
+							<td width="100%" height="80%" valign="top">
+								<div style="height:100%;" id="loginDiv">
+									<table cellpadding="0" cellspacing="0" border="0" width="100%" height="100%">
+										<tr>
+											<td valign="top">
+<!-- page title header -->
+												<table class="subNavigationHeader" cellpadding="0" cellspacing="0" border="0" width="100%">
+													<tr>
+														<td nowrap class="page_title">
+															$msg.get("changepassword.form.title")
+														</td>
+													</tr>
+												</table>
+											</td>
+										</tr>
+										<tr>
+											<td height="50%" align="middle" nowrap >
+												<form name="changePasswordForm" method="POST" action="$link.setRelative('updatepw')">
+													<div id="login">
+														<table cellpadding="0" cellspacing="0" border="0" width="100%" height="100%">
+															<tr>
+																<th colspan="3" height="25">
+																	${headingMsg}
+																</th>
+															</tr>
+															<tr>
+																<td colspan="3" height="10">&nbsp;</td>
+															</tr>
+															<tr>
+																<td align="right" nowrap style="padding-left:10;">
+																	$msg.get("changepassword.form.password.current")
+																</td>
+																<td align="left" colspan="2">
+																	#if ($config.getBoolean("enable.changePassword.mask", true))
+																		<input name="currentpassword" id="currentpassword" type="hidden" maxlength="20" class="input_field" style="width: 94%;">
+																		<input name="currentpassword_fake" id="currentpassword_fake" type="password" class="input_field" style="width: 94%;" onKeyDown="javascript:return handleBackspace('currentpassword', event);" onKeyPress="javascript:return mask('currentpassword', event);" onKeyUp="javascript:return doFocus('currentpassword', event);">
+																	#else
+																		<input name="currentpassword" id="currentpassword" type="password" maxlength="20" class="input_field" style="width: 94%;" onfocus="this.select();">
+																	#end	
+																</td>
+															</tr>															
+															<tr>
+																<td align="right" nowrap style="padding-left:10;">
+																	$msg.get("changepassword.form.password.new") 
+																</td>
+																<td align="left" colspan="2">
+																	#if ($config.getBoolean("enable.changePassword.mask", true))
+																		<input name="newpassword" id="newpassword" type="hidden" maxlength="20" class="input_field" style="width: 94%;">
+																		<input name="newpassword_fake" id="newpassword_fake" type="password" class="input_field" style="width: 94%;" onKeyDown="javascript:return handleBackspace('newpassword', event);" onKeyPress="javascript:return mask('newpassword', event);" onKeyUp="javascript:return doFocus('newpassword', event);">
+																	#else
+																		<input name="newpassword" id="newpassword" type="password" maxlength="20" class="input_field" style="width: 94%;" onfocus="this.select();">
+																	#end	
+																</td>
+															</tr>
+															<tr>
+																<td align="right" nowrap style="padding-left:10;">
+																	$msg.get("changepassword.form.password.newconfirm")
+																</td>
+																<td align="left" colspan="2" width="300">
+																	#if ($config.getBoolean("enable.changePassword.mask", true))
+																		<input name="confirmpassword" id="confirmpassword" type="hidden" maxlength="20" class="input_field" style="width: 94%;">
+																		<input name="confirmpassword_fake" id="confirmpassword_fake" type="password" class="input_field" style="width: 94%;" onKeyDown="javascript:return handleBackspace('confirmpassword', event);" onKeyPress="javascript:return mask('confirmpassword', event);" onKeyUp="javascript:return doFocus('confirmpassword', event);">
+																	#else
+																		<input name="confirmpassword" id="confirmpassword" type="password" maxlength="20" class="input_field" style="width: 94%;" onfocus="this.select();">
+																	#end	
+																</td>
+															</tr>
+															<tr>
+																<td colspan="3" align="right" style="padding-left:10;">
+																	$button.render( "", $msg.get('changepassword.form.change'), "button", "changePasswordForm.submit();" )
+																	<input name="login" type="submit" value="" class="button" style="border:none;">
+																#if ($state.intValue() == 0)
+																	$button.render( "", $msg.get('changepassword.form.cancel'), "button", "handleCancel();" )
+																	&nbsp; 
+																#end
+																</td>
+															</tr>
+														</table>
+													</div>
+												</form>
+											</td>
+										</tr>
+										
+										<tr>
+											<td height="50%" align="center">											
+												#if( $errorMsg ) 
+													<div id="errorArea" class="filterDiv" style="width:40%; height:20%;padding: 10 0 10 10;color:#CC0000;text-align: left;font-weight:bold;">
+													
+														$msg.get("changepassword.form.error")
+														#foreach( $errorMessage in $errorMsg )
+															<br>$msg.get($errorMessage)
+														#end
+														
+                                    				</div>
+                                    			#else
+													&nbsp;
+												#end
+											</td>
+										</tr>
+										
+									</table>
+								</div>
+
+				</td>
+			</tr>
+      </table>   
+      #parse( "/dialogFrames.vm" )	  
+  </body>
+</html>

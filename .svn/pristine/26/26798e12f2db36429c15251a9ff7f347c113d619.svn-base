@@ -1,0 +1,97 @@
+<!--
+  Copyright (c) 2004-2007 by Alcatel-Lucent and Motive, Inc. All rights reserved.
+ 
+  CONFIDENTIAL. All rights reserved. This computer program is
+  protected under Copyright. Recipient is to retain the program in
+  confidence, and is not permitted to copy, use, distribute, modify or
+  translate the program without authorization
+-->
+#parse("/roles.vm")
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" >
+<html>
+    <head>
+        <title>
+            $msg.get("imortReport.dialog.title",[$msg.get("app.name")])
+        </title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link href="$link.getContextPath()/css/reporting.css" rel="stylesheet" type="text/css">
+        <script type="text/javascript" language="Javascript">
+            var globals_contextPath = "$link.getContextPath()/";
+        </script>
+        <script src="$link.getContextPath()/js/virtualDialog.js" type="text/javascript" language="Javascript"></script>
+        <script src="$link.getContextPath()/js/common.js" type="text/javascript" language="Javascript"></script>
+        <script type="text/javascript" language="Javascript">
+			var reportId = $report.id;
+			var roles = "$report.roles";
+            
+            function okButtonHandler( theButton ) {
+                if ( isButtonEnabled( theButton )) {
+                    try {
+                        document.getElementById("dialogTable").style.cursor = "wait";
+                        document.getElementById("reportId").value = reportId;                        
+                        document.assignRolesToReportForm.submit();
+                    } catch (e) {
+                        alert("$msg.get("file.access.error")");
+                    }
+                }
+            }
+            
+	
+			function initPage() {                
+                               
+                    setDialogSize();                   
+                
+                
+                initPersistedSelectIndex();
+		    }
+			             
+			function initPersistedSelectIndex(){
+                persistedSelectedIndex = "$!persistedSelectedIndex";
+                //if $var = "" Math.round = 0
+                persistedSelectedIndex = Math.round(persistedSelectedIndex);//to number
+            }
+       </script>
+
+</head>
+<body onload="initPage()">
+		<form name="assignRolesToReportForm" id="assignRolesToReportForm" method="post" action="$link.getContextPath()/manage/assignRolesToReport.do" target="_parent">		            		
+        <table id="dialogTable" cellpadding="0" cellspacing="0" border="0" width="350" height="175" style="padding:5px" class="virtualDialog">
+			<tr>
+                <td id="dialogHeader" class="context_help_header">
+                    Assign Roles
+                </td>
+            </tr>
+            <tr>
+                <td height="100%" valign="top" style="padding: 10 10 10 10;">
+                    <table cellpadding="3" cellspacing="0" border="0" width="100%">
+                        <tr>
+                            <td colspan="2">
+                                Assign Roles to the report. eg. RPT_FOR_VZW/RPT_FOR_LRA/RPT_FOR_BOTH<br><br>
+                            </td>
+                        </tr>						
+                        <tr>
+                            <td colspan="2">
+                                <img src="$link.getContextPath()/images/space.gif" width="20" height="10"><span id="importTypeLabel" class="bold">$msg.get("importReport.dialog.nameLabel")</span><br>
+                                <img src="$link.getContextPath()/images/space.gif" width="20" height="10">$report.displayName
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <img src="$link.getContextPath()/images/space.gif" width="20" height="10"><span id="importTypeLabel">Roles</span><br>
+                                <img src="$link.getContextPath()/images/space.gif" width="20" height="10"><textarea name="roles" id="roles" rows="3" cols="50">$report.roles</textarea>
+                                <input type="hidden" name="reportId" id="reportId"/>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td height="1" align="right">
+                    $button.render( "importReport", "Assign Roles", "button", "okButtonHandler(this);", "$ROLE_UI_REPORT_EDIT" )
+                    $button.render( "cancleButton", $msg.get("importReport.dialog.button.cancel"), "button", "closeDialog();" )
+                </td>
+            </tr>			
+        </table>	
+        </form>			
+    </body>
+</html>

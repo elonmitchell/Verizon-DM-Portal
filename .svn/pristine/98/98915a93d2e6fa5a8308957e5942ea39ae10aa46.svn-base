@@ -1,0 +1,7 @@
+<div class="form-group {{#if (fieldData.required == true && bFieldShown != false)}}required{{/if}}">
+	{{#fieldData.name}}<label for="{{fieldId}}">{{fieldData.name}}</label>{{/fieldData.name}}
+	<div class="fieldValue {{fieldId}}">
+		<textarea type="text" class="form-control" id="{{fieldId}}" name="{{fieldId}}" {{> field-attributes}} value="{{fieldData.value}}"></textarea>
+	</div>
+	{{> help-blocks}}
+</div>

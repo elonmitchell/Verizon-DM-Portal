@@ -1,0 +1,64 @@
+{{> alerts-area}}
+
+<div class="content-div">
+	{{#if g_RD.paraText}}
+		<p>{{& g_RD.paraText}}</p>
+	{{/if}}
+
+	{{#if g_RD.resultText}}
+	<p>{{& g_RD.resultText}}</p>
+	{{/if}}
+
+	{{#if g_RD.mainContent}}
+		{{& g_RD.mainContent}}
+	{{/if}}
+
+	{{#if g_RD.displayTableData}}
+		{{#if (g_RD.displayTableData.length > 0)}}
+			{{! Two-column: name and value }}
+			<table class="displayTableData">
+				{{#each g_RD.displayTableData}}
+					<tr>
+						<td>{{this.name}}:</td>
+						<td>{{this.value}}</td>
+					</tr>
+				{{/each}}
+			</table>
+		{{elseif (g_RD.displayTableData.colNames.length > 0)}}
+			{{! Multi-column with variable column headers }}
+			<table class="displayTableData">
+				<thead>
+					<tr>
+						{{#each g_RD.displayTableData.colNames}}
+						<th>{{this.name}}</th>
+						{{/each}}
+					</tr>
+				</thead>
+				{{#each g_RD.displayTableData.colData:colDataIdx}}
+					{{# {colDataItem: this}}}
+						<tbody>
+							<tr>
+								{{#each g_RD.displayTableData.colNames}}
+									{{# {colNameId: this.id}}}
+										<td>{{colDataItem[colNameId]}}</td>
+									{{/}}
+								{{/each}}
+							</tr>
+						</tbody>
+					{{/}}
+				{{/each}}
+			</table>
+		{{/if}}
+	{{/if}}
+
+	{{#if g_RD.formFields}}
+		<form {{#each g_RD.formAttributes:key}} {{key}}="{{g_RD.formAttributes[key]}}"{{/each}}>
+			{{# {linearFieldLayoutArray: getLinearFieldLayoutArray(g_RD.formFields.fieldLayout)}}}
+				{{> field-layout-loop}}
+			{{/}}
+		</form>
+	{{/if}}
+	<div style="clear: both"></div>
+</div>
+
+{{> bottom-note}}

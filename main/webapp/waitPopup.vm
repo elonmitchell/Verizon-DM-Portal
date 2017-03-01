@@ -1,0 +1,7 @@
+    <div id="wait-popup" class="fb-popup">
+      <h1><span class="titleText">Please wait</span></h1>
+      <div style="text-align: center; padding: 40px;">
+        <p><img src="$link.getContextPath()/images/wait_image.gif" width="32" height="32" /></p>
+        <p><span class="waitText">Please wait</span></p>
+      </div>
+    </div>

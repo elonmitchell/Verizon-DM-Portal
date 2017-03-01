@@ -1,0 +1,82 @@
+{
+	"screens": [
+		{
+			"id": "scr-ReportSchedulesEdit-input",
+			"template": "two-button",
+			"content": {
+				"title": "Edit Report Schedule",
+				"formFields": {
+					"fieldLayout": [
+						"scheduleName",
+						"reportName",
+						"frequency",
+						"startTime",
+						"recipients"
+					],
+					"fieldData": {
+						"scheduleName:": {
+							"text": "Report Schedule Name",
+							"type": "text",
+							"value": "foobar1"
+						},
+						"reportName:": {
+							"text": "Associated Report Name",
+							"type": "view",
+							"value": "foobar2"
+						},
+						"frequency:": {
+							"name": "Frequency",
+							"type": "select",
+							"options": [
+								{
+									"text": "Daily",
+									"value": "1"
+								},
+								{
+									"text": "Weekly",
+									"value": "2"
+								}
+							],
+							"required": true
+						},
+						"startTime": {
+							"name": "Start Time (CST)",
+							"type": "dateTimeMeridian",
+							"value": "",
+							"required": true
+						},
+						"recipients": {
+							"name": "Recipients",
+							"type": "text",
+							"value": "",
+							"required": true
+						}
+					}
+				},
+				"buttons": [
+					{
+						"text": "Edit",
+						"value": "edit"
+					}
+				]
+			}
+		},
+		{
+			"id": "scr-ReportSchedulesEdit-wait",
+			"template": "wait",
+			"type": "modal",
+			"content": {
+				"title": "Delete Report Schedules",
+				"waitText": "Deleting the report schedules..."
+			}
+		},
+		{
+			"id": "scr-ReportSchedulesEdit-result",
+			"template": "simple",
+			"content": {
+				"title": "Delete Report Schedules",
+				"resultText": "Successfully deleted."
+			}
+		}
+	]
+}

@@ -1,0 +1,88 @@
+<xml id="etlLogXSL" style="display:none;">
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+<xsl:template match="/">
+	<table cellpadding="0" cellspacing="0" border="0" width="100%" id="data_table" class="data_table">
+      <tr>
+        <th align="left" width="1%" style="white-space:nowrap">$msg.get("etl.reportList.header.run")</th>
+        <th align="left" width="10%" style="white-space:nowrap">$msg.get("etl.reportList.header.operator")</th>			
+        <th align="left" width="15%" style="white-space:nowrap">$msg.get("etl.reportList.header.inserted")</th>			
+        <th align="left" width="10%" style="white-space:nowrap">$msg.get("etl.reportList.header.severity")</th>			
+        <th align="left" width="15%" style="white-space:nowrap">$msg.get("etl.reportList.header.component")</th>			
+        <th align="left" width="*" style="white-space:nowrap">$msg.get("etl.reportList.header.messageDetail")</th>			
+        <th>&#160;</th>
+      </tr>
+      <xsl:for-each select="etlLog/entry">
+          <xsl:variable name="messageText" select="messageText" />		  
+          <tr>
+            <xsl:attribute name="class">
+                <xsl:choose>
+                    <xsl:when test="position() mod 2 = 0">odd_table_row</xsl:when>
+                    <xsl:otherwise>even_table_row</xsl:otherwise>
+                </xsl:choose>
+            </xsl:attribute>
+            <td class="" align="left" ><xsl:value-of select="runNumber" /></td>
+            <td class="" align="left" ><xsl:value-of select="operator" /></td>
+            <td class="" align="left" ><xsl:value-of select="insertedDate" /></td>
+            <td class="" align="left" ><xsl:value-of select="severity" /></td>
+            <td class="" align="left" ><xsl:value-of select="component" /></td>
+            <td style="overflow-x:hidden;" >
+                <xsl:choose>
+                    <xsl:when test="string-length(messageText) &lt; 60">
+                         <xsl:value-of select="messageText" />  
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:attribute name="title">
+                            <xsl:value-of select="messageText" />   
+                        </xsl:attribute>
+                        <xsl:value-of select="substring(messageText, 0, 57)" />...
+                    </xsl:otherwise>  
+                </xsl:choose> 
+                $util.space()
+            </td>
+            <td align="center" width="20" nowrap="true">
+                <button style="margin:0;border:0;background:none;">
+                    <xsl:attribute name="onclick">
+                        showInfo('<xsl:value-of select="infoDivId" />', '<xsl:value-of select="infoIconId" />', '$link.getContextPath()$msg.get("icon.infoButton")', '$link.getContextPath()$msg.get("icon.triangle")')
+                    </xsl:attribute>
+                    <img src="$link.getContextPath()$msg.get("icon.infoButton")" border="0">
+                        <xsl:attribute name="id">
+                            <xsl:value-of select="infoIconId"/>
+                        </xsl:attribute>
+                    </img>
+                </button>
+            </td>
+          </tr>
+          <tr style="display:none;" >
+            <xsl:attribute name="id">
+                <xsl:value-of select="infoDivId"/>
+            </xsl:attribute>
+            <xsl:attribute name="class">
+                  <xsl:choose>
+                      <xsl:when test="position() mod 2 = 0">odd_table_row</xsl:when>
+                      <xsl:otherwise>even_table_row</xsl:otherwise>
+                  </xsl:choose>
+            </xsl:attribute>
+            <td colspan="7" style="padding:0;">
+                    <div class="tableInfoBox" >
+                        <table cellpadding="0" cellspacing="0" border="0" width="100%" >
+                            <tr>
+                                <td class="infoFieldName" align="right" width="15%" style="border-right:none;border-bottom:none;border-right:none;">$msg.get("etl.reportList.errorDetails")</td>
+                                <td width="*" style="border-left:none;border-bottom:none;border-right:none;"><xsl:value-of select="messageText" /></td>
+                            </tr>
+                            <tr>
+                                <td class="infoFieldName" align="right" width="15%" style="border-right:none;border-bottom:none;border-right:none;">$msg.get("etl.reportList.context1")</td>
+                                <td width="*" style="border-left:none;border-bottom:none;border-right:none;"><xsl:value-of select="context1" /></td>
+                            </tr>
+                            <tr>
+                                <td class="infoFieldName" align="right" width="15%" style="border-right:none;;border-bottom:none;border-right:none;">$msg.get("etl.reportList.context2")</td>
+                                <td width="*" style="border-left:none;border-bottom:none;border-right:none;"><xsl:value-of select="context2" /></td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+          </tr>
+      </xsl:for-each>
+  </table>
+</xsl:template>
+</xsl:stylesheet>
+</xml>

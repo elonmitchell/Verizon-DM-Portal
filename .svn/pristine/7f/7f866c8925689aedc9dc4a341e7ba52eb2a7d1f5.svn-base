@@ -1,0 +1,35 @@
+<div class="form-group {{#if fieldData.required === true}}required{{/if}}">
+	{{#fieldData.name}}<label for="{{fieldId}}">{{fieldData.name}}</label>{{/fieldData.name}}
+	<div class="fieldValue {{fieldId}}">
+		{{#if fieldData.bShowWait}}
+			<div class="modal-body-content-center">
+				<div class="spinner">
+					<div class="bounce1"></div>
+					<div class="bounce2"></div>
+					<div class="bounce3"></div>
+				</div>
+				{{#fieldData.waitText}}<p>{{fieldData.waitText}}</p>{{/fieldData.waitText}}
+			</div>
+		{{else}}
+			{{#fieldData.fieldValueNA}}
+				{{fieldData.fieldValueNA}}
+			{{/fieldData.fieldValueNA}}
+			<div {{#fieldData.fieldValueNA}}style="display:none"{{/fieldData.fieldValueNA}}>
+			{{#if fieldData.options}}
+				<select class="form-control" id="{{fieldId}}" name="{{fieldId}}" {{> field-attributes}} value="{{fieldData.value}}">
+					{{#each fieldData.options}}
+							{{# {optionValue: (typeof(this) == "string") ? this : this.value, optionText: (typeof(this) == "string") ? this : this.text } }}
+								{{# {bSelected: optionValue === fieldData.value}}}
+									<option value="{{optionValue}}" {{#if bSelected}}selected="selected"{{/if}}>{{optionText}}</option>
+								{{/}}
+						{{/}}
+					{{/each}}
+				</select>
+			{{else}}
+				{{fieldData.initText}}
+			{{/if}}
+			</div>
+		{{/if}}
+	</div>
+	{{> help-blocks}}
+</div>

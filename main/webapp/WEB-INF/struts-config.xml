@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN"
+                               "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
+<struts-config> 
+    
+     <form-beans>        
+        <form-bean name="reportList" type="org.apache.struts.action.DynaActionForm">
+            <form-property name="objectItem" type="java.lang.Long[]"/>
+        </form-bean>
+        
+        <form-bean name="groupList" type="org.apache.struts.action.DynaActionForm">
+            <form-property name="objectItem" type="java.lang.Long[]"/>
+        </form-bean>
+    
+        <form-bean name="groupName" type="org.apache.struts.action.DynaActionForm">
+            <form-property name="name" type="java.lang.String"/>
+        </form-bean>
+
+		<form-bean name="assignRolesToReportForm" type="org.apache.struts.action.DynaActionForm">
+            <form-property name="reportId" type="java.lang.String"/>
+            <form-property name="roles" type="java.lang.String"/>            
+		</form-bean>
+		
+		<form-bean name="importReportForm" type="org.apache.struts.validator.DynaValidatorForm">         
+        	<form-property name="importFile" type="org.apache.struts.upload.FormFile"/>
+            <form-property name="reportGroup" type="java.lang.String"/>
+            <form-property name="name" type="java.lang.String"/>
+            <form-property name="description" type="java.lang.String"/>
+		</form-bean>
+		
+		<form-bean name="createScheduleForm" type="org.apache.struts.validator.DynaValidatorForm">
+            <form-property name="name" type="java.lang.String"/>
+		</form-bean>
+		
+    </form-beans>   
+
+	<global-forwards>
+        <forward name="login" path="/login.vm" />
+		<forward name="logout" path="/logout.vm" />
+	    <forward name="ajaxReportList" path="/manage/reportManagerList.vm" />
+	    <forward name="ajaxReportGroupSelect" path="/manage/reportGroupSelect.vm" />
+	    <forward name="etlRefresh" path="/etl/reportETLXML.vm" />
+	    <forward name="licenseFailure" path="/licenseError.vm" />
+	</global-forwards>
+	
+	<action-mappings>
+		<action forward="/index.vm" path="/Home" />
+      
+		<!-- action path="/view/viewReport"
+			    type="motive.reports.reportconsole.view.actions.ViewReport"
+			    roles="UI_REPORT_READ">
+			<forward name="success" path="/view/viewReport.vm" redirect="false"/>
+        </action-->
+        
+        <action path="/view/dashboard"
+			    type="motive.reports.reportconsole.view.actions.ReportList"
+			    roles="UI_REPORT_READ">
+			<forward name="success" path="/view/dashboard.vm" redirect="false"/>
+        </action>
+        
+		<action path="/view/dashboard2"
+						type="motive.reports.reportconsole.view.actions.ReportList"
+						roles="UI_REPORT_READ">
+			<forward name="success" path="/view/dashboard2.vm" redirect="false"/>
+		</action>
+
+        <action path="/view/getReport"
+			    type="motive.reports.reportconsole.view.actions.RetrieveReport"
+			    roles="UI_REPORT_READ">
+			<forward name="success" path="/view/getReport.vm" redirect="false"/>
+        </action>
+        
+        
+		<action path="/view/historicalReports"
+						type="motive.reports.reportconsole.view.actions.ReportList"
+						roles="UI_REPORT_VIEW">
+			<forward name="success" path="/view/historicalReports.vm" redirect="false"/>
+		</action>
+
+		<action path="/view/reportTemplates"
+						type="motive.reports.reportconsole.view.actions.ReportList"
+						roles="UI_REPORT_VIEW">
+			<forward name="success" path="/view/reportTemplates.vm" redirect="false"/>
+		</action>
+
+   		<action path="/view/reportList"
+			    type="motive.reports.reportconsole.view.actions.ReportList"
+			    roles="UI_REPORT_VIEW"> 
+			<forward name="success" path="/view/reportList.vm" redirect="false"/>
+        </action>
+   
+		<action path="/manage/reportManager"
+			    type="motive.reports.reportconsole.manage.actions.ManageReports"
+			    roles="UI_REPORT_READ,UI_REPORT_EXPORT,UI_REPORT_DELETE,UI_REPORT_EDIT">
+			<forward name="success" path="/manage/reportManager.vm" redirect="false"/>
+        </action>
+
+		<action path="/manage/reportManagement"
+			    type="motive.reports.reportconsole.manage.actions.ManageReports"
+			    roles="UI_REPORT_READ,UI_REPORT_EXPORT,UI_REPORT_DELETE,UI_REPORT_EDIT">
+			<forward name="success" path="/manage/reportManagement.vm" redirect="false"/>
+        </action>
+
+		<action path="/manage/importReportDialog"
+			    type="motive.reports.reportconsole.manage.actions.ImportReportDialog"
+			    roles="UI_REPORT_EDIT">
+			<forward name="success" path="/manage/importDialog.vm" redirect="false"/>
+        </action>
+        
+		<action path="/manage/importReport"
+				name="importReportForm"
+			    type="motive.reports.reportconsole.manage.actions.ImportReport"
+			    roles="UI_REPORT_EDIT">
+			<forward name="success" path="/manage/reportManager.do" redirect="false"/>
+		</action>
+
+        <action path="/manage/importReportPopup"
+			    type="motive.reports.reportconsole.manage.actions.ImportReportDialog"
+			    roles="UI_REPORT_EDIT">
+			<forward name="success" path="/manage/importPopup.vm" redirect="false"/>
+        </action>
+        
+        
+		<action path="/schedule/reportSchedules"
+						type="motive.reports.reportconsole.schedule.actions.ManageSchedules"
+						roles="UI_REPORT_VIEW">
+			<forward name="success" path="/schedule/reportSchedules.vm" redirect="false"/>
+		</action>
+
+
+        <action path="/schedule/scheduleManager"
+			    type="motive.reports.reportconsole.schedule.actions.ManageSchedules"
+			    roles="UI_REPORT_VIEW">
+			<forward name="success" path="/schedule/scheduleManager.vm" redirect="false"/>
+        </action>
+        
+        <action path="/schedule/createSchedulePopup"
+			    type="motive.reports.reportconsole.schedule.actions.CreateScheduleDialog"
+			    roles="UI_REPORT_VIEW">
+			<forward name="success" path="/schedule/createPopup.vm" redirect="false"/>
+        </action>
+        
+		<action path="/schedule/createSchedule"
+				name="createScheduleForm"
+			    type="motive.reports.reportconsole.schedule.actions.CreateSchedule"
+			    roles="UI_REPORT_VIEW">
+			<forward name="success" path="/schedule/scheduleManager.do" redirect="false"/>
+        </action>
+        
+        <action path="/schedule/editSchedulePopup"
+			    type="motive.reports.reportconsole.schedule.actions.EditSchedulePopup"
+			    roles="UI_REPORT_VIEW">
+			<forward name="success" path="/schedule/editPopup.vm" redirect="false"/>
+        </action>
+        
+        <action path="/schedule/updateSchedule"
+			    type="motive.reports.reportconsole.schedule.actions.UpdateSchedule"
+			    roles="UI_REPORT_VIEW">
+			<forward name="success" path="/schedule/scheduleManager.do" redirect="false"/>
+        </action>       
+        
+        
+        
+		<action path="/manage/assignRolesToReportDialog"
+			    type="motive.reports.reportconsole.manage.actions.AssignRolesToReportDialog"
+			    roles="UI_REPORT_EDIT">
+			<forward name="success" path="/manage/assignRolesToReportDialog.vm" redirect="false"/>
+        </action>
+        
+        <action path="/manage/assignRolesToReportPopup"
+			    type="motive.reports.reportconsole.manage.actions.AssignRolesToReportDialog"
+			    roles="UI_REPORT_EDIT">
+			<forward name="success" path="/manage/assignRolesToReportPopup.vm" redirect="false"/>
+        </action>
+        
+        <action path="/manage/assignRolesToReport"
+			    type="motive.reports.reportconsole.manage.actions.AssignRolesToReport"
+			    roles="UI_REPORT_EDIT">
+			<forward name="success" path="/manage/reportManager.do" redirect="false"/>
+        </action>        
+		
+        <action path="/manage/getReportGroups" 
+                type="motive.reports.reportconsole.manage.actions.GetReportGroups"
+                roles="UI_REPORT_READ,UI_REPORT_EXPORT,UI_REPORT_DELETE,UI_REPORT_EDIT">
+            <forward name="success" path="/manage/groupManagerList.vm" />
+        </action>
+
+        <action path="/etl/etManager" 
+                type="motive.reports.reportconsole.etl.actions.ETLManager"
+                roles="UI_ETLADMIN_READ">
+            <forward name="success" path="/etl/reportETL.vm" />
+        </action>
+
+        <action path="/welcome/welcome" 
+                type="motive.reports.reportconsole.welcome.actions.Welcome"
+                roles="">
+            <forward name="success" path="/welcome/welcome.vm" />
+        </action>
+
+        <action path="/manage/manageGroupAjax" type="motive.reports.reportconsole.manage.actions.ManageGroupAjax" 
+                parameter="operation" 
+                roles="UI_REPORT_EDIT"/>	
+
+        <action path="/manage/reportManagerAjax" type="motive.reports.reportconsole.manage.actions.ReportManagerAjax" 
+                parameter="operation" 
+                roles="UI_REPORT_READ,UI_REPORT_EXPORT,UI_REPORT_DELETE,UI_REPORT_EDIT"/>	
+                
+        <action path="/manage/deleteReportAjax" type="motive.reports.reportconsole.manage.actions.DeleteReportAjax" 
+                parameter="operation" 
+                roles="UI_REPORT_DELETE"/>	
+
+        <action path="/etl/refresh" type="motive.reports.reportconsole.etl.actions.ETLRefresh" 
+                parameter="operation" 
+                roles="UI_ETLADMIN_EXECUTE"/>	
+
+        <action path="/manage/downloadReport" 
+                type="motive.reports.reportconsole.manage.actions.DownloadReport"
+                roles="UI_REPORT_EXPORT">
+          <forward name="error" path="/manage/reportManager.do" redirect="true" />
+        </action>
+
+        <action path="/view/downloadHistReport"
+                type="motive.reports.reportconsole.view.actions.DownloadHistoricalReport"
+                roles="UI_REPORT_READ">
+          <forward name="error" path="/view/reportList.do" redirect="true" />
+        </action>
+
+		<action path="/logout" type="motive.reports.reportconsole.Logout">
+			<forward name="success" path="/logout.vm" />
+		</action>
+	  
+		<action path="/changePassword" type="motive.reports.reportconsole.ChangePassword">
+			<forward name="success" path="/changePassword.vm" />
+		</action> 
+        <action path="/loginredirect" type="motive.reports.reportconsole.actions.ReportLoginAction">
+                <forward name="success" path="/view/dashboard.do" redirect="true" />
+                <forward name="error" path="/loginError.vm" redirect="true" />
+        </action>
+		<action path="/view/historicalReportAction"
+                        type="motive.reports.reportconsole.view.actions.HistoricalReportAction">
+        </action>
+        
+        <action path="/schedule/deleteScheduleAjax" type="motive.reports.reportconsole.schedule.actions.DeleteScheduleAjax" 
+                parameter="operation" 
+                roles="UI_REPORT_VIEW"/>			
+		
+	</action-mappings>
+	
+	<controller nocache="true" />
+
+	<message-resources parameter="motive.reports.reportconsole.Messages" null="false" />
+
+    <plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+		<set-property property="pathnames" value="/WEB-INF/validator-rules.xml,/WEB-INF/validation.xml" />
+	</plug-in>    
+    
+</struts-config>

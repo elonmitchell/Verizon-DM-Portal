@@ -1,0 +1,111 @@
+{
+	"screens": [
+		{
+			"id": "scr-ReportSchedulesEdit-loading",
+			"template": "wait",
+			"type": "modal",
+			"content": {
+				"title": "Edit Report Schedule",
+				"waitText": "Loading report schedule data..."
+			}
+		},
+		{
+			"id": "scr-ReportSchedulesEdit-input",
+			"template": "two-button",
+			"content": {
+				"title": "Edit Report Schedule",
+				"formAttributes": {
+					"autocomplete": "off"
+				},
+				"formFields": {
+					"fieldLayout": [
+						[
+							"scheduleName",
+							"reportName",
+							"scheduleIdEP"
+						],
+						[
+							"frequency",
+							"startDateTime"
+						],
+						"recipients"
+					],
+					"fieldData": {
+						"scheduleName": {
+							"name": "Report Schedule Name",
+							"type": "view",
+							"value": "foobar1"
+						},
+						"reportName": {
+							"name": "Associated Report Name",
+							"type": "view",
+							"value": "foobar2"
+						},
+						"frequency": {
+							"name": "Frequency",
+							"type": "select",
+							"options": [
+								{
+									"text": "Daily",
+									"value": "1"
+								},
+								{
+									"text": "Weekly",
+									"value": "2"
+								}
+							],
+							"value": "1",
+							"required": true
+						},
+						"startDateTime": {
+							"name": "Start Time (CST)",
+							"type": "dateTimeMeridian",
+							"value": "",
+							"required": true
+						},
+						"recipients": {
+							"name": "Recipients",
+							"type": "text",
+							"value": "",
+							"required": true,
+							"autocomplete": "off",
+							"extraHelpBlocks": ["tagError"]
+						},
+						"recipients2": {
+							"name": "Recipients",
+							"type": "text",
+							"value": "",
+							"required": true
+						},
+						"scheduleIdEP": {
+							"type": "hidden",
+							"value": ""
+						}
+					}
+				},
+				"buttons": [
+					{
+						"text": "Edit",
+						"value": "edit"
+					}
+				]
+			}
+		},
+		{
+			"id": "scr-ReportSchedulesEdit-wait",
+			"template": "wait",
+			"type": "modal",
+			"content": {
+				"title": "Edit Report Schedule",
+				"waitText": "Editing the report schedule..."
+			}
+		},
+		{
+			"id": "scr-ReportSchedulesEdit-result",
+			"template": "simple",
+			"content": {
+				"title": "Edit Report Schedule"
+			}
+		}
+	]
+}

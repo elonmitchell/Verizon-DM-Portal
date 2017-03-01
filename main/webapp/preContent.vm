@@ -1,0 +1,150 @@
+<!--
+  Copyright (c) 2004-2007 by Alcatel-Lucent and Motive, Inc. All rights reserved.
+ 
+  CONFIDENTIAL. All rights reserved. This computer program is
+  protected under Copyright. Recipient is to retain the program in
+  confidence, and is not permitted to copy, use, distribute, modify or
+  translate the program without authorization
+-->
+<!--
+#if( !$request.isRequestedSessionIdValid())
+   $response.sendRedirect("$link.getContextPath()/loggedOut.vm");
+#end
+-->
+  <div id="wrapper">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      
+      <tr>
+        <td align="left" valign="top">
+          <div id="header">
+            <div class="header-center">
+              <div class="header-product-title" title="DM Reporting Console">
+                <div class="cell"><img class="leftAligned" src="$link.getContextPath()/images/vz_logo.png" alt="Verizon Wireless" border="0"/></div>
+                <div class="cell product-title-text-center">DM Reporting Console</div>
+              </div>
+              <div class="header_right">
+                <div class="header-logo" align="right"><img src="$link.getContextPath()/images/company_logo.png" alt="Alcatel-Lucent" hspace="0" vspace="0" /></div>
+                <div id="help-area">
+                  <ul>
+                    <li><span id="clockbox"></span></li>
+                    <li><span id="userName">$util.getUserName()</span></li>
+                    <!-- <li><a href="help.vm" target="mdm_console" onclick="">Help</a></li> -->
+                    <li><a href="$link.getContextPath()/logout.do" onclick="">Logout</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="shadow">&nbsp;</div>
+        </td>
+      </tr>
+      
+      <tr>
+        <td align="left" valign="top">
+          <div id="navig">
+            <div id="tabs">
+              <ul>
+                <li class="selectedmenu"><a href="#" title="Reports"><span>Reports</span></a></li>
+              </ul>
+            </div>
+          </div>
+        </td>
+      </tr>
+      
+      <tr>
+        <td align="left" valign="top">
+          <div id="content-area">
+            <label id="main_product_title"></label><label id="main_welcome"></label>
+            <div id="wrapper">
+              <div id="content-area">
+                <div class="welcome">
+                  <div class="welcome2">
+                    <div class="topArea">
+                      <div class="subnav-area">
+                        #set( $tabClass = "" )
+                        #set( $activePageTitle = "" )
+                        #if($sectionHeadString)
+                          #set( $activePageTitle = $sectionHeadString )
+                        #end
+                        #if ( $activeTab == "dashboard" )
+                            #set( $tabClass = "subnav-link-current" )
+                            #set( $activePageTitle = "Dashboard" )
+                        #else
+                            #set( $tabClass = "" )
+                        #end
+                        <div class="subnav-link subnav-link-first $tabClass"><a href="$link.getContextPath()/view/dashboard.do">Dashboard</a></div>
+                        #if ($security.hasRole( "$ROLE_UI_REPORT_VIEW" ))
+                          #set( $tabClass = "" )
+                          #if ( $activeTab == "view" )
+                              #set( $tabClass = "subnav-link-current" )
+                              #set( $activePageTitle = "View Reports" )
+                          #else
+                              #set( $tabClass = "" )
+                          #end
+                          <div class="subnav-link $tabClass"><a href="$link.getContextPath()/view/reportList.do">View Reports</a></div>
+                        #end
+                        #if (($security.hasRole( "$ROLE_UI_REPORT_EDIT" ))|| ($security.hasRole( "$ROLE_UI_REPORT_DELETE" ))|| ($security.hasRole( "$ROLE_UI_REPORT_EXPORT" )))
+                          #set( $tabClass = "" )
+                          #if ( $activeTab == "manage" )
+                              #set( $tabClass = "subnav-link-current" )
+                              #set( $activePageTitle = "Manage Reports" )
+                          #else
+                              #set( $tabClass = "" )
+                          #end
+                          <div class="subnav-link $tabClass"><a href="$link.getContextPath()/manage/reportManager.do">Manage Reports</a></div>
+                        #end
+
+                        #if ($security.hasRole( "$ROLE_UI_REPORT_VIEW" ))
+                          #set( $tabClass = "" )
+                          #if ( $activeTab == "schedule" )
+                              #set( $tabClass = "subnav-link-current" )
+                              #set( $activePageTitle = "Manage Report Schedules" )
+                          #else
+                              #set( $tabClass = "" )
+                          #end
+                          <div class="subnav-link $tabClass"><a href="$link.getContextPath()/schedule/scheduleManager.do">Manage Report Schedules</a></div>
+
+                        #end
+                      </div>
+                      <table border="0" width="100%">
+                        <tr>
+                          <td width="100%;">
+                            <table border="0">
+                              <tr>
+                                <td class="topTitle">
+                                  <span>$activePageTitle</span>
+                                </td>
+                              </tr>
+                            </table>
+                          </td>
+                          <td align="right" nowrap>
+                            #if ( $activeTab == "dashboard" )
+                           
+                                 #foreach($group in $groupList)
+                                        #if($group.name == "Dashboard")
+                                              #foreach($report in $group.reports)
+                                                #if($report.name == "DetailedDashboard")
+                                                    #set( $reportDDUrl = $util.getReportURLUserEnc($report))
+
+                                                #end
+                                                #if($report.name == "DashboardAsPdf")
+                                                    #set( $reportPdfURL = $util.getReportURLUserEnc($report))
+
+                                                #end
+                                              #end
+                                        #end
+                                 #end
+			        #if ( $security.hasRole( "$ROLE_UI_REPORT_DETAIL" ))
+                                <div class="dashboard-top-buttons">
+                                      	<button id="button-detailed-dashboard" class="fb-button img-button-medium img-button-medium-view" onclick="launchReport('$reportDDUrl');"><span>View APN/FOTA Details</span></button>
+                                 		<button id="button-download-data" class="fb-button img-button-medium img-button-medium-download" onclick="launchReportWithDownload('$reportPdfURL');"><span>Download FOTA details</span></button>
+                                </div>
+                               #end 
+                              <!--
+                                -->
+                            #end
+                          </td>
+                        </tr>
+                      </table>
+                    </div> <!-- .topArea -->
+                    <div class="content">

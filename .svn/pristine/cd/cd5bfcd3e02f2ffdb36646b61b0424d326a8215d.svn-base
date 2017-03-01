@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- #parse("/roles.vm") -->
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<title>Report Templates - Reporting Console</title>
+
+<!-- Bootstrap Core CSS -->
+<link href="$link.getContextPath()/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<!-- Font Awesome CSS -->
+<link href="$link.getContextPath()/lib/font-awesome/font-awesome.min.css" rel="stylesheet"/>
+<!-- Custom CSS -->
+<link href="$link.getContextPath()/css/spinner.css" rel="stylesheet">
+<link href="$link.getContextPath()/css/simple-sidebar.css" rel="stylesheet">
+<link href="$link.getContextPath()/css/verizon.default.css" rel="stylesheet"/>
+<link href="$link.getContextPath()/css/reportconsole.css" rel="stylesheet"/>
+<script type="text/javascript" language="Javascript">
+   function launchReportPost( reportURL ) {
+     var uuser = '$util.getEncryptedUserName()';
+     var d = new Date();
+     var currentURL = "/report-viewer/frameset?" + reportURL + d.getTimezoneOffset() + "&__user=" + uuser;
+     theWindow = window.open( currentURL, "_blank", "toolbar=0,resizable=1,menubar=0,location=0,status=0");
+   }
+</script>
+
+</head>
+
+<body class="shell">
+
+	<div class="main-header">
+		<!-- Navigation -->
+		<div class="top-nav">
+			<div class="verizon-logo"><i class="fa fa-bars" id="menu-toggle" aria-hidden="true"></i><div class="logo"></div></div>
+			<div class="app-name"><h4>DM Reporting Console by Nokia</h4></div>
+			<div class="top-nav-right">
+				<div class="user-menu top-nav-menu">
+					<div class="dropdown">
+						<div data-toggle="dropdown" class="dropdown-toggle">
+							<span class="fa fa-user top-menu-icon" title="Current User"></span>
+							$util.getUserName()
+							<span class="caret" title="User Menu"></span>
+						</div>
+						<ul class="dropdown-menu dropdown-menu-right">
+							<li><a href="$link.getContextPath()/logout.do"><span class="fa fa-sign-out" title="User Menu"></span> Logout</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div> <!-- .main-header -->
+
+	<div class="wrapper">
+
+		<!-- Sidebar -->
+		<div class="sidebar-wrapper">
+			<ul class="sidebar-nav">
+				<li id="sidebar-brand-dashboard" class="sidebar-brand"><a href="$link.getContextPath()/view/dashboard.do">Dashboard</a></li>
+				<!-- #if ($security.hasRole( "$ROLE_UI_REPORT_VIEW" )) -->
+				<li id="sidebar-brand-historical-reports" class="sidebar-brand"><a href="$link.getContextPath()/view/historicalReports.do">Historical Reports</a></li>
+				<li id="sidebar-brand-report-templates" class="sidebar-brand active"><a href="$link.getContextPath()/view/reportTemplates.do">View Reports</a></li>
+				<!-- #end -->
+				<!-- #if (($security.hasRole( "$ROLE_UI_REPORT_EDIT" ))|| ($security.hasRole( "$ROLE_UI_REPORT_DELETE" ))|| ($security.hasRole( "$ROLE_UI_REPORT_EXPORT" ))) -->
+				<li id="sidebar-brand-report-management" class="sidebar-brand"><a href="$link.getContextPath()/manage/reportManagement.do">Report Management</a></li>
+				<!-- #end -->
+				<!-- #if ($security.hasRole( "$ROLE_UI_REPORT_VIEW" )) -->
+				<li id="sidebar-brand-report-schedules" class="sidebar-brand"><a href="$link.getContextPath()/schedule/reportSchedules.do">Report Schedules</a></li>
+				<!-- #end -->
+			</ul>
+
+			<span class="disclaimer">Copyright © 2008-<span id="copyrightEndYear">2016</span> Nokia.<br> All rights reserved.<br><br>Best viewed with IE11 or higher</span>
+		</div> <!-- /#sidebar-wrapper -->
+
+		<!-- Page Content -->
+		<div class="page-content-wrapper">
+			<div class="container-fluid">
+				<div class="row">
+					<div id="content-area" class="col-lg-12">
+
+						<!-- Tester Campaigns -->
+						<div id="main-area-report-templates" class="main-area-page" style="display: block">
+							<div class="grid-title-area clearfix">
+								<div class="grid-title">Report Templates</div>
+							</div>
+
+
+							<div id="reports-templates-content-container">
+
+								<table id="viewReportsTable" class="table">
+									<thead>
+										<tr>
+											<th>Report Name</th>
+											<!-- <th>Report Description</th> -->
+											<th>Report Group</th>
+										</tr>
+									</thead>
+									<tbody>
+										#foreach($group in $groupList)
+											#foreach($report in $group.reports)
+												#set( $reportIsVisible = 0 )
+												#foreach($reportRoles in $report.roles.split(","))
+													#if ( $security.hasRole($reportRoles))
+														#set( $reportIsVisible = 1 )
+													#end
+												#end
+												#if($reportIsVisible == 1)
+													<tr>
+														<td>
+															<img src="$link.getContextPath()$msg.get("icon.report")" align="absmiddle" width="12" height="14"/>
+															<a href="javascript:launchReportPost('$util.getReportParamsURL($report)');" #if ( !$security.hasRole("$ROLE_UI_REPORT_READ") || !$security.hasRole("$ROLE_UI_REPORT_READ") ) disabled #end>$report.displayName</a>
+														</td>
+														<!-- <td>$util.nvl($report.description, $msg.get("view.reportList.descriptionEmpty"))</td> -->
+														<td nowrap="nowrap">$group.name</td>
+													</tr>
+												#end
+											#end
+										#end
+									</tbody>
+								</table>
+
+
+							</div>
+
+						</div> <!-- #main-area-report-templates -->
+
+					</div> <!-- #content-area -->
+				</div> <!-- .row -->
+			</div> <!-- .container-fluid -->
+		</div> <!-- /#page-content-wrapper -->
+
+	</div> <!-- /#wrapper -->
+
+	<!-- jQuery -->
+	<script src="$link.getContextPath()/lib/jquery/jquery-1.11.1.src.js"></script>
+	<script src="$link.getContextPath()/lib/jquery/jquery-ui.min.js"></script>
+	<!-- Bootstrap Core JavaScript -->
+	<script src="$link.getContextPath()/lib/bootstrap/js/transition.js"></script>
+	<script src="$link.getContextPath()/lib/bootstrap/js/collapse.js"></script>
+	<script src="$link.getContextPath()/lib/bootstrap/js/bootstrap.min.js"></script>
+	<!-- Page Managers and popup controllers -->
+	<script src="$link.getContextPath()/js/ReportTemplatesManager.js" type="text/javascript"></script>
+
+	<script>
+	$j(document).ready(function() {
+		ReportTemplatesManager.init();
+	});
+	</script>
+
+</body>
+
+</html>

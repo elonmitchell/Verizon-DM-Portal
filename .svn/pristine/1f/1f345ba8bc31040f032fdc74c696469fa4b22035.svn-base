@@ -1,0 +1,225 @@
+<!--
+  Copyright (c) 2004-2007 by Alcatel-Lucent and Motive, Inc. All rights reserved.
+ 
+  CONFIDENTIAL. All rights reserved. This computer program is
+  protected under Copyright. Recipient is to retain the program in
+  confidence, and is not permitted to copy, use, distribute, modify or
+  translate the program without authorization
+-->
+#parse("/roles.vm")
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+#set( $pageTitle = "view.form.title" )
+#parse( "pageHeader.vm" )
+<script src="$link.getContextPath()/js/loadhistoricalreport.js" type="text/javascript"></script>
+<script type="text/javascript" language="Javascript">
+var auto_refresh = setInterval(
+	function(){
+         jQuery('#historicalReportsScrollingDiv').fadeOut('slow').load().fadeIn("slow");
+         onloadHistoricalReport(); 
+         }, 300000);
+
+jQuery(document).ready(function() {
+    onloadHistoricalReport();
+});
+
+function init() {
+  // Update height of historicalReportsScrollingDiv to match viewReportsTable
+  var height = document.getElementById("viewReportsTable").offsetHeight;
+  if (height < 200) height = 200;
+  document.getElementById("historicalReportsScrollingDiv").style.height = (height-2)+"px";
+  if ( $groupLoadFailed )
+  {
+    document.getElementById( "emptyReportListMsg" ).innerHTML = "$msg.get("manage.error.reportGroupLoadError")";
+  }
+  _setCopyrightYear();
+ }
+
+function handleResize() {
+  setTableHeight( 112, "mainContentArea" );
+  setContentWidth(22, 700);
+}
+
+function toggleWelcomeDivVisability( theDivId, imageElement) {
+  theDivObject = findObject( theDivId );
+  if ( theDivObject != null ) {
+    if ( theDivObject.style.display == "none") {
+      theDivObject.style.display = "block";
+      imageElement.src="$link.getContextPath()$msg.get("icon.triangle")";
+    }
+    else {
+      theDivObject.style.display = "none";
+      imageElement.src="$link.getContextPath()$msg.get("icon.triangleDown")";
+    }
+  }
+}
+
+function toggleInfoDivVisability( theDivId, imageElement) {
+  theDivObject = findObject( theDivId );
+  if ( theDivObject != null ) {
+    if ( theDivObject.style.display == "none") {
+      theDivObject.style.display = "block";
+      imageElement.src="$link.getContextPath()$msg.get("icon.infoBoxArrowDown")";
+    }
+    else {
+      theDivObject.style.display = "none";
+      imageElement.src="$link.getContextPath()$msg.get("icon.infoBoxArrowUp")";
+    }
+  }
+}
+
+function redirectWelcomePage( theButtonID, pageURL ) {
+  if (!isPanelButtonDisabled(theButtonID)) {
+    window.location = "$link.getContextPath()/" + pageURL;
+  }
+}
+
+function displayDialogInWelcomePage( theButtonID, dialogURL ) {
+  if (!isPanelButtonDisabled(theButtonID)) {
+    showDialog( "$link.getContextPath()/" + dialogURL );
+  }
+}
+
+function launchReport( reportURL ) {
+  var d = new Date();
+  theWindow = window.open( reportURL+d.getTimezoneOffset(), "_blank", "toolbar=0,resizable=1,menubar=0,location=0");
+}
+
+function launchHistoricalReport( histReportURL ) {
+  // location = histReportURL;
+  theWindow = window.open( histReportURL, "_blank", "toolbar=0,resizable=1,menubar=0,location=0");
+}
+
+function launchReportPost( reportURL ) {
+  var uuser = '$util.getEncryptedUserName()';
+  var d = new Date();
+  var currentURL = "/report-viewer/frameset?" + reportURL + d.getTimezoneOffset() + "&__user=" + uuser;
+  theWindow = window.open( currentURL, "_blank", "toolbar=0,resizable=1,menubar=0,location=0,status=0");
+}
+
+
+
+function timeConverter(UNIX_timestamp){
+ var a = new Date(UNIX_timestamp);
+ var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+     var year = a.getFullYear();
+     var month = months[a.getMonth()];
+     var date = a.getDate();
+     var hour = a.getHours();
+     var min = a.getMinutes();
+     var sec = a.getSeconds();
+     var time = date+','+month+' '+year+' '+hour+':'+min+':'+sec ;
+     return time;
+ }
+
+function _setCopyrightYear() {
+	document.getElementById("spanYear").innerHTML=new Date().getFullYear();
+}
+</script> 
+</head>
+<body onload="init();">
+  #set( $activeTab = "view" )
+  #parse( "preContent.vm" )
+  
+  <div class="dataListDiv" id="mainContentArea">
+    <table class="layoutTable" width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td class="layoutLeftCell" width="70%">
+          <!-- <fieldset class="dashboard-fieldset-right"><legend>Generated Reports</legend> -->
+          <!-- <h3>Generated Reports</h3> -->
+          
+          #set( $allCount = 1 )
+          #set( $groupCount = 1 )
+          #set( $shadeRow = 1 )
+          <table id="viewReportsTable" width="100%" cellpadding="0" cellspacing="0" border="0" >
+            <tr>
+              <th>Report Name</th>
+              <!-- <th>Report Description</th> -->
+              <th>Report Group</th>
+            </tr>
+            #foreach($group in $groupList)
+              #set( $reportCount = 1 )
+              #foreach($report in $group.reports)
+                #set( $reportIsVisible = 0 )
+                #foreach($reportRoles in $report.roles.split(","))
+                  #if ( $security.hasRole($reportRoles))
+                    #set( $reportIsVisible = 1 )
+                  #end
+                #end
+                #if($reportIsVisible == 1)
+                  #set ( $evenOddClass = "oddRow" )
+                  #if ($allCount % 2 == 0)
+                    #set ( $evenOddClass = "evenRow" )
+                  #end
+                  <tr class="$evenOddClass">
+                    <td>
+                      <img src="$link.getContextPath()$msg.get("icon.report")" align="absmiddle"/>
+                      <a href="javascript:launchReportPost('$util.getReportParamsURL($report)');" #if ( !$security.hasRole("$ROLE_UI_REPORT_READ") || !$security.hasRole("$ROLE_UI_REPORT_READ") ) disabled #end>$report.displayName</a>
+                    </td>
+                    <!-- <td>$util.nvl($report.description, $msg.get("view.reportList.descriptionEmpty"))</td> -->
+                    <td nowrap="nowrap">$group.name</td>
+                  </tr>
+                  #set( $reportCount = ($reportCount + 1) )
+                  #set( $allCount = ($allCount + 1) )
+                #end
+              #end             
+              #set( $groupCount = $groupCount + 1 )
+            #end
+          </table>
+          <!-- </fieldset> -->
+          
+        </td>
+        <td class="layoutRightCell borderRightCell" width="30%">
+          
+          <!-- <fieldset id="historical-reports-fieldset" style="margin-top: -11px;"><legend>Historical Reports</legend> -->
+            
+            <div id="historicalReportsScrollingDiv" class="scrolling-div" style="height: 250px;">
+            #set( $histCount = 1 )
+            #set( $allCount = 1 )
+            <table id="historicalReportsTable">
+## Content loaded dynamically in onloadHistoricalReport()
+##              <tr><th colspan="2">Historical Reports ZZ </th></tr>
+##              #foreach($histReport in $histReportList)
+##                  #set ( $evenOddClass = "oddRow" )
+##                  #if ($allCount % 2 == 0)
+##                    #set ( $evenOddClass = "evenRow" )
+##                  #end
+##                  <tr class="$evenOddClass">
+##                    <td>
+##                      <img src="../images/report2.gif"/></td>
+##                      <td><a href="javascript:launchHistoricalReport('$link.getContextPath()/view/downloadHistReport.do?histReportID=${histReport.id}');" #if ( !$security.hasRole("$ROLE_UI_REPORT_READ") || !$security.hasRole("$ROLE_UI_REPORT_READ") ) disabled #end>$histReport.histReportName</a><br/>
+##                      <span class="historicalReportsSubline">$histReport.description $histReport.getInserted()</span>
+##                    </td>
+##                   </tr>
+##                  #set( $histCount = ($histCount + 1) )
+##                  #set( $allCount = ($allCount + 1) )
+##              #end
+##              #if ( $histCount == 1 )
+##                	<tr><td>$msg.get( "view.reportList.emtpy" )</td></tr>
+##              #end
+            </table>
+           
+          <!-- </fieldset> -->
+          
+        </td>
+      </tr>
+    </table>
+    <div id="emptyReportListMsg" style="display: none;"></div>
+
+  </div>
+  #parse( "/dialogFrames.vm" )
+
+  #parse( "postContent.vm" )
+
+  <div class="fancybox-popup-wrap">
+    <div id="import-tester-device-popup" class="fb-popup">
+
+    </div>
+  </div>
+  <a id="fb-popup-link" href="" style="display: none;"></a> <!-- href set dynamically -->
+  <a id="fb-modal-popup-link" href="" style="display: none;"></a> <!-- href set dynamically -->
+</body>
+
+</html>

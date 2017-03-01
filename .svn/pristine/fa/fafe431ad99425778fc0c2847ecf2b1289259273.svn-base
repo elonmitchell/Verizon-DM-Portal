@@ -1,0 +1,179 @@
+{
+	"screens": [
+		{
+			"id": "scr-ReportManagementRolesAssign-loading",
+			"template": "wait",
+			"type": "modal",
+			"content": {
+				"title": "Report Config",
+				"waitText": "Loading report config data..."
+			}
+		},
+		{
+			"id": "scr-ReportManagementRolesAssign-input",
+			"template": "two-button",
+			"content": {
+				"title": "Report Config",
+				"paraText": "Assign Roles to the report. eg. RPT_FOR_VZW/RPT_FOR_LRA/RPT_FOR_BOTH",
+				"formFields": {
+					"fieldLayout": [
+						[
+							"reportId",
+							"reportName",
+							"reportRoles",
+							"historicalReportsNum",
+							"historicalReportsEnabledDisabled"
+						],
+						[
+							"scedulesNum",
+							"schedulesEnabledDisabled",
+							"scheduleSupportedFormats",
+							"scheduleReportFormat"
+						]
+					],
+					"fieldData": {
+						"reportId": {
+							"type": "hidden",
+							"value": ""
+						},
+						"reportName": {
+							"name": "Report Name",
+							"type": "view",
+							"value": ""
+						},
+						"reportRoles": {
+							"name": "Roles",
+							"type": "textarea",
+							"value": ""
+						},
+						"historicalReportsNum": {
+							"name": "Number of Historical Reports Allowed",
+							"type": "text",
+							"value": "",
+							"required": true
+						},
+						"historicalReportsEnabledDisabled": {
+							"name": "Historical Report",
+							"type": "radioGroup",
+							"value": "true",
+							"radioOptions": [
+								{
+									"id": "historicalReportsEnabled",
+									"type": "radio",
+									"valueLabel": "Enabled",
+									"elementValue": "true"
+								},
+								{
+									"id": "historicalReportsDisabled",
+									"type": "radio",
+									"valueLabel": "Disabled",
+									"elementValue": "false"
+								}
+							]
+						},
+						"scedulesNum": {
+							"name": "Number of Schedules Allowed",
+							"type": "text",
+							"value": "foobar3",
+							"required": true
+						},
+						"schedulesEnabledDisabled": {
+							"name": "Schedule Report",
+							"type": "radioGroup",
+							"value": "true",
+							"radioOptions": [
+								{
+									"id": "schedulesEnabled",
+									"type": "radio",
+									"valueLabel": "Enabled",
+									"elementValue": "true"
+								},
+								{
+									"id": "schedulesDisabled",
+									"type": "radio",
+									"valueLabel": "Disabled",
+									"elementValue": "false"
+								}
+							]
+						},
+						"scheduleSupportedFormats": {
+							"name": "Supported Formats",
+							"type": "checkboxGroup",
+							"valueArray": [],
+							"required": true,
+							"checkboxOptions": [
+								{
+									"id": "supportedFormatPPT",
+									"type": "checkbox",
+									"valueLabel": "PPT",
+									"elementValue": "ppt"
+								},
+								{
+									"id": "supportedFormatPDF",
+									"type": "checkbox",
+									"valueLabel": "PDF",
+									"elementValue": "pdf"
+								},
+								{
+									"id": "supportedFormatXLS",
+									"type": "checkbox",
+									"valueLabel": "Excel",
+									"elementValue": "xls"
+								}
+							]
+						},
+						"scheduleReportFormat": {
+							"name": "Schedule Report Format",
+							"type": "radioGroup",
+							"value": "ppt",
+							"required": true,
+							"radioOptions": [
+								{
+									"id": "reportFormatPPT",
+									"type": "radio",
+									"valueLabel": "PPT",
+									"elementValue": "ppt"
+								},
+								{
+									"id": "reportFormatPDF",
+									"type": "radio",
+									"valueLabel": "PDF",
+									"elementValue": "pdf"
+								},
+								{
+									"id": "reportFormatXLS",
+									"type": "radio",
+									"valueLabel": "Excel",
+									"elementValue": "xls"
+								}
+							]
+						}
+					}
+				},
+				"buttons": [
+					{
+						"text": "Update",
+						"value": "edit"
+					}
+				]
+			}
+		},
+		{
+			"id": "scr-ReportManagementRolesAssign-wait",
+			"template": "wait",
+			"type": "modal",
+			"content": {
+				"title": "Report Config",
+				"waitText": "Updating the report config..."
+			}
+		},
+		{
+			"id": "scr-ReportManagementRolesAssign-result",
+			"template": "simple",
+			"content": {
+				"title": "Report Config",
+				"resultText": "Successfully updated."
+			}
+		}
+	]
+}

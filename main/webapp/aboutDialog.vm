@@ -1,0 +1,71 @@
+<!--
+  Copyright (c) 2004-2007 by Alcatel-Lucent and Motive, Inc. All rights reserved.
+ 
+  CONFIDENTIAL. All rights reserved. This computer program is
+  protected under Copyright. Recipient is to retain the program in
+  confidence, and is not permitted to copy, use, distribute, modify or
+  translate the program without authorization
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" >
+<html>
+    <head>
+    
+    <script type="text/javascript">
+    		 function setInfoTxt(){
+				          //set the info text
+    		  	    srcTxt = document.getElementById("licensingInfo").contentWindow.document.body.innerText;
+    		      targetPre= document.getElementById("preFormat");
+          targetPre.innerText = srcTxt;
+	       }
+    
+    </script>
+    
+        #set( $pageTitle = "about.form.title" )
+        #parse( "pageHeader.vm" )
+    </head>
+    <body onload="setDialogSize();setInfoTxt()" >
+        <table id="dialogTable" cellpadding="0" cellspacing="0" border="0" width="300" height="370" style="padding:5px" class="virtualDialog">
+            <tr>
+                <td id="dialogHeader" align="left" class="context_help_header" colspan="2">
+                   $msg.get("about.form.title",[$msg.get("app.name")])
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2"  valign="middle" align="left" style="padding: 10 10 0 10;">
+                    <img src="$link.getContextPath()$msg.get("branding.product")" magin="0"/>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top" align="left" style="padding: 0 10 5 12">
+                    $msg.get("product.version")
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" height="100%" valign="top" align="left" style="padding: 5 10 10 10;">
+                    <div id="parameterValueDisplay" name="parameterValueDisplay" style="border: 2px inset;overflow:auto;width:400px;height:300px;background-color:F7F7FF;" class="default_font" >
+                       <pre id="preFormat" style="background-color:F7F7FF;" class="default_font" >
+                              ##txt from licensingInfo iframe
+                      </pre>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td height="1" align="left" colspan="1" style="padding-left:10px;">
+                    <img src="$link.getContextPath()$msg.get("branding.motive")" magin="0"/>
+                </td>
+                <td height="1" align="right" colspan="1">
+					                    $button.render( "closeButton", $msg.get("dialog.close"), "button", "closeDialog();")
+                </td>
+            </tr>
+        </table>
+        
+        ##hidden iframe to import external about license info text
+        <iframe id="licensingInfo" name="licensingInfo" src="$request.getScheme()://$request.getServerName():$request.getServerPort()$msg.get('about.licenseInfo')" 
+               style="width:400px;height:150px;display:none">
+       </iframe>
+        
+    </body>
+</html>
+
+
+

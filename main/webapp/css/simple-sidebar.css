@@ -1,0 +1,208 @@
+/*!
+ * Start Bootstrap - Simple Sidebar (http://startbootstrap.com/)
+ * Copyright 2013-2016 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE)
+ */
+
+/* Toggle Styles */
+
+.wrapper {
+	padding: 100px 0 0 0;
+	-webkit-transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+	-o-transition: all 0.5s ease;
+	transition: all 0.5s ease;
+	text-align: left;
+	position: relative;
+	height: 100%;
+	background: #fff;
+	margin: 0;
+	box-sizing: border-box;
+}
+.wrapper.toggled {
+	padding: 100px 0 0 0;
+	margin: 0 0 0 190px;
+}
+.wrapper .h1,
+.wrapper .h2,
+.wrapper .h3,
+.wrapper h1,
+.wrapper h2,
+.wrapper h3 {
+	margin-bottom: 10px;
+}
+.ui-widget-content {
+	border: solid 1px #ccc;
+	border-radius: 0;
+	background: none;
+}
+.sidebar-wrapper .disclaimer {
+	position: absolute;
+	bottom: 0;
+	margin: 0;
+	padding: 20px;
+	min-width: 140px;
+	text-align: left;
+	background: url(../images/nokia_logo.png) 20px 3px / 80px auto no-repeat;
+	display: none;
+}
+.wrapper.toggled .sidebar-wrapper {
+	z-index: 2;
+	-webkit-transition: z-index 0s ease 0.5s;
+	-moz-transition: z-index 0s ease 0.5s;
+	-o-transition: z-index 0s ease 0.5s;
+	transition: z-index 0s ease 0.5s;
+}
+.sidebar-wrapper {
+	z-index: 2;
+	position: fixed;
+	left: 190px;
+	width: 190px;
+	margin-left: -190px;
+	overflow-y: auto;
+	background: #f6f6f6;
+	-webkit-transition: margin 0.5s ease;
+	-moz-transition: margin 0.5s ease;
+	-o-transition: margin 0.5s ease;
+	transition: margin 0.5s ease;
+	bottom: 0;
+	top: 60px;
+}
+.main-header .sidebar-wrapper {
+	position: absolute;
+	margin: 0;
+	left: 0;
+	color: #fff;
+	line-height: 40px;
+	text-align: center;
+}
+.main-header .breadcrumbs {
+	line-height: 40px;
+	font-size: 14px;
+}
+.main-header .wrapper {
+	padding-top: 0;
+}
+.verizon-logo {
+	float: left;
+	width: auto;
+}
+.bottom-nav,
+.top-nav {
+	border-bottom: solid 1px #f2f2f2;
+	min-width: 320px;
+}
+.top-nav {
+  height: 60px;
+	background: #fff;
+}
+.app-name {
+	float: left;
+	padding: 18px 10px;
+}
+.page-content-wrapper {
+	position: absolute;
+	margin: 0;
+	bottom: 0;
+	top: 60px; /* change back to 100px once breadcrumb is visible */
+	right: 0;
+	left: 0;
+}
+
+/* Sidebar Styles */
+
+.sidebar-nav {
+	position: absolute;
+	top: 12px;
+	width: 190px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.sidebar-nav li {
+	text-indent: 15px;
+	line-height: 40px;
+}
+.sidebar-nav li a {
+	display: block;
+	text-decoration: none;
+	color: #4b4b4b;
+	font-size: 14px;
+	font-family: 'league_spartanregular';
+}
+
+.sidebar-nav li a:hover {
+	text-decoration: none;
+}
+
+.sidebar-nav li a:active,
+.sidebar-nav li a:focus {
+	text-decoration: none;
+}
+
+.sidebar-nav > .sidebar-brand {
+	font-size: 18px;
+}
+.page-content-wrapper .col-lg-12,
+.page-content-wrapper .row {
+	padding: 0;
+	margin: 0;
+}
+.page-content-wrapper {
+	margin: 20px;
+}
+.page-content-wrapper .container-fluid {
+	margin: 0;
+	padding: 0;
+}
+.main-header .breadcrumbs {
+	margin: 0 35px;
+}
+@media(min-width:768px) {
+	.sidebar-wrapper {
+		z-index: 2;
+		-webkit-transition: z-index 0s ease 0.5s;
+		-moz-transition: z-index 0s ease 0.5s;
+		-o-transition: z-index 0s ease 0.5s;
+		transition: z-index 0s ease 0.5s;
+	}
+	.wrapper.toggled .sidebar-wrapper {
+		z-index: -1;
+		-webkit-transition: z-index 0s;
+		-moz-transition: z-index 0s;
+		-o-transition: z-index 0s;
+		transition: z-index 0s;
+	}
+	.toggled .page-content-wrapper {
+		left: 0;
+	}
+	.app-name {
+		padding: 18px 35px;
+	}
+	.verizon-logo {
+		width: 190px;
+	}
+	.wrapper {
+		margin-left: 190px;
+	}
+	.wrapper.toggled {
+		margin-left: 0;
+	}
+	.wrapper.toggled .page-content-wrapper {
+		top: 60px;
+	}
+}
+@media(max-width:420px) {
+	.app-name {
+		padding: 27px 10px 0px 4px;
+	}
+	.app-name h4 {
+		font-size: 15px;
+	}
+}
+@media(min-height:540px) {
+	.sidebar-wrapper .disclaimer {
+		display: block;
+	}
+}

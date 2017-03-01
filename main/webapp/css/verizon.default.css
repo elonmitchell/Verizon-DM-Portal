@@ -1,0 +1,475 @@
+body,html {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    height: 100%;
+}
+@font-face {
+    font-family: 'league_spartanregular';
+    src: url('fonts/leaguespartan-bold-webfont.woff2') format('woff2'),
+         url('fonts/leaguespartan-bold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'inderregular';
+    src: url('fonts/inder-regular-webfont.woff2') format('woff2'),
+         url('fonts/inder-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+/* Titles/Global */
+h1,h2,h3,h4,h5 {
+    font-family: 'league_spartanregular';
+    font-weight: normal;
+    margin: 0;
+}
+h2 {
+    color: #cd040b;
+    font-size: 36px;
+}
+h3 {
+    color: #000;
+    font-size: 14px;
+}
+h4 {
+    color: #cd040b;
+    font-size: 22px;
+}
+h5 {
+    color: #000;
+    font-size: 30px;
+}
+a {
+    text-decoration: none;
+}
+/* Login */
+.form-title {
+    margin: 30px 0 24px 0;
+    line-height: 36px;
+}
+.login-form .username,
+.login-form .password {
+    padding: 8px 10px;
+    border: solid 1px #ccc;
+    margin: 0 0 12px 0;
+    width: 178px;
+}
+.submit-login input#submit-btn:focus:not([readonly]), input.value:focus:not([readonly]) {
+	border: 0;
+	outline: none;
+}
+
+/*
+input:focus:not([readonly]), input.value:focus:not([readonly]) {
+    border-color: #9B9B9B;
+    background-color: #f6f6f6;
+}
+*/
+.login-form h3 {
+    margin: 0 0 12px 0;
+}
+/* Form */
+input {
+    font-family: 'league_spartanregular';
+    font-size: 16px;
+}
+.form-error {
+    font-family: Arial;
+}
+/* -tw3
+.required {
+    color: #cd040b;
+}
+*/
+.form-error {
+    padding: 0;
+    font-size: 12px;
+    display: block;
+    margin: 0 0 12px 0;
+    color: #cd040b;
+}
+.form-error i {
+    margin: 0 5px 0 0;
+    font-size: 25px;
+    color: #5e253a;
+    float: left;
+}
+.form-error span {
+    float: left;
+    line-height: 25px;
+}
+.form-error {
+	display: none;
+}
+/* Header */
+.header {
+    border-bottom: solid 1px #BBB;
+}
+#static-page .header {
+    border-bottom: none;
+}
+.main-header {
+	width: 100%;
+	position:fixed;
+	top: 0;
+	left: 0;
+	z-index: 1;
+}
+#static-page .logo-area {
+    margin: 73px 0 42px 0;
+}
+.logo-area {
+    margin: 36px 0 20px 0;
+    display: inline-block;
+}
+.logo {
+    background-image: url(../images/logo.png);
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    background-position: center center;
+    width: 156px;
+    height: 34px;
+    float: left;
+}
+.logo-area h4 {
+    float: left;
+    margin: 0 0 0 28px;
+    line-height: 50px;
+    max-height: 34px;
+}
+.special-groups {
+    display: inline-block;
+    width: 100%;
+    margin: 0 0 10px 0;
+}
+.special-group-filter-table {
+    float: right;
+}
+/* Login Area */
+#login .window {
+    padding: 0 0 100px 0;
+}
+.submit-login,.button {
+    position: relative;
+    width: 145px;
+    margin: 42px 0 0 0;
+}
+.submit-login input,
+.button input {
+    background: #cd040b;
+    padding: 14px 70px 15px 20px;
+    border: none;
+    color: #fff;
+    font-family: 'league_spartanregular';
+    font-size: 19px;
+    display: block;
+    margin: 0;
+    cursor: pointer;
+    width: 100%;
+    box-sizing: border-box;
+}
+.submit-login input[disabled],
+.button input[disabled] {
+    color: #959595;
+    background-color: #e4e5e3;
+    opacity: .9;
+}
+.submit-login input[disabled] + i,
+.button input[disabled] + i {
+    color: #959595;
+    cursor: default;
+}
+.submit-login:hover input,
+.button input[disabled] + i {
+    background-color: #a80309;
+}
+.submit-login:hover input[disabled],
+.button:hover input[disabled] {
+    background-color: #e4e5e3;
+    cursor: not-allowed;
+}
+.submit-login:hover i,
+.button:hover i {
+    right: 20px;
+}
+.submit-login:hover input[disabled] + i,
+.button:hover input[disabled] + i {
+    right: 30px;
+}
+.submit-login i,
+.button i {
+    position: absolute;
+    right: 30px;
+    top: 8px;
+    color: #fff;
+    font-size: 35px;
+    -webkit-transition: right 0.3s ease;
+    -moz-transition: right 0.3s ease;
+    -o-transition: right 0.3s ease;
+    transition: right 0.3s ease;
+    cursor: pointer;
+}
+.button {
+    float: left;
+    margin: 28px 20px 28px 0;
+}
+/* Content */
+#static-page .content {
+    max-width: 940px;
+}
+#static-page .content.inner {
+    max-width: 986px;
+}
+.content {
+    max-width: 950px;
+    width: 100%;
+    margin: 0 auto;
+    display: inline-block;
+    text-align: left;
+}
+/* Static Page */
+#static-page .window {
+    font-family: Arial,Helvetica,sans-serif;
+    background: #f7f7f7;
+    padding: 0 0 43px 0;
+    border-bottom: 1px solid #CCC;
+    border-top: 1px solid #f2f2f2;
+}
+#static-page a:link {
+    color: #06C;
+    text-decoration: none;
+}
+#static-page a:visited {
+	color: #06C;
+	text-decoration: none;
+}
+.static-title {
+    margin: 26px 0 7px 0;
+    font-family: 'inderregular';
+    font-style: italic;
+    line-height: 22px;
+    height: 25px;
+}
+.warning {
+    font-weight: bold;
+    font-size: 14.4px;
+    line-height: 20px;
+    margin: 22px 0 0 0;
+    display: block;
+}
+.instructions {
+    display: block;
+    font-size: 12px;
+    margin: 13px 0 6px 0;
+    font-weight: bold;
+}
+.steps {
+    margin: 0;
+    padding: 0 0 0 44px;
+}
+.steps li {
+    font-size: 12px;
+    padding: 0 0 0 2px;
+}
+.back-to {
+    margin: 16px 0 0 0;
+    display: inline-block;
+    font-size: 14.4px;
+}
+.back-to i {
+    margin: 0 0 0 5px;
+    color: #666;
+    position: relative;
+    top: 0.5px;
+}
+/* Menu */
+#menu-toggle {
+    float: left;
+    font-size: 25px;
+    margin: 17px 15px;
+    cursor: pointer;
+}
+.top-nav-menu ul.dropdown-menu-right {
+	right: -15px;
+}
+
+.top-nav-menu .dropdown-menu > li > a {
+	/* padding: 2px 20px; */
+}
+
+.top-nav-menu .dropdown-menu > li > a > span.fa {
+	margin-right: 10px;
+}
+
+.user-menu {
+    height: 100%;
+    border-right: solid 1px #f2f2f2;
+    border-left: solid 1px #f2f2f2;
+    padding: 0 20px;
+    line-height: 60px;
+    cursor: pointer;
+}
+.user-menu:hover {
+    background: #f6f6f6;
+}
+.top-menu-icon {
+    padding: 0 15px 0 0;
+}
+.user-menu .fa-sort-desc {
+    margin: 0 0 0 20px;
+}
+.user-menu, .top-nav-right .fa-search, .upload-menu {
+    float: left;
+}
+.user-menu .dropdown.open ul.dropdown-menu-right {
+	min-width: 110px;
+}
+.user-menu .dropdown-menu>li>a {
+	text-align: right
+}
+
+
+.ui-widget-content .ui-state-default {
+    background: #f6f6f6;
+}
+.ui-widget-content .ui-state-default {
+    background: #f6f6f6;
+    border: none;
+    border-radius: 0;
+    font-weight: normal;
+    font-size: 13px;
+}
+.top-nav-right {
+    float: right;
+    height: 100%;
+    position: relative;
+}
+.top-nav-right .fa-search {
+    font-size: 29px;
+    line-height: 59px;
+    margin: 0 20px;
+}
+.verizon-logo .logo {
+    margin: 13px 0;
+    background-size: 100px auto;
+}
+.sidebar-brand.active a,
+.sidebar-brand:hover a {
+    color: #cd040b;
+}
+.verizon-logo .logo {
+    margin: 13px 0;
+    background-size: 100px auto;
+    background-position: left center;
+    width: 100px;
+}
+.breadcrumbs {
+    font-family: 'league_spartanregular';
+}
+.breadcrumbs .visited {
+    color: #06C;
+    cursor: pointer;
+}
+/* Page Areas */
+.main-area-page {
+	display: none;
+}
+.title-area {
+    float: left;
+    margin: 0;
+}
+.tab-pane {
+    display: none;
+    padding: 25px 20px 20px 20px;
+    border: solid 1px #ccc;
+}
+.tab-pane.active {
+    display: block;
+}
+.links {
+    float: left;
+    clear: both;
+    padding: 0;
+    margin: 0;
+    position: relative;
+    top: 1px;
+}
+.links li.active {
+    color: #cd040b;
+    border-bottom: solid 1px #fff;
+}
+.links li {
+    float: left;
+    list-style: none;
+    cursor: pointer;
+    padding: 10px 20px;
+    border-right: solid 1px #ccc;
+    border-left: solid 1px #ccc;
+    border-top: solid 1px #ccc;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+.links li:first-child {
+    margin: 0 5px 0 0;
+}
+.links li:hover {
+    color: #cd040b;
+}
+/* Grid title area */
+.grid-title {
+	font-size: 16px;
+	display: block;
+	padding: 0 0 20px 15px;
+	font-family: 'league_spartanregular';
+	float: left;
+}
+.grid-title-details {
+	float: right;
+}
+.dashboard-title {
+    padding: 0 0 20px 0;
+}
+.default-view {
+    font-weight: normal;
+    font-family: Arial;
+    text-decoration: underline;
+    margin: 5px 0 0 0;
+    display: block;
+}
+.default-view:hover {
+    color: #cd040b;
+    cursor: pointer;
+}
+/* Button Bar */
+.button-bar {
+	margin: 20px 0;
+}
+/* Footer */
+.footer {
+    position: relative;
+    margin: 100px 0 0 0;
+    width: 100%;
+    height: 135px;
+    background: #f6f6f6;
+}
+.footer.anchored {
+    position: absolute;
+    bottom: 0;
+}
+#static-page .footer {
+    background: none;
+    margin: 0;
+}
+.disclaimer {
+    font-family: Arial;
+    font-size: 10px;
+    text-align: center;
+    display: inline-block;
+    margin: 65px 0 0 0;
+}
+
+#triplet-management-results-area {
+	padding-bottom: 15px;
+}

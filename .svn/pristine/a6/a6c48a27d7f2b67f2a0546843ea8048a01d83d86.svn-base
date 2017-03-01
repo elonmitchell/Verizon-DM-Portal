@@ -1,0 +1,8 @@
+    <div id="question-popup" class="fb-popup">
+      <h1><span class="title">Question</span></h1>
+      <p><span class="questionStr">Are you sure?</span></p>
+      <div class="popup-submit-button paddingTop20">
+        $button.render( "okButton", $msg.get("exception.ok"), "button", "" )
+		$button.render( "cancelButton", $msg.get("dialog.cancel"), "button", "" )
+      </div>
+    </div>

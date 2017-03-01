@@ -1,0 +1,12 @@
+        <iframe id="emptyFrame" src="$link.getContextPath()/empty.vm" frameborder="0" scroll="none" style="display:none;"></iframe>
+        <iframe id="dialogFrame" src="$link.getContextPath()/empty.vm" frameborder="0" scroll="none" style="display:none;"></iframe>
+        <iframe id="contextHelpFrame" src="$link.getContextPath()/empty.vm" frameborder="0" scroll="none" style="display:none;"></iframe>
+		<div id="contextZoomingDiv" class="virtualDialog" ></div>
+		<script type="text/javascript" language="Javascript">
+		  var helpDialogSrc = "$link.getContextPath()/global/helpDialog.vm";
+		  var savedHelpPosX = -1;
+		  var savedHelpPosY = -1;
+		  var draggedFlag = false;
+		  var animateOpen = true;
+		</script>
+		#parse("/errorHandler.vm")

@@ -1,0 +1,113 @@
+<!--
+  Copyright (c) 2004-2007 by Alcatel-Lucent and Motive, Inc. All rights reserved.
+ 
+  CONFIDENTIAL. All rights reserved. This computer program is
+  protected under Copyright. Recipient is to retain the program in
+  confidence, and is not permitted to copy, use, distribute, modify or
+  translate the program without authorization
+-->
+        <div class="branding_header minimumWidth">
+            <span class="headerProductTitle" >
+                <img src="$link.getContextPath()$msg.get("branding.product")" title="$msg.get("product.version.label",[$msg.get("app.name")]) $version.getVersion()"/>
+            </span>
+            <span class="headerCompanyLogos">
+                <img src="$link.getContextPath()$msg.get("branding.motive")">
+            </span>
+        </div>
+        <div class="navigationHeader minimumWidth">
+            <div class="leftFloatingDiv ">
+                <table cellpadding="0" cellspacing="0" border="0" height="33">
+                    <tr>
+                        #set( $tabClass = "" )
+                        #if ( $activeTab == "welcome" )
+                            #set( $spaceClass = "active_tab_left" )
+                        #else
+                            #set( $spaceClass = "" )
+                        #end
+                        <td width="10" class="$spaceClass">
+                            <img src="$link.getContextPath()/images/space.gif" />
+                        </td>
+                        #if ( $activeTab == "welcome" )
+                            #set( $tabClass = "active_tab" )
+                        #else
+                            #set( $tabClass = "inactive_tab" )
+                        #end
+                        <!--td class="$tabClass" nowrap onclick="window.location='$link.getContextPath()/welcome/welcome.vm'">
+                            <a href="$link.getContextPath()/welcome/welcome.vm">$msg.get("navigation.welcome")</a> 
+                        </td-->
+						#if ( $activeTab == "view" )
+                            #set( $spaceClass = "active_tab_left" )
+                        #else
+                            #set( $spaceClass = "" )
+                        #end
+                        #if ( $activeTab == "welcome" )
+                            #set( $spaceClass = "active_tab_right" )
+                        #elseif ( $activeTab == "view" )
+                            #set( $spaceClass = "active_tab_left" )
+                        #else
+                            #set( $spaceClass = "nav_divider" )
+                        #end
+                          #set( $spaceClass = "active_tab_left" )
+                        #if ( $activeTab == "view" )
+                            #set( $tabClass = "active_tab" )
+                        #else
+                            #set( $tabClass = "inactive_tab" )
+                        #end
+                        #if ( $security.hasRole( "$ROLE_UI_REPORT_READ" ))
+                            <td width="10" class="$spaceClass">
+								<img src="$link.getContextPath()/images/space.gif" />
+							</td>
+							<td class="$tabClass" onclick="window.location='$link.getContextPath()/view/reportList.do'">
+                                <a href="$link.getContextPath()/view/reportList.do">$msg.get("navigation.view")</a>
+                            </td>                        
+                        #end
+                        #if ( $activeTab == "view" )
+                            #set( $spaceClass = "active_tab_right" )
+                        #elseif ( $activeTab == "manage" )
+                            #set( $spaceClass = "active_tab_left" )
+                        #else
+                            #set( $spaceClass = "nav_divider" )
+                        #end
+
+                        #if ( $activeTab == "manage" )
+                            #set( $tabClass = "active_tab" )
+                        #else
+                            #set( $tabClass = "inactive_tab" )
+                        #end
+                        #if (($security.hasRole( "$ROLE_UI_REPORT_EDIT" ))|| ($security.hasRole( "$ROLE_UI_REPORT_DELETE" ))|| ($security.hasRole( "$ROLE_UI_REPORT_EXPORT" )))
+							<td width="10" class="$spaceClass">
+								<img src="$link.getContextPath()/images/space.gif">
+							</td>
+							<td class="$tabClass" onclick="window.location='$link.getContextPath()/manage/reportManager.do'">
+                                <a href="$link.getContextPath()/manage/reportManager.do">$msg.get("navigation.manage")</a>
+                            </td>                        
+                        #end
+                        #if ( $activeTab == "manage" )
+                            #set( $spaceClass = "active_tab_right" )
+                        #elseif ( $activeTab == "etl" )
+                            #set( $spaceClass = "active_tab_left" )
+                        #else
+                            #set( $spaceClass = "nav_divider" )
+                        #end
+                        <td width="10" class="$spaceClass">
+                            <img src="$link.getContextPath()/images/space.gif">
+                        </td>
+                     </tr>
+                 </table>
+             </div>
+			 <div class="rightFloatingDiv">
+                <table cellpadding="0" cellspacing="0" border="0" height="33">
+                    <tr class="navigationHeaderLinks">
+						#parse( "/logoutHelpLinks.vm" )
+					</tr>
+				</table>
+			 </div>
+		</div>
+        <div class="subNavigationHeader minimumWidth">
+            <div class="leftFloatingDiv leftPaddding" >
+                $sectionHeadString
+            </div>
+            <div class="rightFloatingDiv">
+               <!--  <img src="$link.getContextPath()/images/contextHelp.gif"/> -->
+            </div>
+        </div>

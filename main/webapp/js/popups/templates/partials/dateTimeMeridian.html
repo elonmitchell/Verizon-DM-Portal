@@ -1,0 +1,13 @@
+<div class="form-group {{#if fieldData.required === true}}required{{/if}}">
+	{{#fieldData.name}}<label for="{{fieldId}}">{{fieldData.name}}</label>{{/fieldData.name}}
+	<div class="fieldValue {{fieldId}}">
+		<div class="input-group date date-time-picker" data-dtp-future="true">
+			<input id="{{fieldId}}" type="text" name="{{fieldId}}" class="form-control date-time-picker-input" {{> field-attributes}} value="{{fieldData.value}}" />
+			<span class="input-group-addon">
+				<span class="fa fa-calendar"></span>
+			</span>
+		</div>
+	</div>
+	{{> help-blocks}}
+</div>
+

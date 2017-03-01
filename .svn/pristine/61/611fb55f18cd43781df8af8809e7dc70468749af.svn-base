@@ -1,0 +1,36 @@
+{{#if fieldData.required}}
+	<div class="help-block required {{fieldId}}">
+		{{#if fieldData.type == "text" || fieldData.type == "textarea"}}
+			Please enter the {{fieldData.name}}.
+		{{else}}
+			Please select the {{fieldData.name}}.
+		{{/if}}
+	</div>
+{{/if}}
+
+{{#if fieldData.maxlength && fieldData.type == "textarea"}}
+	<div class="help-block maxlength {{fieldId}}">Max characters reached.</div>
+{{/if}}
+
+{{#if fieldData.valsize}}
+	<div class="help-block valsize {{fieldId}}">{{fieldData.name}} must be {{fieldData.valsize}} characters long.</div>
+{{/if}}
+
+{{#if fieldData.valminsize}}
+	<div class="help-block valminsize {{fieldId}}">{{fieldData.name}} must contain at least {{fieldData.valminsize}} characters.</div>
+{{/if}}
+
+{{#if fieldData.valregexp}}
+	{{# {valregexpError: (fieldData.valregexpError) ? fieldData.valregexpError.replace("$fieldName", fieldData.name) : fieldData.name + " does not have the proper syntax"} }}
+		<div class="help-block valregexp {{fieldId}}">{{valregexpError}}</div>
+	{{/}}
+{{/if}}
+{{#if fieldData.checkurl}}
+	<div class="help-block checkurl {{fieldId}}">{{fieldData.name}} does not have the proper syntax.</div>
+{{/if}}
+
+{{#if fieldData.extraHelpBlocks}}
+	{{#each fieldData.extraHelpBlocks}}
+		<div class="help-block {{this}} {{fieldId}}"></div>
+	{{/each}}
+{{/if}}

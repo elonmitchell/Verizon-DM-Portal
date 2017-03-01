@@ -1,0 +1,35 @@
+{
+	"screens": [
+		{
+			"id": "scr-ReportManagementDelete-confirm",
+			"template": "two-button",
+			"content": {
+				"title": "Delete Report",
+				"paraText": "Are you sure you want to delete the selected report?",
+				"buttons": [
+					{
+						"text": "Delete",
+						"value": "delete"
+					}
+				]
+			}
+		},
+		{
+			"id": "scr-ReportManagementDelete-wait",
+			"template": "wait",
+			"type": "modal",
+			"content": {
+				"title": "Delete Report",
+				"waitText": "Deleting the report..."
+			}
+		},
+		{
+			"id": "scr-ReportManagementDelete-result",
+			"template": "simple",
+			"content": {
+				"title": "Delete Report",
+				"resultText": "Successfully deleted."
+			}
+		}
+	]
+}

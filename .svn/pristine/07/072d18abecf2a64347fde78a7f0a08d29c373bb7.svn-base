@@ -1,0 +1,148 @@
+<!--
+  Copyright (c) 2004-2007 by Alcatel-Lucent and Motive, Inc. All rights reserved.
+ 
+  CONFIDENTIAL. All rights reserved. This computer program is
+  protected under Copyright. Recipient is to retain the program in
+  confidence, and is not permitted to copy, use, distribute, modify or
+  translate the program without authorization
+-->
+#parse("/roles.vm")
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+#set( $pageTitle = "Dashboard - Reporting Console" )
+#parse( "pageHeader.vm" )
+
+<script src="/report-console/lib/jquery-cookie/jquery.cookie.js" type="text/javascript"></script>
+
+<script src="/report-console/lib/jquery.bxslider/jquery.bxslider.min.js" type="text/javascript"></script>
+<link href="/report-console/lib/jquery.bxslider/jquery.bxslider.css" rel="stylesheet" type="text/css" />
+
+<script src="$link.getContextPath()/js/page_js/dashboard.js" type="text/javascript"></script>
+
+<!-- You can remove these if you don't use jqplot -->
+<link href="$link.getContextPath()/jqPlot/jquery.jqplot.css" rel="stylesheet" type="text/css" />
+<!--[if lt IE 9]><script language="javascript" type="text/javascript" src="$link.getContextPath()/jqPlot/excanvas.js"></script><![endif]-->
+<script src="$link.getContextPath()/jqPlot/jquery.jqplot.js" type="text/javascript"></script>
+<script src="$link.getContextPath()/jqPlot/plugins/jqplot.pieRenderer.min.js" type="text/javascript" ></script>
+<script>
+function init() {
+	_setCopyrightYear();
+}
+function _setCopyrightYear() {
+	document.getElementById("spanYear").innerHTML=new Date().getFullYear();
+}
+
+#foreach($group in $groupList)
+	#if($group.name == "Dashboard")
+		#foreach($report in $group.reports)
+			#if($report.name == "Dashboard")
+				#set( $reportIdValue = $report.id )
+			#end
+			#if($report.name == "DashboardCalendarReport")
+				#set( $calReportIdValue = $report.id )
+			#end
+		#end
+	#end
+#end
+
+var g_iframeReportConfig = {
+	"birtStatsIframe": {
+		"reportIdValue": "$reportIdValue",
+
+	},
+	"birtCalIframe": {
+		"reportIdValue": "$calReportIdValue",
+	},
+	"encryptedUserName": "$util.getEncryptedUserName()",
+}
+</script>
+</head>
+<body onload="init();">
+
+#set( $activeTab = "dashboard" )
+#parse( "preContent.vm" )
+
+<!-- iframes are added dynamically in dashboard.js -->
+<!--
+<iframe id="birtStatsIframe"
+				src="/report-viewer/run?__report=$reportIdValue&__locale=en_US&__clean=true&__fittopage=true&__nocache=true&__user=$util.getEncryptedUserName()&__tzoffset=300"
+				width="0" height="0" marginwidth="0" marginheight="0" frameborder="no" tabindex="-1" title="empty"
+				style="display: none">
+</iframe>
+<iframe id="birtCalIframe"
+				src="/report-viewer/run?__report=$calReportIdValue&__locale=en_US&__clean=true&__fittopage=true&__nocache=true&__schedule=true&__tzoffset=360&__user=$util.getEncryptedUserName()"
+				width="0" height="0" marginwidth="0" marginheight="0" frameborder="no" tabindex="-1" title="empty"
+				style="display: none">
+</iframe>
+-->
+
+<div id="dashboard-slider">
+	<div id="charts-slide" class="slide">
+
+		<table class="dashboard-content" width="100%">
+			<tr valign="top">
+				<td width="400">
+
+					<fieldset class="dashboard-fieldset-left">
+						<legend>Software Update/Upgrade Campaign Statistics</legend>
+						<div id="dashboard-campaign-stats" class="dashboard-scrolling-div dashboard-chart">
+							<div class="spinner2"><img id="img-spinner" src="$link.getContextPath()/images/preloader2.gif" alt="Loading" name="img-spinner"/></div>
+						</div>
+					</fieldset>
+
+				</td>
+				<td>
+					<fieldset id="dashboard-total-devices-provisioned-fieldset" class="dashboard-fieldset-right">
+						<legend>Total Devices Provisioned in MDM</legend>
+						<div id="dashboard-total-devices-provisioned">
+							<div>4G/LTE: <span id="dashboard-total-devices-provisioned-4glte"
+											   class="dashboard-total-devices-provisioned-count">$subscriptionCount.device_LTE</span>
+							</div>
+							<div>CDMA: <span id="dashboard-total-devices-provisioned-cdma"
+											 class="dashboard-total-devices-provisioned-count">$subscriptionCount.device_CDMA</span>
+							</div>
+							<!--div>CDMA: $subscriptionCount.total_CDMA</div-->
+						</div>
+					</fieldset>
+					<fieldset id="dashboard-total-subscriptions-fieldset" class="dashboard-fieldset-right">
+						<legend>Total Subscriptions in MDM</legend>
+						<div id="dashboard-total-subscriptions">
+							<div>4G/LTE: <span id="dashboard-total-subscriptions-4glte"
+											   class="dashboard-total-subscriptions-count">$subscriptionCount.total_LTE</span>
+							</div>
+							<div>CDMA: <span id="dashboard-total-subscriptions-cdma"
+											 class="dashboard-total-subscriptions-count">$subscriptionCount.total_CDMA</span>
+							</div>
+						</div>
+					</fieldset>
+
+					<fieldset id="dashboard-apn-configs-fieldset" class="dashboard-fieldset-right">
+						<legend>APN Configurations by Device Manufacturer and Model</legend>
+						<div id="dashboard-apn-configs" class="dashboard-scrolling-div dashboard-chart">
+							<div class="spinner2"><img id="img-spinner"
+													   src="$link.getContextPath()/images/preloader2.gif" alt="Loading"
+													   name="img-spinner"/></div>
+						</div>
+					</fieldset>
+
+				</td>
+			</tr>
+		</table>
+
+	</div>
+	#if ($security.hasRole( "$ROLE_UI_REPORT_DETAIL" ))
+	<div id="calendar-slide" class="slide">
+		<div id="dashboard-calendar" class="dashboard-scrolling-div dashboard-calendar">
+			Loading calendar data...
+		</div>
+	</div>
+	#end
+</div>
+
+	#parse( "postContent.vm" )
+
+</body>
+
+</html>

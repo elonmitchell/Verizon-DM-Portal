@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE form-validation PUBLIC
+          "-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.0//EN"
+          "http://jakarta.apache.org/commons/dtds/validator_1_0.dtd">
+
+<form-validation>
+  <global>
+
+    <!-- If you change this mask, you should also change error.accountNumber.mask in -->
+    <!-- prt/WEB-INF/classes/com/motive/prt/Messages.properties.                     -->
+<!--
+    <constant>
+      <constant-name>accountNumber</constant-name>
+      <constant-value>^[^\d]*(\d[^\d]*){10}[^\d]*$</constant-value>
+    </constant>
+-->
+    <!-- If you change this mask, you should also change error.externalReferenceKey.mask -->
+    <!-- in prt/WEB-INF/classes/com/motive/prt/Messages.properties.                      -->
+<!--
+    <constant>
+      <constant-name>externalReferenceKey</constant-name>
+      <constant-value>^\d+$</constant-value>
+    </constant>
+-->
+  </global>
+
+</form-validation>

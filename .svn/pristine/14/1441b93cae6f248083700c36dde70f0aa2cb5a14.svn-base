@@ -1,0 +1,230 @@
+#set ($bReturnJSON = false)
+#set($cookies = $request.getCookies())
+#foreach($cookie in $cookies)
+	#if ($cookie.getName() == "ReportManagement-ReturnJSON")
+		#if ($cookie.getValue() == "true")
+			#set ($bReturnJSON = true)
+		#end
+	#end
+#end
+#if ($bReturnJSON == true)
+{
+"reportId": "$report.id",
+"reportName": "$report.displayName",
+"reportRoles": "$report.roles",
+"historicalReportsNum": "$report.num_Of_History",
+"historicalReportsEnabledDisabled": "$report.history_Enabled",
+"scedulesNum": "$report.num_Of_Schedules",
+"schedulesEnabledDisabled": "$report.schedule_Enabled",
+"scheduleSupportedFormats": "$report.supportedFormats",
+"scheduleReportFormat": "$report.reportFormat"
+}
+
+#else
+
+#parse("/roles.vm")
+<script type="text/javascript" language="Javascript">
+var reportIdAR = $report.id;
+var rolesAR = "$report.roles";
+var num_of_hist = "$report.num_Of_History";
+var isHistoryEnabledStr = "$report.history_Enabled";
+var num_of_sche = "$report.num_Of_Schedules";
+var isScheduleEnabledStr = "$report.schedule_Enabled";
+var reportFormatDB = "$report.reportFormat";
+var supportedFormats = "$report.supportedFormats";
+
+if (rolesAR == ("$" + "report.roles")) rolesAR = "";
+
+function okButtonHandlerAR( theButton ) {
+  if ( isButtonEnabled( theButton )) {
+    try {
+      document.getElementById("reportIdAR").value = reportIdAR;
+      if (validateInputs() == true) {
+         document.assignRolesToReportForm.submit();
+      }
+      //showWaitPopup('Importing Group');
+    } catch (e) {
+      alert("$msg.get("file.access.error")");
+    }
+  }
+}
+
+function validateInputs() {
+   var isRadioChecked = false;
+   var isBoxChecked = false;
+   var boxes = document.getElementsByName("suppRepFor");
+   for( i = 0; i < boxes.length; i++ ) {
+        if( boxes[i].checked ) {
+            isBoxChecked= true;
+            break;
+        }
+    }
+    if (isBoxChecked == false) {
+       document.getElementById("errSupFor").style.display = "block";
+    } else {
+       document.getElementById("errSupFor").style.display = "none";
+    }
+   var radios = document.getElementsByName("reportFormat");
+   for( i = 0; i < radios.length; i++ ) {
+        if( radios[i].checked ) {
+            isRadioChecked = true;
+            break;
+        }
+    }
+    if (isRadioChecked == false) {
+       document.getElementById("errRecFor").style.display = "block";
+    } else {
+       document.getElementById("errRecFor").style.display = "none";
+    }
+    
+    if (isBoxChecked == false || isRadioChecked == false) {
+       return false;
+    }
+    
+    return true;
+}
+
+function initPageAR() {
+  document.getElementById("pptFormat").disabled = "disabled";
+  document.getElementById("pdfFormat").disabled = "disabled";
+  document.getElementById("xlsFormat").disabled = "disabled";
+  document.getElementById("rolesAR").innerHTML = rolesAR;
+  document.getElementById("num_of_hist").value = num_of_hist;
+  document.getElementById("num_of_sche").value = num_of_sche;
+  var bIsHistoryEnabled = false;
+  var bIsScheduleEnabled = false;
+  var cbId = (isHistoryEnabledStr == "true") ? "isHistEnabled" : "isHistDisabled";
+  var rbId = (isScheduleEnabledStr == "true") ? "isScheEnabled" : "isScheDisabled";
+  var rfId = "pdfFormat";
+  if (reportFormatDB == "pdf") {
+  	rfId = "pdfFormat";
+  } else if (reportFormatDB == "ppt") {
+  	rfId = "pptFormat";
+  } else if (reportFormatDB == "xls") {
+  	rfId = "xlsFormat";
+  }
+  var formatsArray = supportedFormats.split(",");
+  for (index = 0; index < formatsArray.length; index++) {
+    if (formatsArray[index] == "ppt") {
+      document.getElementById("pptSuppFormat").checked = true;
+      document.getElementById("pptFormat").disabled = "";
+    } else if (formatsArray[index] == "pdf") {
+      document.getElementById("pdfSuppFormat").checked = true;
+      document.getElementById("pdfFormat").disabled = "";
+    } else if (formatsArray[index] == "xls") {
+      document.getElementById("xlsSuppFormat").checked = true;
+      document.getElementById("xlsFormat").disabled = "";
+    }
+  } 
+
+  document.getElementById(cbId).checked = true;
+  document.getElementById(rbId).checked = true;
+  document.getElementById(rfId).checked = true;
+  initPersistedSelectIndexAR();
+}
+
+function initPersistedSelectIndexAR(){
+  persistedSelectedIndex = "$!persistedSelectedIndex";
+  persistedSelectedIndex = Math.round(persistedSelectedIndex);//to number
+}
+
+function toggleRadio(cb,name) {
+    var elem = document.getElementById(name);
+    if (cb.checked) {
+       elem.disabled = '';
+    } else {
+       elem.disabled = 'disabled'       
+       elem.checked = '';
+    }
+}
+
+initPageAR();
+</script>
+
+<h1>Report Config</h1>
+
+<p>Assign Roles to the report. eg. RPT_FOR_VZW/RPT_FOR_LRA/RPT_FOR_BOTH</p>
+
+<form name="assignRolesToReportForm" id="assignRolesToReportForm" method="post" action="$link.getContextPath()/manage/assignRolesToReport.do" target="_parent">
+  
+  <table cellpadding="3" cellspacing="0" border="0" width="100%">
+    <tr>
+      <td align="right"><div class="formLabel">$msg.get("importReport.dialog.nameLabel")</div></td>
+      <td>$report.displayName</td>
+    </tr>
+    <tr>
+      <td align="right"><div class="formLabel">Roles:</div></td>
+      <td>
+        <textarea name="roles" id="rolesAR" rows="3" cols="50"></textarea>
+        <input type="hidden" name="reportId" id="reportIdAR"/>
+      </td>
+    </tr>
+    <tr>
+      <td align="right"><div class="formLabel">Number of Historical Reports Allowed</div></td>
+      <td><input name="numofhist" id="num_of_hist" type="text" value="" style="width:100px" class="popup-validate-field" checkblank="true"></td>
+    </tr>
+    <tr>
+      <td align="right"><div class="formLabel">Historical Report</div></td>
+      <td>
+	<input name="ishistenabled" id="isHistEnabled" type="radio" value="true" checked class="popup-validate-field"> Enabled
+	&nbsp;
+	<input name="ishistenabled" id="isHistDisabled" type="radio" value="false" class="popup-validate-field"> Disabled
+      </td>
+    </tr>
+    <!-- Schedule -->
+    <tr>
+      <td align="right"><div class="formLabel">Number of Schedules Allowed</div></td>
+      <td><input name="numofsche" id="num_of_sche" type="text" value="" style="width:100px" class="popup-validate-field" checkblank="true"></td>
+    </tr>
+    <tr>
+      <td align="right"><div class="formLabel">Schedule Report</div></td>
+	  <td>
+		<input name="isscheenabled" id="isScheEnabled" type="radio" value="true" checked class="popup-validate-field"> Enabled
+		&nbsp;
+		<input name="isscheenabled" id="isScheDisabled" type="radio" value="false" class="popup-validate-field"> Disabled
+	  </td>
+    </tr>
+    <tr>
+      <td align="right"><div class="formLabel">Supported Formats</div></td>
+      <td>
+        <input name="suppRepFor" id="pptSuppFormat" type="checkbox" value="ppt" class="popup-validate-field" onclick="toggleRadio(this,'pptFormat')"> PPT
+        &nbsp;
+        <input name="suppRepFor" id="pdfSuppFormat" type="checkbox" value="pdf" class="popup-validate-field" onclick="toggleRadio(this,'pdfFormat')"> PDF
+        &nbsp;
+        <input name="suppRepFor" id="xlsSuppFormat" type="checkbox" value="xls" class="popup-validate-field" onclick="toggleRadio(this,'xlsFormat')"> Excel
+      </td>
+    </tr>
+    <tr>
+      <td align="right"></td>
+      <td>
+        <div class="formFieldError"id="errSupFor" style="display: none">Please select the supported formats</div>
+      </td>
+    </tr>
+    <tr>
+      <td align="right"><div class="formLabel">Schedule Report Format</div></td>
+	  <td>
+		<input name="reportFormat" id="pptFormat" type="radio" value="ppt" checked class="popup-validate-field"> PPT
+		&nbsp;
+		<input name="reportFormat" id="pdfFormat" type="radio" value="pdf" class="popup-validate-field"> PDF
+		&nbsp;
+		<input name="reportFormat" id="xlsFormat" type="radio" value="xls" class="popup-validate-field"> Excel
+	  </td>
+    </tr>
+    <tr>
+      <td align="right"></td>
+      <td>
+        <div class="formFieldError"id="errRecFor" style="display: none">Please select the recommended format</div>
+      </td>
+    </tr>
+    <!-- End Schedule -->
+  </table>
+  
+  <div class="popup-submit-button paddingTop20">
+    $button.render( "assignRolesAR", "Assign Roles", "button", "okButtonHandlerAR(this); return false;", "$ROLE_UI_REPORT_EDIT" )
+    $button.render( "cancleButtonAR", $msg.get("importReport.dialog.button.cancel"), "button", "closePopup(); return false;" )
+  </div>
+  <div class="popup-submit-button-clear"></div>
+  
+</form>			
+
+#end

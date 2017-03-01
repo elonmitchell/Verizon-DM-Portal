@@ -1,0 +1,53 @@
+<!--
+  Copyright (c) 2004-2007 by Alcatel-Lucent and Motive, Inc. All rights reserved.
+ 
+  CONFIDENTIAL. All rights reserved. This computer program is
+  protected under Copyright. Recipient is to retain the program in
+  confidence, and is not permitted to copy, use, distribute, modify or
+  translate the program without authorization
+-->
+#parse("/roles.vm")
+<table cellpadding="0" cellspacing="0" border="0" width="100%" id="criteriaDataTable" class="data_table">
+    <tr>
+        <th class="checkBox_Column" align="center" width="1%">
+            <input name="select_all" id="selectAllObjects" type="checkbox" onclick="objListGML.selectItems(this);" #if ( !$security.hasRole("$ROLE_UI_REPORT_EDIT") ) disabled #end />		
+        </th>		
+        <th align="left" width="75%" style="white-space:nowrap">
+            $msg.get("manageGroups.dialog.list.header.name")
+        </th>
+        <th align="right" width="20%" style="white-space:nowarp">
+            $msg.get("manageGroups.reportCount")
+        </tr>
+    </tr>
+    #set( $groupCount = 1 )
+    #set( $shadeRow = 1 )
+    #foreach($group in $groupList)
+        #if ( $shadeRow == 0 )
+            #set( $shadeRow = 1 )
+            #set( $rowClass = "odd_table_row" )
+        #else
+            #set( $shadeRow = 0 )
+            #set( $rowClass = "even_table_row" )
+        #end
+        <tr class="$rowClass" #if ( $group.getReports().size() != 0 ) disabled #end>
+            <td class="checkBox_Column" align="center" ><input type="checkbox" name="objectItem" value="$group.id" onclick="objListGML.handleObjectSelection(false)" #if (( $group.getReports().size() != 0 ) || ( !$security.hasRole("$ROLE_UI_REPORT_EDIT"))) disabled #end /></td>
+            <td>$group.name</td>		
+            <td align="right">$group.getReports().size()</td>
+        </tr>    
+        #set( $groupCount = $groupCount + 1 )
+    #end
+    #if ( $groupCount == 1 )
+        <tr class="even_table_row" align="center">
+           <td colspan="3" height="100" style="background-color: #F7F7FF;border:none;">
+                <table cellpadding="0" cellspacing="0" border="0" >
+                     <tr>
+                        <td style="border: 2px outset #E1E1E1;padding: 5px;background-color: #E1E1E1;">
+                           <div id="emptyReportListMsg">$msg.get( "manageGroups.groupList.emtpy" )</div>
+                        </td>
+                    </tr>
+                </table>
+           </td>
+        </tr>
+    #end
+
+</table>

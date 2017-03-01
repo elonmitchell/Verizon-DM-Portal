@@ -1,0 +1,3 @@
+var globals_contextPath = "$link.getContextPath()";
+var globals_imageDirectory = "globals_contextPath()/images/";
+var globals_errorFields = new Array();

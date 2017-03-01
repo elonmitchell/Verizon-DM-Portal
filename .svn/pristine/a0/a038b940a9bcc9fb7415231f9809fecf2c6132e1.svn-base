@@ -1,0 +1,28 @@
+<!--
+  Copyright (c) 2004-2007 by Alcatel-Lucent and Motive, Inc. All rights reserved.
+ 
+  CONFIDENTIAL. All rights reserved. This computer program is
+  protected under Copyright. Recipient is to retain the program in
+  confidence, and is not permitted to copy, use, distribute, modify or
+  translate the program without authorization
+-->
+<!-- #if ( $groupLoadFailed ) reportGroupLoadFailure #end -->
+
+<fieldset>
+    <legend>
+        $msg.get("manage.group.filter")
+    </legend>
+    <select id="selectGroup" name="selectGroup" onChange="updateSelectGroup( this );" #if ( $util.size( $groupList ) == 0 ) disabled #end>
+        #if ( $util.size( $groupList ) == 0 ) 
+            <option value="-1">
+                $msg.get("manage.group.filter.noGroups")
+            </option>
+        #else
+            #foreach( $groupItem in $groupList )
+            <option value="$groupItem.id" #if ( $currentGroupID == $groupItem.id )) selected #end >
+                $groupItem.name
+            </option>
+            #end
+        #end
+    </select>
+</fieldset>

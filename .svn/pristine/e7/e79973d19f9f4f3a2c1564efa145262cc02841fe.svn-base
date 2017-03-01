@@ -1,0 +1,3 @@
+{{#if g_RD.bottomNote && g_RD.bottomNote != ""}}
+	<p class="paddingTop10">{{& g_RD.bottomNote}}</p>
+{{/if}}

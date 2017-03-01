@@ -1,0 +1,13 @@
+<div class="form-group">
+	<label for="{{fieldId}}">{{fieldData.name}}</label>
+	<div class="fieldValue {{fieldId}}">
+		<span id="{{fieldId}}_view">
+			{{#if fieldData.text}}
+				{{fieldData.text}}
+			{{else}}
+				{{fieldData.value}}
+			{{/if}}
+		</span>
+		<input type="hidden" id="{{fieldId}}" name="{{fieldId}}" {{> field-attributes}} value="{{fieldData.value}}">
+	</div>
+</div>

@@ -1,0 +1,146 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+	<head>
+		<title>
+			$msg.get("login.form.title",[$msg.get("app.name")]) 
+		</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<link href="$link.getContextPath()/css/reporting.css" rel="stylesheet" type="text/css">
+        <script language="javascript" type="text/javascript">
+            function showDetails(show) 
+            {
+            	var messageElement = document.getElementById("message");
+            	var detailElement = document.getElementById("details");
+             	if (show)
+             	{
+             		messageElement.style.display = "none";
+             		detailElement.style.display = "";
+             	}	
+             	else
+             	{
+             		messageElement.style.display = "";
+             		detailElement.style.display = "none";
+             	}
+            }
+        </script>
+		<style type="text/css">
+		#message td  {
+			font-size: 10pt;
+		}
+		#details td {
+			font-size: 10pt;
+		}
+		.detailsButton {
+			width: 110px;
+		}
+		</style>
+		
+	</head>
+	<body>
+<!-- main table to keep the page using all of the page -->
+		<table cellpadding="0" cellspacing="0" border="0" width="100%" height="100%">
+			<tr>
+				<td class="branding_header" valign="middle" nowrap height="32">
+<!-- branding -->
+					<img src="$link.getContextPath()$msg.get("branding.motive")">
+				</td>
+			</tr>
+			<tr>
+				<td class="navigation_header" height="33">
+<!-- navigation -->
+					<img src="$link.getContextPath()/images/space.gif">
+				</td>
+			</tr>
+			<tr>
+				<td>
+<!-- content -->
+					<table cellpadding="0" cellspacing="0" border="0" width="100%" height="100%">
+						<tr>
+							<td width="100%" height="100%" valign="top">
+								<div style="height:100%;">
+									<table cellpadding="0" cellspacing="0" border="0" width="100%" height="100%">
+										<tr>
+											<td valign="top">
+<!-- page title header -->
+												<table class="subnavigation_header" cellpadding="0" cellspacing="0" border="0" width="100%">
+													<tr>
+														<td nowrap class="page_title">
+															$msg.get("app.name") 
+														</td>
+													</tr>
+												</table>
+												<p>&nbsp;</p>
+	 <div id="message">
+	  <table>
+	   	<tr>
+	    	<td style="font-size: 10pt;">
+			 #if( $message )
+		       $msg.get($message);
+		      #else
+		       $msg.get('exception.message')
+		      #end
+	     	</td>
+	    </tr>
+	    <tr>
+	     	<td>
+		      $button.render( "", $msg.get('exception.showDetails'), "button detailsButton", "showDetails(true);" )
+		      $button.render( "", $msg.get('exception.goBack'), "button", "javascript: window.history.go(-1);" )
+	     	</td>
+	    </tr>
+	   </table>
+	 </div>
+	 
+	 <div id="details" style="display:none">      
+	   <table>
+	     <tr>
+	     	<td>
+		      #if( $message )
+		       $msg.get($message);
+		      #else
+		       $msg.get('exception.message')
+		      #end
+	     	</td>
+	    </tr>
+		<tr>
+	     	<td>
+		      $button.render( "disableDevice_button", $msg.get( "exception.hideDetails" ), "button detailsButton", "showDetails(false);" )
+		      $button.render( "disableDevice_button", $msg.get('exception.goBack'), "button", "javascript: window.history.go(-1);" )
+		   </td>
+	    </tr>
+	    <tr>
+	     <td>
+	      	<br/><br/>$msg.get('exception.error')
+	     </td>
+	    </tr>
+	    <tr>
+	     <td>
+	      	$exception
+	     </td>
+	    </tr>
+	    <tr>
+	     <td>
+	      	<br/><br/>$msg.get('exception.stackTrace')
+	     </td>
+	    </tr>
+	    <tr>
+	     <td>
+	      	#foreach( $str in $request.getAttribute("stack") )
+	      		$str<br>
+	    	#end
+	     </td>
+	    </tr>
+	   </table>      
+	 </div>   
+											</td>
+										</tr>
+									</table>
+								</div>
+							</td>
+						</tr>
+					</table>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</body>
+</html>

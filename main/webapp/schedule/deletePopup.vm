@@ -1,0 +1,10 @@
+<h1>Delete Report Schedules</h1>
+<div class="error-message" style="display: none;"></div>
+<div class="success-message" style="display: none;"></div>
+<p>Are you sure you want to delete the selected schedules?</p>
+
+<div class="popup-submit-button paddingTop10">
+	<div class="popup-submit-button-left"><button id="cancelButton" class="img-button img-button-medium"><span>Cancel</span></button></div>
+	<div class="popup-submit-button-right"><button id="scr-DTC-confirm-delete" class="img-button default img-button-medium" value="delete"><span>Delete</span></button></div>
+</div>
+<div class="popup-submit-button-clear"></div>

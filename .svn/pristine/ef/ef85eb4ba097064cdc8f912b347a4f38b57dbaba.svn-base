@@ -1,0 +1,15 @@
+{{#each linearFieldLayoutArray}}
+	{{# {colWidthFieldIdHash: this}}}
+		{{#each colWidthFieldIdHash:colWidth}}
+			{{# {fieldIdArrayForCurrentColWidth: this}}}
+				<div class="col-sm-{{colWidth}}">
+					{{#each fieldIdArrayForCurrentColWidth}}
+						{{# {fieldId: this, fieldData: g_RD.formFields.fieldData[this]}}}
+							{{> field-group}}
+					  {{/}}
+					{{/each}}
+				</div>
+			{{/}}
+		{{/each}}
+	{{/}}
+{{/each}}

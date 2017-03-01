@@ -1,0 +1,248 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" >
+<html>
+    <head>
+        <title>$msg.get("app.name")</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link href="$link.getContextPath()/css/reporting.css" rel="stylesheet" type="text/css">
+        <script src="$link.getContextPath()/js/globals.vm" type="text/javascript" language="Javascript"></script>		
+        <script src="$link.getContextPath()/js/common.js" type="text/javascript" language="Javascript"></script>
+        <script src="$link.getContextPath()/js/virtualDialog.js" type="text/javascript" language="Javascript"></script>
+        <script type="text/javascript" language="Javascript">
+			var imgArray = new Array();
+			imgArray.push("${link.getContextPath()}${msg.get("icon.information")}");
+			imgArray.push("${link.getContextPath()}${msg.get("icon.question")}");
+			imgArray.push("${link.getContextPath()}${msg.get("icon.exclamation")}");
+			imgArray.push("${link.getContextPath()}${msg.get("icon.critical")}");
+			
+			function handleCloseDialog() {
+				// clear the message in the parent document
+				var oMessageDiv = parent.document.getElementById("dialogFramesMessageDiv");
+				if (oMessageDiv) {
+					oMessageDiv.innerHTML = "";
+				}	                
+				
+				_newPolicyDialog = parent.document.getElementById( "emptyFrame" );
+                _newPolicyDialog.style.display = "none";            
+                _newPolicyDialog = parent.document.getElementById( "dialogFrame" );
+                _newPolicyDialog.style.display = "none";   
+				
+				location = "$link.getContextPath()/empty.vm";
+
+            }
+			
+			/**
+			 * displayErrors
+			 * Takes the errors from the parent document (if they exist) and
+			 * copies them into local objects on this document
+			 */
+			function displayErrors() {																								
+				// simple dialog message
+				var pMessageDiv = parent.document.getElementById("dialogFramesMessageDiv");
+			
+				// parent objects
+				var pDialogFramesActionErrorsDiv = parent.getErrorSource().getElementById("dialogFramesActionErrorsDiv");
+				var pDialogFramesExceptionDiv = parent.getErrorSource().getElementById("dialogFramesExceptionDiv");
+				var pDialogFramesExceptionMessageDiv = parent.getErrorSource().getElementById("dialogFramesExceptionMessageDiv");
+				var pDialogFramesExceptionStackTraceDiv = parent.getErrorSource().getElementById("dialogFramesExceptionStackTraceDiv");
+				var pDialogFramesExceptionRequestDiv = parent.getErrorSource().getElementById("dialogFramesExceptionRequestDiv");
+				
+				// local objects
+				var lDialogFramesMessageDiv = document.getElementById("dialogFramesMessageDiv");
+				var lDialogFramesActionErrorsDiv = document.getElementById("dialogFramesActionErrorsDiv");
+				var lDialogFramesExceptionDiv = document.getElementById("dialogFramesExceptionDiv");
+				var lDialogFramesExceptionMessageDiv = document.getElementById("dialogFramesExceptionMessageDiv");
+				var lDialogFramesExceptionStackTraceDiv = document.getElementById("dialogFramesExceptionStackTraceDiv");
+				var lDialogFramesExceptionRequestDiv = document.getElementById("dialogFramesExceptionRequestDiv");
+				var detailsButton = document.getElementById("detailsButton");
+		
+				
+				if (pMessageDiv != null && pMessageDiv.innerHTML != "") {
+					setIcon();			
+					lDialogFramesMessageDiv.innerHTML = pMessageDiv.innerHTML;
+					lDialogFramesMessageDiv.style.display = "block";
+				}				
+				else if (pDialogFramesActionErrorsDiv != null && pDialogFramesActionErrorsDiv.innerHTML != "") {
+					lDialogFramesExceptionMessageDiv.innerHTML = pDialogFramesExceptionMessageDiv.innerHTML;
+					lDialogFramesExceptionMessageDiv.style.display = "block";	
+					lDialogFramesActionErrorsDiv.innerHTML = pDialogFramesActionErrorsDiv.innerHTML;
+					lDialogFramesActionErrorsDiv.style.display = "block";
+					lDialogFramesExceptionRequestDiv.innerHTML += pDialogFramesExceptionRequestDiv.innerHTML;
+					lDialogFramesExceptionRequestDiv.style.display = "block";
+					
+				}
+				else if (pDialogFramesExceptionDiv != null && pDialogFramesExceptionDiv.innerHTML != "") {
+					lDialogFramesExceptionDiv.innerHTML = pDialogFramesExceptionDiv.innerHTML;
+					lDialogFramesExceptionDiv.style.display = "block";
+					lDialogFramesExceptionMessageDiv.innerHTML = pDialogFramesExceptionMessageDiv.innerHTML;
+					lDialogFramesExceptionMessageDiv.style.display = "block";
+					lDialogFramesExceptionStackTraceDiv.innerHTML = pDialogFramesExceptionStackTraceDiv.innerHTML;
+					//lDialogFramesExceptionStackTraceDiv.style.display = "block";
+					lDialogFramesExceptionRequestDiv.innerHTML += pDialogFramesExceptionRequestDiv.innerHTML;
+					lDialogFramesExceptionRequestDiv.style.display = "block";									
+				}
+				else {
+					//closeDialog();
+				}
+				
+				// keep the details button from displaying if there's no stack trace
+				if(lDialogFramesExceptionStackTraceDiv.innerHTML == "") {
+					detailsButton.style.visibility = "hidden";
+				}				
+			}
+			
+			/**
+			 * isDetailShowing
+			 * Determines if the "Show/Hide Details" button is showing.  This will only
+			 * happen in the case of Exception dialogs.
+			 */
+			function isDetailShowing() {
+				var lDialogFramesExceptionStackTraceDiv = document.getElementById("dialogFramesExceptionStackTraceDiv");			
+				return(lDialogFramesExceptionStackTraceDiv && lDialogFramesExceptionStackTraceDiv.style.display == "block");
+			}
+			
+			/**
+			 * toggleDetails
+			 * Toggles the display mode of the scrollable details pane.  This will only
+			 * happen in the case of Exception dialogs
+			 */
+			function toggleDetails() {
+				var lStackTraceDiv = document.getElementById("dialogFramesExceptionStackTraceDiv");
+				var detailsButton = document.getElementById("detailsButton");
+							
+				lStackTraceDiv.style.display = (isDetailShowing()) ? "none" : "block";
+				detailsButton.value = (isDetailShowing()) ? "$msg.get("exception.hideDetails")" : "$msg.get("exception.showDetails")";
+				setDialogSize();
+			}
+			
+			/**
+			 * setIcon
+			 * Changes the dialog icon based on the specified parameter "type". 
+			 * This is currenly only being used for vaiants of the showMessageDialog function.
+			 */
+			function setIcon() {
+				var type = #if($params.exists("type")) $params.get("type") #else "0" #end;				
+				var lIcon = document.getElementById("icon");
+				
+				for (var i=0; i<imgArray.length; i++) {
+					if (i == type) {
+						lIcon.src = imgArray[i];
+						break;
+					}
+				}
+				if ( type == DIALOG_TYPE_QUESTION ) {
+				    document.getElementById("cancelButton").style.display = "inline";
+				}
+				else {
+				    document.getElementById("cancelButton").style.display = "none";
+				}
+			}
+			
+			function handleOKButton() {	
+				var type = #if($params.exists("type")) $params.get("type") #else "0" #end;				
+			    if ( parent.questionDialogOKFunction != null && (type == DIALOG_TYPE_QUESTION) || type == DIALOG_TYPE_INFORMATION ) {
+                    parent.questionDialogOKFunction();
+				}
+                parent.questionDialogOKFunction = null;    
+                handleCloseDialog();
+			}
+			
+			/**
+			 * initPage
+			 * Do this when the page loads.
+			 */
+			function initPage() {
+				displayErrors();
+				setIcon();
+				setDialogSize();
+			}
+            
+        </script> 
+		<style type="text/css">
+			#dialogFramesMessageDiv {
+				display: none;
+			}
+			#dialogFramesActionErrorsDiv {
+				display: none;
+			}
+			#dialogFramesExceptionMessageDiv {
+				display: none;
+				padding: 0 0 10 0;
+			}
+			#dialogFramesExceptionDiv {
+				display: none;
+				padding: 0 0 10 0;						
+			}
+			#dialogFramesExceptionStackTraceDiv {
+				display: none;
+				width: 325;
+				height: 100;
+				overflow: scroll;
+				border-width: 2px;
+				border-style: inset;
+				background-color:#F2F5FE;
+			}
+			#dialogFramesExceptionRequestDiv {
+				display: none;
+			}
+			#detailsButtonDiv {
+				display: block;
+			}
+			#noDetailsButtonDiv {
+				display: none;
+			}
+		</style>
+    </head>
+    <body onload="initPage();">
+        <table id="dialogTable" cellpadding="0" cellspacing="0" border="0" width="200" height="200" style="padding:5px" class="virtualDialog">
+            <tr>
+                <td id="dialogHeader" class="context_help_header" colspan="2">
+                    $msg.get("app.name")&nbsp;<!-- $msg.get("exception.error") -->
+                </td>
+            </tr>
+            <tr>
+				<td height="100%" width="48" valign="top" style="padding: 10 10 10 10;">
+                    <img id="icon" src="${link.getContextPath()}${msg.get("icon.exclamation")}" alt="" border="0" height="32" width="32">
+				</td>
+                <td height="100%"  align="left" valign="top" style="padding: 10 10 10 10;">
+					<table cellspacing="0" cellpadding="0" border="0" width="100%">
+						<tr>
+							<td align="left">
+								<div id="dialogFramesMessageDiv"></div>
+								<div id="dialogFramesExceptionMessageDiv"></div>								
+								<div id="dialogFramesActionErrorsDiv"></div>
+								<div id="dialogFramesExceptionDiv"></div>					   
+								<div id="dialogFramesExceptionStackTraceDiv"></div>
+							</td>
+						</tr>
+					</table>
+					<table cellspacing="0" cellpadding="0" border="0" style="display:none;">
+						<tr>
+							<td colspan="2">&nbsp;</td>
+						</tr>
+						<tr>
+							<td align="right">$msg.get("exception.timestamp"):&nbsp;</td>
+							<td align="left">$date.format($msg.get("java.dateFormat"),$date.getDate())</td>
+						</tr>
+						<tr>
+							<td align="right">$msg.get("exception.location"):&nbsp;</td>
+							<td align="left"><div id="dialogFramesExceptionRequestDiv" style="display:none"></div></td>
+						</tr>						
+						<tr>
+							<td colspan="2">&nbsp;</td>
+						</tr>
+					</table>
+                </td>
+            </tr>		
+            <tr>
+                <td height="1" align="right" colspan="2" nowrap>
+                    $button.render( "detailsButton", $msg.get("exception.showDetails"), "button", "toggleDetails();" )
+					$button.render( "okButton", $msg.get("exception.ok"), "button", "handleOKButton();" )
+					$button.render( "cancelButton", $msg.get("dialog.cancel"), "button", "handleCloseDialog();" )
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>
+
+
+

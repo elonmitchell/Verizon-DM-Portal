@@ -1,0 +1,97 @@
+#parse("/roles.vm")
+<script type="text/javascript" language="Javascript">
+var groupLoadFailureIM = $groupLoadFailed;
+
+var oNameFieldIM = null;
+var oDescriptionFieldIM = null;
+
+function okButtonHandlerIM( theButton ) {
+  // Validate
+  $j('.errorRow').hide();
+  var jqFieldsToValidate = $j('.popup-validate-field');
+  var isValid = validateFields(jqFieldsToValidate);
+  if (!isValid) return;
+
+    if ( isButtonEnabled( theButton )) {
+        try {
+            document.importReportForm.submit();
+            showWaitPopup('Importing Group');
+        } catch (e) {
+            alert("$msg.get("file.access.error")");
+        }
+    }
+}
+
+function initPageIM() {
+    oNameFieldIM = document.getElementById("popup-name");
+    oReportGroupSelect = document.getElementById("popup-reportGroup");
+    oDescriptionFieldIM = document.getElementById("popup-description");
+    if ( !groupLoadFailureIM ) {
+        var importFileObj = document.getElementById("popup-importFile");
+        try {
+          importFileObj.focus();
+        } catch (e) {}
+    } else {
+        updateReportGroupSelect();
+        closePopup();
+    }
+    
+    initPersistedSelectIndexIM();
+    handleSelectGroupIM();
+}
+
+function initPersistedSelectIndexIM(){
+    persistedSelectedIndex = "$!persistedSelectedIndex";
+    //if $var = "" Math.round = 0
+    persistedSelectedIndex = Math.round(persistedSelectedIndex);//to number
+}
+
+function handleSelectGroupIM() {                       
+    if( persistedSelectedIndex == 0) {
+        persistedSelectedIndex = oReportGroupSelect.selectedIndex;
+    } else{
+        oReportGroupSelect.selectedIndex = persistedSelectedIndex; 
+    }
+}
+
+initPageIM()
+</script>
+
+<h1>$msg.get("importReport.dialog.header")</h1>
+<p>$msg.get("importReport.dialog.infoArea")</p>
+<form name="importReportForm" id="importReportForm" method="post" action="$link.getContextPath()/manage/importReport.do" enctype="multipart/form-data" target="_parent">		            		
+<table class="delete-confirm-table" align="center">
+  <tr>
+    <td align="right"><div class="formLabel"><span class="reqd">*</span>$msg.get("importReport.dialog.fileLabel")</div></td>
+    <td><input name="importFile" id="popup-importFile" type="file" value="" class="popup-validate-field" checkblank="true"></td>
+  </tr>
+  <tr class="errorRow popup-importFileBlankErrorRow"><td></td><td><div class="formFieldError">Please choose a bulk file</div></td></tr>
+  <tr>
+    <td align="right"><div class="formLabel"><span class="reqd">*</span>$msg.get("importReport.dialog.groupLabel")</div></td>
+    <td>
+      <select id="popup-reportGroup" name="reportGroup" onChange="">
+        #foreach( $groupItem in $groupList )
+          <option value="$groupItem.id" #if ( $currentGroupID == $groupItem.id )) selected #end >
+            $groupItem.name
+          </option>
+        #end
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td align="right"><div class="formLabel"><span class="reqd">*</span>$msg.get("importReport.dialog.nameLabel")</div></td>
+    <td><input name="name" id="popup-name" type="text" value="" style="width:271px" class="popup-validate-field" checkblank="true"></td>
+  </tr>
+  <tr class="errorRow popup-nameBlankErrorRow"><td></td><td><div class="formFieldError">Please choose a report name</div></td></tr>
+  <tr>
+    <td align="right"><div class="formLabel">$msg.get("importReport.dialog.descLabel")</div></td>
+    <td><textarea name="description" id="popup-description" rows="3" style="width:271px"></textarea></td>
+  </tr>
+</table>
+</form>
+
+<div class="popup-submit-button paddingTop20">
+  $button.render( "importReport", $msg.get("importReport.dialog.button.import"), "button", "okButtonHandlerIM(this);", "$ROLE_UI_REPORT_EDIT" )
+  $button.render( "cancelButton", $msg.get("importReport.dialog.button.cancel"), "button", "", "$ROLE_UI_REPORT_EDIT" )
+</div>
+<div class="popup-submit-button-clear"></div>

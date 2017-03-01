@@ -1,0 +1,27 @@
+<!--
+  Copyright (c) 2004-2007 by Alcatel-Lucent and Motive, Inc. All rights reserved.
+ 
+  CONFIDENTIAL. All rights reserved. This computer program is
+  protected under Copyright. Recipient is to retain the program in
+  confidence, and is not permitted to copy, use, distribute, modify or
+  translate the program without authorization
+-->
+                    </div> <!-- .content -->
+                  </div> <!-- .welcome2 -->
+                </div> <!-- .welcome -->
+                <div style=" clear:both;">&nbsp;</div>
+                <div style=" clear:both;">&nbsp;</div>
+              </div>
+            </div>
+            <br />
+            <div class="footer">
+              Copyright &copy; 2008-<span id="spanYear"></span> Alcatel-Lucent. All rights reserved.<br/>
+              Best viewed with Internet Explorer 11
+            </div>
+          </div> <!-- #content-area -->
+        </td>
+      </tr>
+      <tr><td align="left" valign="top">&nbsp;</td></tr>
+    </table>
+  </div>
+  <div id="spinner" class="spinner" style="display:none;"><img id="img-spinner" src="$link.getContextPath()/images/preloader.gif" alt="Loading" name="img-spinner" />  </div>

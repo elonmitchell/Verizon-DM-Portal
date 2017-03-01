@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>$msg.get("login.failure.title",[$msg.get("app.name")])</title>
+	<link href="$link.getContextPath()/css/verizon.default.css" rel="stylesheet" />
+	<link href="$link.getContextPath()/lib/font-awesome/font-awesome.min.css" rel="stylesheet" />
+</head>
+
+<body id="login">
+
+	<div class="header">
+		<div class="content">
+			<div class="logo-area">
+				<div class="logo"></div>
+				<h4>DM Tester Portal</h4>
+			</div>
+		</div>
+	</div>
+
+	<div class="window">
+		<div class="content">
+
+			<h2 class="form-title">Login</h2>
+
+			<div id="login-error" class="form-error" style="display: block">We're sorry. Your entry does not match our records. Please try again.</span></div>
+			<div id="user-error" class="form-error">The information you entered does not match the information we have on file. Please try again later.</span></div>
+
+			<form id="login-form" class="login-form" action="$link.setRelative('/login')" method="post" autocomplete="off" onsubmit="return LoginManager.onSubmitForm()">
+				<h3>Username</h3>
+				<input type="text" name="userName" id="userName" value="" class="username" placeholder="" autocomplete="off">
+				<div id="user_instruction" class="form-error">Please enter your username.</span></div>
+				<div id="pass-error" class="form-error">The information you entered does not match the information we have on file. Please try again later.</span></div>
+
+				<h3 class="password-area">Password</h3>
+				<input type="password" name="password" id="password" class="password" value="" placeholder="" autocomplete="off">
+				<div id="pass_instruction" class="form-error">Please enter your password.</span></div>
+
+				<div class="submit-login"><input type="submit" id="submit-btn" value="Login"><i class="fa fa-angle-right" aria-hidden="true"></i></div>
+			</form>
+		</div>
+	</div>
+
+	<div class="footer">
+		<span class="disclaimer">Copyright 2008-<span id="copyrightEndYear">2016</span> Nokia. All rights reserved.<br>Best viewed with IE11 or higher</span>
+	</div>
+
+	## don't change the id of this div (it will break the validateParameters routine
+	## in getSetParameter.js)
+	<div style="display:none" id="divDetectSessionTimeout"></div>
+
+	<script>
+		var g_sessionTimeoutMsg = "$msg.get("login.form.sessionTimeout")";
+	</script>
+
+	<script src="$link.getContextPath()/lib/jquery/jquery.js"></script>
+	<!-- Cookies -->
+	<script src="$link.getContextPath()/lib/js.cookie/js.cookie.min.js" type="text/javascript"></script>
+	<script src="$link.getContextPath()/js/LoginManager.js"></script>
+
+</body>
+</html>
